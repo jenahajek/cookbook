@@ -7,7 +7,7 @@ import SEO from "../components/SEO/SEO";
 import config from "../../data/SiteConfig";
 
 function Landing({ data }) {
-  const postEdges = data.allMarkdownRemark.edges;
+  const postEdges = data.allMdx.edges;
   return (
     <Layout>
       <div className="landing-container">
@@ -26,7 +26,7 @@ export default Landing;
 /* eslint no-undef: "off" */
 export const pageQuery = graphql`
   query LandingQuery {
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           fields {

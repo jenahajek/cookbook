@@ -34,7 +34,7 @@ function Listing({ pageContext, data }) {
     );
   }
 
-  const postEdges = data.allMarkdownRemark.edges;
+  const postEdges = data.allMdx.edges;
 
   return (
     <Layout>
@@ -55,7 +55,7 @@ export default Listing;
 /* eslint no-undef: "off" */
 export const listingQuery = graphql`
   query ListingQuery($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
+    allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: $limit
       skip: $skip

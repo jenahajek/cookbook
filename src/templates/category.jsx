@@ -7,7 +7,7 @@ import config from "../../data/SiteConfig";
 
 export default function CategoryTemplate({ pageContext, data }) {
   const { category } = pageContext;
-  const postEdges = data.allMarkdownRemark.edges;
+  const postEdges = data.allMdx.edges;
   return (
     <Layout>
       <div className="category-container">
