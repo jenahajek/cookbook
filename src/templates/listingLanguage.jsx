@@ -3,30 +3,31 @@ import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
 import PostListing from "../components/PostListing/PostListing";
-import SEO from "../components/SEO/SEO";
 import config from "../../data/SiteConfig";
 
-function Landing({ data }) {
+export default function TagTemplate({ pageContext, data }) {
+  const { language } = pageContext;
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
-      <div className="landing-container">
-        <div className="posts-container">
-          <Helmet title={config.siteTitle} />
-          <SEO />
-          <PostListing postEdges={postEdges} />
-        </div>
+      <div className="tag-container">
+        <Helmet title={`Knihy v jazyce: ${language} | ${config.siteTitle}`} />
+        <h1>Jazyk: {language}</h1>
+        <PostListing postEdges={postEdges} />
       </div>
     </Layout>
   );
 }
 
-export default Landing;
-
 /* eslint no-undef: "off" */
 export const pageQuery = graphql`
-  query LandingQuery {
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+  query languagePage($language: String) {
+    allMdx(
+      limit: 1000
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { frontmatter: { language: { in: [$language] } } }
+    ) {
+      totalCount
       edges {
         node {
           fields {
@@ -36,10 +37,11 @@ export const pageQuery = graphql`
           excerpt
           frontmatter {
             title
-            tags
+            author
+            language
             cover {
               sharp: childImageSharp {
-                fluid(maxHeight: 150) {
+                fluid(maxHeight: 300) {
                   ...GatsbyImageSharpFluid_withWebp
                 }
               }

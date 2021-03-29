@@ -14,6 +14,7 @@ export default function CategoryTemplate({ pageContext, data }) {
         <Helmet
           title={`Posts in category "${category}" | ${config.siteTitle}`}
         />
+        <h1>Kategorie: {category}</h1>
         <PostListing postEdges={postEdges} />
       </div>
     </Layout>
@@ -23,10 +24,10 @@ export default function CategoryTemplate({ pageContext, data }) {
 /* eslint no-undef: "off" */
 export const pageQuery = graphql`
   query CategoryPage($category: String) {
-    allMarkdownRemark(
+    allMdx(
       limit: 1000
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { category: { eq: $category } } }
+      filter: { frontmatter: { categories: { eq: $category } } }
     ) {
       totalCount
       edges {
@@ -36,11 +37,17 @@ export const pageQuery = graphql`
             date
           }
           excerpt
-          timeToRead
           frontmatter {
             title
+            author
             tags
-            cover
+            cover {
+              sharp: childImageSharp {
+                fluid(maxHeight: 300) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
             date
           }
         }

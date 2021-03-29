@@ -66,12 +66,17 @@ export const listingQuery = graphql`
             slug
             date
           }
-          excerpt
-          timeToRead
           frontmatter {
+            excerpt
             title
             tags
-            cover
+            cover {
+              sharp: childImageSharp {
+                fluid(maxHeight: 150) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
             date
           }
         }

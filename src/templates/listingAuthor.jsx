@@ -6,12 +6,13 @@ import PostListing from "../components/PostListing/PostListing";
 import config from "../../data/SiteConfig";
 
 export default function TagTemplate({ pageContext, data }) {
-  const { tag } = pageContext;
+  const { author } = pageContext;
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
       <div className="tag-container">
-        <Helmet title={`Posts tagged as "${tag}" | ${config.siteTitle}`} />
+        <Helmet title={`Knihy od autora: ${author} | ${config.siteTitle}`} />
+        <h1>Knihy od autora: {author}</h1>
         <PostListing postEdges={postEdges} />
       </div>
     </Layout>
@@ -20,11 +21,11 @@ export default function TagTemplate({ pageContext, data }) {
 
 /* eslint no-undef: "off" */
 export const pageQuery = graphql`
-  query TagPage($tag: String) {
+  query authorPage($author: String) {
     allMdx(
       limit: 1000
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { in: [$tag] } } }
+      filter: { frontmatter: { author: { in: [$author] } } }
     ) {
       totalCount
       edges {
@@ -34,11 +35,16 @@ export const pageQuery = graphql`
             date
           }
           excerpt
-          timeToRead
           frontmatter {
             title
-            tags
-            cover
+            author
+            cover {
+              sharp: childImageSharp {
+                fluid(maxHeight: 300) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
             date
           }
         }
