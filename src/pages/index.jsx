@@ -11,11 +11,12 @@ import BookThumbnail from "../components/BookThumbnail";
 import SearchInput from "../components/SearchInput";
 import SearchResult from "../components/SearchResult";
 import FormCheckbox from "../components/FormCheckbox";
+import useFilterHook from "../hooks/filter";
 
 const Index = ({ data }) => {
   // states
-  const [filterState, setFilterState] = useState(0); // is filter being used now?
-  const [query, setQuery] = useState(""); // search input
+  const { searchQuery, filterState } = useFilterHook();
+
   const [formatItems, setFormatItems] = useState([]);
   const [statusItems, setStatusItems] = useState([]);
   const [tagItems, setTagItems] = useState([]);
@@ -24,18 +25,13 @@ const Index = ({ data }) => {
   const [lastFilter, setLastFilter] = useState(""); // last filter rule applied. Needed to prevent hiding options in given group
 
   // state handling
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-    event.target.value !== "" ? setFilterState(1) : setFilterState(0);
-    setLastFilter("fulltext");
-  };
   const handleFormatChange = (event) => {
     setFormatItems(
       event.target.checked
         ? formatItems.concat([event.target.value])
         : formatItems.filter((value) => value !== event.target.value)
     );
-    formatItems ? setFilterState(1) : setFilterState(0);
+    // formatItems ? setFilterState(1) : setFilterState(0);
     setLastFilter("format");
   };
   const handleStatusChange = (event) => {
@@ -44,7 +40,7 @@ const Index = ({ data }) => {
         ? statusItems.concat([event.target.value])
         : statusItems.filter((value) => value !== event.target.value)
     );
-    statusItems ? setFilterState(1) : setFilterState(0);
+    // statusItems ? setFilterState(1) : setFilterState(0);
     setLastFilter("status");
   };
   const handleCategoryChange = (event) => {
@@ -53,7 +49,7 @@ const Index = ({ data }) => {
         ? categoryItems.concat([event.target.value])
         : categoryItems.filter((value) => value !== event.target.value)
     );
-    categoryItems ? setFilterState(1) : setFilterState(0);
+    // // categoryItems ? setFilterState(1) : setFilterState(0);
     setLastFilter("categories");
   };
   const handleLanguageChange = (event) => {
@@ -62,7 +58,7 @@ const Index = ({ data }) => {
         ? languageItems.concat([event.target.value])
         : languageItems.filter((value) => value !== event.target.value)
     );
-    languageItems ? setFilterState(1) : setFilterState(0);
+    // // languageItems ? setFilterState(1) : setFilterState(0);
     setLastFilter("language");
   };
   const handleTagChange = (event) => {
@@ -71,7 +67,7 @@ const Index = ({ data }) => {
         ? tagItems.concat([event.target.value])
         : tagItems.filter((value) => value !== event.target.value)
     );
-    tagItems ? setFilterState(1) : setFilterState(0);
+    // // tagItems ? setFilterState(1) : setFilterState(0);
     setLastFilter("tags");
   };
 
@@ -99,13 +95,13 @@ const Index = ({ data }) => {
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .includes(query.toLowerCase()) ||
+        .includes(searchQuery.toLowerCase()) ||
         post.node.frontmatter.author
           .join("")
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(query.toLowerCase())) &&
+          .includes(searchQuery.toLowerCase())) &&
       (formatItems.length > 0
         ? post.node.frontmatter.format != null
           ? post.node.frontmatter.format.some(
@@ -248,7 +244,7 @@ const Index = ({ data }) => {
           příštího čtení
         </p>
 
-        <SearchInput handler={handleInputChange} />
+        <SearchInput />
 
         {filterDimensions.map((dimension) => (
           <>

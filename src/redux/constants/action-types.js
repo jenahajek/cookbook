@@ -1,0 +1,4 @@
+export const ADD_ARTICLE = "ADD_ARTICLE";
+export const UPDATE_SEARCH_QUERY = "UPDATE_SEARCH_QUERY";
+export const ADD_FORMAT = "ADD_FORMAT";
+export const REMOVE_FORMAT = "REMOVE_FORMAT";
