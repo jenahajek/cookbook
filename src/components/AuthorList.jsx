@@ -7,9 +7,8 @@ function AuthorList({ items }) {
     <ul>
       {items &&
         items.map((item) => (
-          <li>
+          <li key={_.kebabCase(item)}>
             <Link
-              key={item}
               style={{ textDecoration: "none" }}
               to={`/autor/${_.kebabCase(item)}`}>
               {item}

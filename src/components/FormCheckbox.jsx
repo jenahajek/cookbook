@@ -1,7 +1,15 @@
 import React from "react";
 
-const FormCheckbox = ({ count, value, label, onChange, checked }) => (
-  <div className="checkbox">
+const FormCheckbox = ({
+  count,
+  value,
+  label,
+  dimension,
+  checked,
+  disabled,
+  onChange,
+}) => (
+  <div className={`checkbox${disabled ? " is-disabled" : ""}`}>
     <span className="checkbox__inner">
       <input
         type="checkbox"
@@ -11,6 +19,8 @@ const FormCheckbox = ({ count, value, label, onChange, checked }) => (
         value={value}
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
+        data-dimension={dimension}
       />
       <span className="checkbox__visual-input" aria-hidden="true" hidden>
         <svg className="checkbox__tick" viewBox="0 0 22 22" focusable="false">
@@ -24,7 +34,7 @@ const FormCheckbox = ({ count, value, label, onChange, checked }) => (
       <span className="checkbox__label-wrapper">
         <label className="checkbox__label" htmlFor={value}>
           <span className="checkbox__label-text">
-            {label} <span>({count})</span>
+            {label} <span>{count ? `(${count})` : ""}</span>
           </span>
         </label>
       </span>
