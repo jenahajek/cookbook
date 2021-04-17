@@ -1,3 +1,4 @@
+// filter will be rendered in this order
 const FILTER_DIMENSIONS = [
   {
     dimension: "status",

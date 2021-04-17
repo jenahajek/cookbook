@@ -5,11 +5,12 @@ import { Link, graphql } from "gatsby";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import BookThumbnail from "../components/BookThumbnail";
-import SearchInput from "../components/SearchInput";
+import Input from "../components/form/Input";
 import SearchResult from "../components/SearchResult";
-import FormCheckbox from "../components/FormCheckbox";
+import Checkbox from "../components/form/Checkbox";
 import useFilter from "../hooks/useFilter";
-import FILTER_DIMENSIONS from "../contants/filterDimensions";
+import FILTER_DIMENSIONS from "../constants/filterDimensions";
+import Heading from "../components/Heading";
 
 const Index = ({ data }) => {
   const {
@@ -42,9 +43,15 @@ const Index = ({ data }) => {
           příštího čtení
         </p>
 
-        <SearchInput onChange={handleInputChange} value={allStates.query} />
+        <Input
+          onChange={handleInputChange}
+          value={allStates.query}
+          type="search"
+          ariaLabel="Hledej knihu podle názvu či autora"
+          placeholder="Hledej podle názvu či autora"
+        />
         <button type="button" onClick={handleQueryReset}>
-          Reset
+          Smazat
         </button>
 
         <div className="temp-filter-wrapper">
@@ -53,7 +60,7 @@ const Index = ({ data }) => {
               <h4>{dimension.label}</h4>
               {filterMetadata[dimension.dimension].map((item) => (
                 <>
-                  <FormCheckbox
+                  <Checkbox
                     key={item}
                     count={
                       item.count === 0 &&
@@ -78,23 +85,25 @@ const Index = ({ data }) => {
                   />
                 </>
               ))}
-              <button
-                type="button"
-                onClick={() => handleFilterReset(dimension.dimension)}>
-                Reset
-              </button>
+              {allStates[dimension.dimension].length ? (
+                <button
+                  type="button"
+                  onClick={() => handleFilterReset(dimension.dimension)}>
+                  Zrušit
+                </button>
+              ) : null}
               <br />
               <hr />
             </div>
           ))}
         </div>
         <button type="button" onClick={resetAllFilters}>
-          Reset All
+          Začít znovu
         </button>
 
         {isFilterOn ? (
           <div className="temp-serp">
-            <h1>výsledky hledání pro:</h1>
+            <Heading level="1">Výsledky hledání pro:</Heading>
             {allStates.query.length > 0 ? (
               <div className="temp-result-tag-group">
                 {allStates.query.length ? `Výraz "${allStates.query}"` : ""}
@@ -113,7 +122,7 @@ const Index = ({ data }) => {
                       _.kebabCase(item.value)
                     ) ? (
                       <div className="temp-result-tag">
-                        <FormCheckbox
+                        <Checkbox
                           key={item}
                           value={_.kebabCase(item.value)}
                           label={item.value}
@@ -144,18 +153,19 @@ const Index = ({ data }) => {
 
         <h1>homepage</h1>
         <section>
-          <h2>Rozečtené</h2>
+          <Heading level="2">Rozečtené</Heading>
           {readingList.map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
         </section>
         <section>
-          <h2>Poslední přečtené</h2>
+          <Heading level="2">Poslední přečtené</Heading>
           {lastReadList.slice(0, 5).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
         </section>
-        <h2>Kategorie</h2>
+
+        <Heading level="2">Kategorie</Heading>
         <ul>
           <li>
             <Link to="category/biography">Biography</Link>
@@ -168,12 +178,13 @@ const Index = ({ data }) => {
             </li> */}
         </ul>
         <section>
-          <h2>wishlist</h2>
+          <Heading level="2">wishlist</Heading>
           {wishList.slice(0, 5).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
         </section>
-        <h2>Garbage</h2>
+
+        <Heading level="2">Garbage</Heading>
         <ul>
           {garbageList.slice(0, 5).map(({ node: post }) => (
             <li key={post.id}>

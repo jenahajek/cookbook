@@ -2,19 +2,18 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
-import PostListing from "../components/PostListing/PostListing";
+import PostListing from "../components/PostListing";
 import config from "../../data/SiteConfig";
+import Heading from "../components/Heading";
 
 export default function TagTemplate({ pageContext, data }) {
   const { tag } = pageContext;
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
-      <div className="tag-container">
-        <Helmet title={`Posts tagged as "${tag}" | ${config.siteTitle}`} />
-        <h1>Tag: {tag}</h1>
-        <PostListing postEdges={postEdges} />
-      </div>
+      <Helmet title={`Posts tagged as "${tag}" | ${config.siteTitle}`} />
+      <Heading level="1">Tag: {tag}</Heading>
+      <PostListing postEdges={postEdges} />
     </Layout>
   );
 }

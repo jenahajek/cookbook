@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import urljoin from "url-join";
 import moment from "moment";
-import config from "../../../data/SiteConfig";
+import config from "../../data/SiteConfig";
 
 function SEO({ postNode, postPath, postSEO }) {
   let title;
@@ -16,7 +16,7 @@ function SEO({ postNode, postPath, postSEO }) {
     description = postMeta.description
       ? postMeta.description
       : postNode.excerpt;
-    image = postMeta.cover;
+    image = postMeta.cover.sharp.fluid.src;
     postURL = urljoin(config.siteUrl, config.pathPrefix, postPath);
   } else {
     title = config.siteTitle;

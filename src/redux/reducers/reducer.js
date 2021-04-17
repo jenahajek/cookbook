@@ -7,7 +7,7 @@ import {
   RESET_QUERY_STATE,
   RESET_ALL_FILTER_STATES,
 } from "../constants/action-types";
-import FILTER_DIMENSIONS from "../../contants/filterDimensions";
+import FILTER_DIMENSIONS from "../../constants/filterDimensions";
 
 const initialState = {
   query: "",

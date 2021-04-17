@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-nested-ternary */
@@ -13,13 +14,10 @@ import {
   resetFilterState,
   resetQueryState,
   resetAllFilterStates,
-} from "../redux/actions/index";
-import FILTER_DIMENSIONS from "../contants/filterDimensions";
+} from "../redux/actions/actions";
+import FILTER_DIMENSIONS from "../constants/filterDimensions";
 
 const useFilter = (data) => {
-  // gather metadata about filtered results, so filter can show current state of options
-  // filter will be rendered in this order
-
   // state management
   const searchQuery = useSelector((state) => state.query);
   const allStates = useSelector((state) => state);
@@ -60,7 +58,7 @@ const useFilter = (data) => {
   // sort and count metadata
   const normalizePosts = (inputData) => {
     const posts = [];
-    inputData.reduce((output, post) => {
+    inputData.forEach((post) => {
       posts.push({
         slug: post.node.fields.slug,
         title: post.node.frontmatter.title,
@@ -78,8 +76,7 @@ const useFilter = (data) => {
         match: post.node.frontmatter.match,
         extraLabels: post.extraLabels,
       });
-    }, []);
-
+    });
     return posts;
   };
 
@@ -132,10 +129,10 @@ const useFilter = (data) => {
     return formatedMetadata;
   };
 
-  const sortMetadataDesc = (input) =>
-    FILTER_DIMENSIONS.map((dimension) =>
-      input[dimension.dimension].sort((a, b) => (a.count < b.count ? 1 : -1))
-    );
+  // const sortMetadataDesc = (input) =>
+  //   FILTER_DIMENSIONS.map((dimension) =>
+  //     input[dimension.dimension].sort((a, b) => (a.count < b.count ? 1 : -1))
+  //   );
 
   const resetMetadataAmount = (input) => {
     // clone object to avoid mutability
@@ -148,20 +145,10 @@ const useFilter = (data) => {
     return resetedObject;
   };
 
-  // // TODO: refactor and move to utilities
-  // const deepmerge = (target, source) => {
-  //   for (const key of Object.keys(source)) {
-  //     if (source[key] instanceof Object)
-  //       Object.assign(source[key], deepmerge(target[key], source[key]));
-  //   }
-
-  //   Object.assign(target || {}, source);
-  //   return target;
-  // };
-
   // mark posts whether they fit search parameters or not
   const markFilteredData = (input) =>
     input.map((post) => {
+      const extraLabels = [];
       (post.node.frontmatter.title
         .toLowerCase()
         .normalize("NFD")
@@ -188,14 +175,14 @@ const useFilter = (data) => {
           ? post.node.frontmatter.status.some(
               (element) => allStates.status.indexOf(_.kebabCase(element)) >= 0
             )
-          : (post.extraLabels = ["Nespecifikováný status"])
+          : extraLabels.push("Nespecifikováný status")
         : true) &&
       (allStates.format.length > 0
         ? post.node.frontmatter.format != null
           ? post.node.frontmatter.format.some(
               (element) => allStates.format.indexOf(_.kebabCase(element)) >= 0
             )
-          : (post.extraLabels = ["Nespecifikováný formát"])
+          : extraLabels.push("Nespecifikováný formát")
         : true) &&
       (allStates.categories.length > 0
         ? post.node.frontmatter.categories != null
@@ -247,10 +234,11 @@ const useFilter = (data) => {
           ? post.node.frontmatter.language.some(
               (element) => allStates.language.indexOf(_.kebabCase(element)) >= 0
             )
-          : (post.extraLabels = ["Nespecifikováný jazyk"])
+          : extraLabels.push("Nespecifikováný jazyk")
         : true)
         ? (post.node.frontmatter.match = true)
         : (post.node.frontmatter.match = false);
+      post.extraLabels = extraLabels;
       return post;
     });
   //

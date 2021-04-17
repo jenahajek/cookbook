@@ -2,19 +2,18 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
-import PostListing from "../components/PostListing/PostListing";
+import PostListing from "../components/PostListing";
 import config from "../../data/SiteConfig";
+import Heading from "../components/Heading";
 
-export default function TagTemplate({ pageContext, data }) {
+export default function GenreTemplate({ pageContext, data }) {
   const { genre } = pageContext;
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
-      <div className="tag-container">
-        <Helmet title={`Žánr: ${genre} | ${config.siteTitle}`} />
-        <h1>Žánr: {genre}</h1>
-        <PostListing postEdges={postEdges} />
-      </div>
+      <Helmet title={`Žánr: ${genre} | ${config.siteTitle}`} />
+      <Heading level="1">Žánr: {genre}</Heading>
+      <PostListing postEdges={postEdges} />
     </Layout>
   );
 }

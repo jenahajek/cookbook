@@ -2,8 +2,9 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
-import PostListing from "../components/PostListing/PostListing";
+import PostListing from "../components/PostListing";
 import config from "../../data/SiteConfig";
+import Heading from "../components/Heading";
 
 export default function CategoryTemplate({ pageContext, data }) {
   const { category } = pageContext;
@@ -14,7 +15,7 @@ export default function CategoryTemplate({ pageContext, data }) {
         <Helmet
           title={`Posts in category "${category}" | ${config.siteTitle}`}
         />
-        <h1>Kategorie: {category}</h1>
+        <Heading level="1">Kategorie: {category}</Heading>
         <PostListing postEdges={postEdges} />
       </div>
     </Layout>

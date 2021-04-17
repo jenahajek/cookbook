@@ -25,3 +25,49 @@ body {
   display: flex;
   padding: 20px;
 }
+
+.temp-filter-wrapper {
+  display: flex;
+}
+.temp-filter {
+  flex: 1 0 10%;
+}
+.temp-serp {
+  display: flex;
+  flex-wrap: wrap;
+}
+.temp-serp h1 {
+  flex: 1 0 100%;
+}
+.temp-serp article {
+  flex: 0 0 200px;
+}
+
+.checkbox.is-disabled {
+  color: #aaa;
+}
+
+.temp-result-tag-group {
+  display: flex;
+}
+.temp-result-tag-group + .temp-result-tag-group::before {
+  content: "&&";
+  color: #aaa;
+  margin-left: 10px;
+}
+.temp-result-tag-group.temp-group::before {
+  content: "(";
+  color: #aaa;
+}
+.temp-result-tag-group + .temp-result-tag-group.temp-group::before {
+  content: "&& (";
+}
+.temp-result-tag-group.temp-group::after {
+  content: ")";
+  color: #aaa;
+}
+.temp-result-tag + .temp-result-tag .checkbox::before {
+  content: "||";
+  color: #aaa;
+  margin: 0 10px;
+}

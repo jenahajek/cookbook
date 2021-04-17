@@ -2,19 +2,18 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
-import PostListing from "../components/PostListing/PostListing";
+import PostListing from "../components/PostListing";
 import config from "../../data/SiteConfig";
+import Heading from "../components/Heading";
 
 export default function TagTemplate({ pageContext, data }) {
   const { author } = pageContext;
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
-      <div className="tag-container">
-        <Helmet title={`Knihy od autora: ${author} | ${config.siteTitle}`} />
-        <h1>Knihy od autora: {author}</h1>
-        <PostListing postEdges={postEdges} />
-      </div>
+      <Helmet title={`Knihy od autora: ${author} | ${config.siteTitle}`} />
+      <Heading level="1">Knihy od autora: {author}</Heading>
+      <PostListing postEdges={postEdges} />
     </Layout>
   );
 }

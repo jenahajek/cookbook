@@ -2,10 +2,9 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql, Link } from "gatsby";
 import Layout from "../layout";
-import PostListing from "../components/PostListing/PostListing";
-import SEO from "../components/SEO/SEO";
+import PostListing from "../components/PostListing";
+import SEO from "../components/SEO";
 import config from "../../data/SiteConfig";
-import "./listing.css";
 
 function Listing({ pageContext, data }) {
   function renderPaging() {
@@ -23,8 +22,7 @@ function Listing({ pageContext, data }) {
           return (
             <Link
               key={`listing-page-${pageNum}`}
-              to={pageNum === 1 ? "/" : `/${pageNum}/`}
-            >
+              to={pageNum === 1 ? "/" : `/${pageNum}/`}>
               {pageNum}
             </Link>
           );

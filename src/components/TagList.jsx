@@ -2,16 +2,15 @@ import React from "react";
 import _ from "lodash";
 import { Link } from "gatsby";
 
-function TagList({ items }) {
+function TagList({ slug, items }) {
   return (
     <ul>
       {items &&
         items.map((item) => (
-          <li>
+          <li key={_.kebabCase(item)}>
             <Link
-              key={item}
               style={{ textDecoration: "none" }}
-              to={`/stitky/${_.kebabCase(item)}`}>
+              to={`/${slug}/${_.kebabCase(item)}`}>
               {item}
             </Link>
           </li>

@@ -6,15 +6,8 @@ import Image from "gatsby-image";
 import BookCoverFallback from "../components/BookCoverFallback";
 import Layout from "../layout";
 import TagList from "../components/TagList";
-import CategoryList from "../components/CategoryList";
-import AuthorList from "../components/AuthorList";
-import FormatList from "../components/FormatList";
-import LanguageList from "../components/LanguageList";
-import GenreList from "../components/GenreList";
-import SEO from "../components/SEO/SEO";
+import SEO from "../components/SEO";
 import config from "../../data/SiteConfig";
-import "./b16-tomorrow-dark.css";
-import "./post.css";
 import PostNav from "../components/PostNav";
 
 export default function PostTemplate({ data, pageContext }) {
@@ -30,14 +23,14 @@ export default function PostTemplate({ data, pageContext }) {
       <Helmet>
         <title>{`${post.title} | ${config.siteTitle}`}</title>
       </Helmet>
-      {/* <SEO postPath={slug} postNode={postNode} postSEO /> */}
+      <SEO postPath={slug} postNode={postNode} postSEO />
       <article>
         <header>
           <h1>{post.title}</h1>
           {post.subtitle != null ? <h2>{post.subtitle}</h2> : null}
         </header>
         {post.author != null ? (
-          <AuthorList items={post.author} />
+          <TagList items={post.author} slug="autor" />
         ) : (
           <p>Autor neznámý</p>
         )}
@@ -54,12 +47,11 @@ export default function PostTemplate({ data, pageContext }) {
         <MDXRenderer>{postNode.body}</MDXRenderer>
         <aside>
           <div className="post-meta">
-            <TagList items={post.tags} />
-            <CategoryList items={post.categories} />
-            <LanguageList items={post.language} />
-            <FormatList items={post.format} />
-            <GenreList items={post.genre} />
-            {/* <PostTags tags={post.language} /> */}
+            <TagList items={post.tags} slug="stitky" />
+            <TagList items={post.categories} slug="kategorie" />
+            <TagList items={post.language} slug="jazyk" />
+            <TagList items={post.format} slug="format" />
+            <TagList items={post.genre} slug="zanr" />
             {post.pageCount != null ? <p>{post.pageCount} stránek</p> : null}
             {post.duration != null ? (
               <p>

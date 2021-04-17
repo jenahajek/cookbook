@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "gatsby";
 import Image from "gatsby-image";
 import BookCoverFallback from "./BookCoverFallback";
-import AuthorList from "./AuthorList";
+import TagList from "./TagList";
+import Heading from "./Heading";
 
 const BookThumbnail = ({ post }) => (
   <article>
     <Link to={post.fields.slug} key={post.frontmatter.title}>
-      <h2>{post.frontmatter.title}</h2>
+      <Heading level="3">{post.frontmatter.title}</Heading>
     </Link>
     {post.frontmatter.cover != null ? (
       <Image
@@ -20,7 +21,7 @@ const BookThumbnail = ({ post }) => (
     )}
 
     {post.frontmatter.author !== undefined ? (
-      <AuthorList items={post.frontmatter.author} />
+      <TagList slug="autor" items={post.frontmatter.author} />
     ) : (
       <p>Autor neznámý</p>
     )}

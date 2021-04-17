@@ -1,10 +1,11 @@
 import React from "react";
+import Heading from "./Heading";
 
 const BookCoverFallback = ({ title }) => (
   <div>
-    <h2>
-      <mark>{title}</mark>
-    </h2>
+    <Heading level="3">
+      <mark>fallback! {title}</mark>
+    </Heading>
   </div>
 );
 
