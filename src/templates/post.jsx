@@ -6,11 +6,13 @@ import Image from "gatsby-image";
 import BookCoverFallback from "../components/BookCoverFallback";
 import Layout from "../layout";
 import TagList from "../components/TagList";
+import MetaTagList from "../components/MetaTagList";
 import SEO from "../components/SEO";
 import config from "../../data/SiteConfig";
 import PostNav from "../components/PostNav";
 
 export default function PostTemplate({ data, pageContext }) {
+  console.log("sfsf", data);
   const { slug } = pageContext;
   const postNode = data.mdx;
   const post = postNode.frontmatter;
@@ -23,52 +25,73 @@ export default function PostTemplate({ data, pageContext }) {
       <Helmet>
         <title>{`${post.title} | ${config.siteTitle}`}</title>
       </Helmet>
-      <SEO postPath={slug} postNode={postNode} postSEO />
-      <article>
-        <header>
-          <h1>{post.title}</h1>
-          {post.subtitle != null ? <h2>{post.subtitle}</h2> : null}
-        </header>
+      {post.cover != null ? (
+        <SEO postPath={slug} postNode={postNode} postSEO />
+      ) : null}
+      <article className="layout-detail bg-black-100">
+        <h1 className="layout-detail__title h1 font-size-xl">{post.title}</h1>
+        {post.subtitle != null ? (
+          <h2 className="layout-detail__subtitle">{post.subtitle}</h2>
+        ) : null}
         {post.author != null ? (
-          <TagList items={post.author} slug="autor" />
+          <TagList
+            className="layout-detail__author"
+            items={post.author}
+            slug="autor"
+          />
         ) : (
-          <p>Autor neznámý</p>
+          <p className="layout-detail__author">Autor neznámý</p>
         )}
 
         {post.cover != null ? (
           <Image
             fluid={post.cover.sharp.fluid}
             alt={post.title}
-            className="book-detail__cover"
+            className="book-detail__cover layout-detail__cover"
           />
         ) : (
-          <BookCoverFallback title={post.title} />
+          <BookCoverFallback
+            title={post.title}
+            className=" layout-detail__cover"
+          />
         )}
-        <MDXRenderer>{postNode.body}</MDXRenderer>
-        <aside>
-          <div className="post-meta">
-            <TagList items={post.tags} slug="stitky" />
-            <TagList items={post.categories} slug="kategorie" />
-            <TagList items={post.language} slug="jazyk" />
-            <TagList items={post.format} slug="format" />
-            <TagList items={post.genre} slug="zanr" />
-            {post.pageCount != null ? <p>{post.pageCount} stránek</p> : null}
-            {post.duration != null ? (
-              <p>
-                {Math.trunc(post.duration / 60)}h {post.duration % 60}min
-              </p>
+        <div className="layout-detail__body">
+          <MDXRenderer>{postNode.body}</MDXRenderer>
+        </div>
+        <aside className="layout-detail__meta">
+          <MetaTagList
+            items={post.categories}
+            slug="kategorie"
+            caption="Kategorie"
+          />
+          <MetaTagList items={post.tags} slug="stitky" caption="Štítky" />
+          <MetaTagList items={post.language} slug="jazyk" caption="Psané" />
+          <MetaTagList items={post.format} slug="format" caption="Formát" />
+          <MetaTagList items={post.genre} slug="zanr" caption="Žánr" />
+          <p className="meta__duration">
+            <span className="meta__caption">Délka</span>
+            {post.pageCount != null ? (
+              <span>{post.pageCount} stránek</span>
             ) : null}
-          </div>
+            {post.duration != null ? (
+              <span>
+                {Math.trunc(post.duration / 60)}h {post.duration % 60}min
+              </span>
+            ) : null}
+            {post.pageCount == null && post.duration == null ? <>--</> : null}
+          </p>
+          <MetaTagList items={post.status} slug="status" caption="Status" />
         </aside>
-        <PostNav
-          forwardsUrl={pageContext.nextslug}
-          forwardsTitle={<>&larr; {pageContext.nexttitle}</>}
-          backUrl="/"
-          backTitle="Zpět na výpis"
-          backwardTitle={<>{pageContext.prevtitle} &rarr;</>}
-          backwardsUrl={pageContext.prevslug}
-        />
       </article>
+      <PostNav
+        className="layout-detail__nav"
+        forwardsUrl={pageContext.nextslug}
+        forwardsTitle={<>&larr; {pageContext.nexttitle}</>}
+        backUrl="/"
+        backTitle="Zpět na výpis"
+        backwardTitle={<>{pageContext.prevtitle} &rarr;</>}
+        backwardsUrl={pageContext.prevslug}
+      />
     </Layout>
   );
 }

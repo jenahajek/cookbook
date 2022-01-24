@@ -12,7 +12,9 @@ export default function StatusTemplate({ pageContext, data }) {
   return (
     <Layout>
       <Helmet title={`Status: ${status} | ${config.siteTitle}`} />
-      <Heading level="1">Status: {status}</Heading>
+      <Heading level="1" className="section-title">
+        Status: <span>{status}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

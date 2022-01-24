@@ -1,3 +1,5 @@
+// import { createReducer } from '@reduxjs/toolkit';
+
 import {
   UPDATE_SEARCH_QUERY,
   ADD_STATE,
@@ -6,6 +8,9 @@ import {
   RESET_FILTER_STATE,
   RESET_QUERY_STATE,
   RESET_ALL_FILTER_STATES,
+  TOGGLE_FILTER_STATE,
+  CLOSE_FILTER_STATE,
+  TOGGLE_FILTER_SECTION_STATE,
 } from "../constants/action-types";
 import FILTER_DIMENSIONS from "../../constants/filterDimensions";
 
@@ -22,6 +27,18 @@ const initialState = {
   tags: [],
   filterState: false,
   lastDimension: "",
+  filterVisibility: false,
+  filterSections: {
+    status: false,
+    format: false,
+    categories: false,
+    genre: false,
+    sport: false,
+    geography: false,
+    period: false,
+    language: false,
+    tags: false,
+  },
 };
 
 function rootReducer(state = initialState, action) {
@@ -75,7 +92,28 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         ...initialState,
-        filterState: true,
+        filterVisibility: true,
+      };
+    }
+    case TOGGLE_FILTER_STATE: {
+      return {
+        ...state,
+        filterVisibility: !state.filterVisibility,
+      };
+    }
+    case CLOSE_FILTER_STATE: {
+      return {
+        ...state,
+        filterVisibility: false,
+      };
+    }
+    case TOGGLE_FILTER_SECTION_STATE: {
+      return {
+        ...state,
+        filterSections: {
+          ...state.filterSections,
+          [action.payload]: !state.filterSections[action.payload],
+        },
       };
     }
     default:

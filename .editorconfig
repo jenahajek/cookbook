@@ -1,0 +1,11 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# front matter in those files needs to be indendted by spaces
+[*.{yml,yaml,md,markdown,mdown,mdx}]
+indent_style = space

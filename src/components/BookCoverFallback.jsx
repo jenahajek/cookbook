@@ -1,11 +1,9 @@
 import React from "react";
 import Heading from "./Heading";
 
-const BookCoverFallback = ({ title }) => (
-  <div>
-    <Heading level="3">
-      <mark>fallback! {title}</mark>
-    </Heading>
+const BookCoverFallback = ({ title, className }) => (
+  <div className={`${className} fallback-cover`}>
+    <Heading level="3">{title}</Heading>
   </div>
 );
 

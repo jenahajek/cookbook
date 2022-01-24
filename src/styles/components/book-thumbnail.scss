@@ -1,0 +1,36 @@
+.book-thumbnail {
+  // margin-bottom: 25px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+
+  &__title {
+    font-variation-settings: "wght" 650;
+  }
+
+  &__info {
+    padding: 5px 10px;
+    flex: 1 1;
+    // background-color: hsl(0, 0, 95);
+
+    ul {
+      font-style: italic;
+    }
+  }
+  @media (min-width: 320px) {
+    > a {
+      margin-bottom: 0.75rem;
+      display: flex;
+    }
+    .book-detail__cover {
+      padding-bottom: 150%;
+      width: 100%;
+      height: 0;
+
+      img {
+        object-fit: contain !important;
+        object-position: center bottom !important;
+      }
+    }
+  }
+}

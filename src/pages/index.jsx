@@ -1,197 +1,147 @@
 import React from "react";
-import _ from "lodash";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
+import Image from "gatsby-image";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import BookThumbnail from "../components/BookThumbnail";
-import Input from "../components/form/Input";
-import SearchResult from "../components/SearchResult";
-import Checkbox from "../components/form/Checkbox";
 import useFilter from "../hooks/useFilter";
-import FILTER_DIMENSIONS from "../constants/filterDimensions";
 import Heading from "../components/Heading";
+import IconArrowRight from "../../assets/arrow-right.inline.svg";
+import BookCoverFallback from "../components/BookCoverFallback";
+
+const _ = require("lodash");
 
 const Index = ({ data }) => {
   const {
-    allStates,
-    isFilterOn,
-    //
     readingList,
     lastReadList,
     wishList,
     garbageList,
-    //
-    matchingPosts,
-    filterMetadata,
-    //
-    handleCheckboxChange,
-    handleInputChange,
-    handleFilterReset,
-    handleQueryReset,
-    resetAllFilters,
+    postEdges,
   } = useFilter(data);
+
+  const biographyPosts = postEdges.filter(
+    (post) =>
+      post.node.frontmatter.categories !== null &&
+      post.node.frontmatter.categories.includes("Biografie")
+  );
+  const professionalPosts = postEdges.filter(
+    (post) =>
+      post.node.frontmatter.categories !== null &&
+      post.node.frontmatter.categories.includes("Odborná")
+  );
 
   return (
     <Layout>
-      <div className="about-container">
+      <div>
         <Helmet title={`Index | ${config.siteTitle}`} />
 
-        <p>
+        <p hidden>
           Tohle je moje... soukromá databáze knih / půjčovna / diskuzní
           podněcovač / studnice doporučení / úložna poznámek / stroj na výběr
           příštího čtení
         </p>
 
-        <Input
-          onChange={handleInputChange}
-          value={allStates.query}
-          type="search"
-          ariaLabel="Hledej knihu podle názvu či autora"
-          placeholder="Hledej podle názvu či autora"
-        />
-        <button type="button" onClick={handleQueryReset}>
-          Smazat
-        </button>
-
-        <div className="temp-filter-wrapper">
-          {FILTER_DIMENSIONS.map((dimension) => (
-            <div className="temp-filter">
-              <h4>{dimension.label}</h4>
-              {filterMetadata[dimension.dimension].map((item) => (
-                <>
-                  <Checkbox
-                    key={item}
-                    count={
-                      item.count === 0 &&
-                      allStates.lastDimension === dimension.dimension
-                        ? "?"
-                        : item.count
-                    }
-                    value={_.kebabCase(item.value)}
-                    label={item.value}
-                    dimension={dimension.dimension}
-                    checked={allStates[dimension.dimension].includes(
-                      _.kebabCase(item.value)
-                    )}
-                    disabled={
-                      item.count === 0 &&
-                      allStates.lastDimension !== dimension.dimension &&
-                      !allStates[dimension.dimension].includes(
-                        _.kebabCase(item.value)
-                      )
-                    }
-                    onChange={handleCheckboxChange}
-                  />
-                </>
-              ))}
-              {allStates[dimension.dimension].length ? (
-                <button
-                  type="button"
-                  onClick={() => handleFilterReset(dimension.dimension)}>
-                  Zrušit
-                </button>
-              ) : null}
-              <br />
-              <hr />
-            </div>
-          ))}
-        </div>
-        <button type="button" onClick={resetAllFilters}>
-          Začít znovu
-        </button>
-
-        {isFilterOn ? (
-          <div className="temp-serp">
-            <Heading level="1">Výsledky hledání pro:</Heading>
-            {allStates.query.length > 0 ? (
-              <div className="temp-result-tag-group">
-                {allStates.query.length ? `Výraz "${allStates.query}"` : ""}
-              </div>
-            ) : null}
-            {FILTER_DIMENSIONS.map((dimension) =>
-              allStates[dimension.dimension].length > 0 ? (
-                <div
-                  className={`temp-result-tag-group${
-                    allStates[dimension.dimension].length > 1
-                      ? " temp-group"
-                      : ""
-                  }`}>
-                  {filterMetadata[dimension.dimension].map((item) =>
-                    allStates[dimension.dimension].includes(
-                      _.kebabCase(item.value)
-                    ) ? (
-                      <div className="temp-result-tag">
-                        <Checkbox
-                          key={item}
-                          value={_.kebabCase(item.value)}
-                          label={item.value}
-                          dimension={dimension.dimension}
-                          checked={allStates[dimension.dimension].includes(
-                            _.kebabCase(item.value)
-                          )}
-                          onChange={handleCheckboxChange}
-                        />
-                      </div>
-                    ) : null
-                  )}
-                </div>
-              ) : null
-            )}
-
-            {matchingPosts.map((post) =>
-              post.match ? <SearchResult post={post} /> : null
-            )}
-          </div>
-        ) : null}
-
-        <br />
-        <br />
-        <hr />
-        <br />
-        <br />
-
-        <h1>homepage</h1>
-        <section>
-          <Heading level="2">Rozečtené</Heading>
+        <h1 hidden>Oblasti knih</h1>
+        <section className="layout-group">
+          <Heading level="2" className="layout-group__title">
+            Rozečtené
+          </Heading>
           {readingList.map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
         </section>
-        <section>
-          <Heading level="2">Poslední přečtené</Heading>
-          {lastReadList.slice(0, 5).map(({ node: post }) => (
+        <section className="layout-group">
+          <Heading level="2" className="layout-group__title">
+            Poslední přečtené
+          </Heading>
+          {lastReadList.slice(0, 4).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
+
+          <Link to="status/prectene" className="big-link">
+            <span>
+              Všechny přečtené
+              <IconArrowRight />
+            </span>
+          </Link>
         </section>
 
-        <Heading level="2">Kategorie</Heading>
-        <ul>
-          <li>
-            <Link to="category/biography">Biography</Link>
-          </li>
-          <li>
-            <Link to="category/professional">Professional</Link>
-          </li>
-          {/* <li>
-              <Link to="category">Seznam kategorií</Link>
-            </li> */}
-        </ul>
-        <section>
-          <Heading level="2">wishlist</Heading>
-          {wishList.slice(0, 5).map(({ node: post }) => (
+        <Heading level="2" className="layout-group__title">
+          Oblíbené kategorie
+        </Heading>
+        <div className="category__wrapper">
+          <div className="category__group">
+            <div className="category__items">
+              {_.sampleSize(biographyPosts, 5).map(({ node: post }) => (
+                // <BookThumbnail post={post} />
+
+                <Link to={post.fields.slug} key={post.frontmatter.title}>
+                  {post.frontmatter.cover != null ? (
+                    <Image
+                      fluid={post.frontmatter.cover.sharp.fluid}
+                      alt={post.frontmatter.title}
+                      className=""
+                    />
+                  ) : (
+                    <BookCoverFallback title={post.frontmatter.title} />
+                  )}
+                </Link>
+              ))}
+            </div>
+            <Link to="kategorie/biografie">
+              Biografie <IconArrowRight />
+            </Link>
+          </div>
+          <div className="category__group">
+            <div className="category__items">
+              {_.sampleSize(professionalPosts, 5).map(({ node: post }) => (
+                // <BookThumbnail post={post} />
+
+                <Link to={post.fields.slug} key={post.frontmatter.title}>
+                  {post.frontmatter.cover != null ? (
+                    <Image
+                      fluid={post.frontmatter.cover.sharp.fluid}
+                      alt={post.frontmatter.title}
+                      className=""
+                    />
+                  ) : (
+                    <BookCoverFallback title={post.frontmatter.title} />
+                  )}
+                </Link>
+              ))}
+            </div>
+            <Link to="kategorie/odborna">
+              Odborná literatura <IconArrowRight />
+            </Link>
+          </div>
+        </div>
+        <section className="layout-group">
+          <Heading level="2" className="layout-group__title">
+            Wishlist
+          </Heading>
+          {_.sampleSize(wishList, 4).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
+          <Link to="status/wishlist" className="big-link">
+            <span>
+              Vše na wishlistu
+              <IconArrowRight />
+            </span>
+          </Link>
         </section>
 
-        <Heading level="2">Garbage</Heading>
-        <ul>
-          {garbageList.slice(0, 5).map(({ node: post }) => (
-            <li key={post.id}>
-              <Link to={`${post.fields.slug}`}>{post.frontmatter.title}</Link>
-            </li>
-          ))}
-        </ul>
+        {/* <div hidden>
+          <Heading level="2">Garbage</Heading>
+          <ul>
+            {_.sampleSize(garbageList, 5).map(({ node: post }) => (
+              <li key={post.id}>
+                <Link to={`${post.fields.slug}`}>{post.frontmatter.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </div> */}
       </div>
     </Layout>
   );
@@ -199,7 +149,7 @@ const Index = ({ data }) => {
 
 export const pageQuery = graphql`
   query index {
-    allBooks: allMdx {
+    allBooks: allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
           id
@@ -223,6 +173,7 @@ export const pageQuery = graphql`
                 }
               }
             }
+            date
           }
           fields {
             slug

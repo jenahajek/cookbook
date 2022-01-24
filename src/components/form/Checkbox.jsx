@@ -1,6 +1,7 @@
 import React from "react";
 
 const Checkbox = ({
+  iconAfter,
   count,
   value,
   label,
@@ -9,7 +10,10 @@ const Checkbox = ({
   disabled,
   onChange,
 }) => (
-  <div className={`checkbox${disabled ? " is-disabled" : ""}`}>
+  <div
+    className={`checkbox${disabled ? " is-disabled" : ""} ${
+      checked ? "checkbox--selected" : ""
+    }`}>
     <input
       type="checkbox"
       className="checkbox__input"
@@ -23,7 +27,12 @@ const Checkbox = ({
     />
 
     <label className="checkbox__label" htmlFor={value}>
-      {label} <span>{count ? `(${count})` : ""}</span>
+      {label} {count ? <span>{`(${count})`}</span> : ""}
+      {iconAfter ? (
+        <span className="checkbox__icon-after">{iconAfter}</span>
+      ) : (
+        ""
+      )}
     </label>
   </div>
 );

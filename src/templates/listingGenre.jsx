@@ -12,7 +12,9 @@ export default function GenreTemplate({ pageContext, data }) {
   return (
     <Layout>
       <Helmet title={`Žánr: ${genre} | ${config.siteTitle}`} />
-      <Heading level="1">Žánr: {genre}</Heading>
+      <Heading level="1" className="section-title">
+        Žánr: <span>{genre}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

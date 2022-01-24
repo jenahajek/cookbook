@@ -1,0 +1,23 @@
+.post-listing {
+  grid-template-columns: repeat(auto-fill, 100%);
+  //   grid-template-rows: repeat(auto-fill, minmax(0, 1fr)); // todo
+  display: grid;
+  grid-gap: 10px;
+
+  @media (min-width: 320px) {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+
+  @media (min-width: 700px) {
+    grid-gap: 4vw;
+  }
+
+  //   @include respond-to(sm) {
+  //     grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  //   }
+
+  //   @include respond-to(lg) {
+  //     grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  //     margin: 0 -0.25em;
+  //   }
+}

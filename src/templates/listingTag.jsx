@@ -12,7 +12,9 @@ export default function TagTemplate({ pageContext, data }) {
   return (
     <Layout>
       <Helmet title={`Posts tagged as "${tag}" | ${config.siteTitle}`} />
-      <Heading level="1">Tag: {tag}</Heading>
+      <Heading level="1" className="section-title">
+        Tag: <span>{tag}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

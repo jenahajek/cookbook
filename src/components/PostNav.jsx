@@ -8,8 +8,9 @@ const PostNav = ({
   backUrl,
   backwardTitle,
   backwardsUrl,
+  className,
 }) => (
-  <nav className="post-nav">
+  <nav className={`${className} post-nav`}>
     <ul>
       {forwardsUrl != null ? (
         <li>

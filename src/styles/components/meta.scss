@@ -1,0 +1,22 @@
+.meta {
+  margin-bottom: 1rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &__caption {
+    // font-variation-settings: "wght" 750;
+    // font-size: 2.5rem;
+    // line-height: 1.15;
+    margin-bottom: 0.25rem;
+    color: #888;
+    font-style: italic;
+    display: block;
+  }
+  &__duration {
+    > span {
+      display: block;
+    }
+  }
+  //   @screen sm {
+  //   }
+}

@@ -1,0 +1,13 @@
+.section-title {
+  @screen md {
+    font-size: 3rem;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 0.75em;
+    font-variation-settings: "wght" 200;
+    margin-top: 1.5em;
+    span {
+      font-variation-settings: "wght" 750;
+    }
+  }
+}

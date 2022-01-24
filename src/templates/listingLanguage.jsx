@@ -11,8 +11,10 @@ export default function LanguageTemplate({ pageContext, data }) {
   const postEdges = data.allMdx.edges;
   return (
     <Layout>
-      <Helmet title={`Knihy v jazyce: ${language} | ${config.siteTitle}`} />
-      <Heading level="1">Jazyk: {language}</Heading>
+      <Helmet title={`Knihy psané ${language} | ${config.siteTitle}`} />
+      <Heading level="1" className="section-title">
+        Psané: <span>{language}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

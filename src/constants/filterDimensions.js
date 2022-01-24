@@ -14,7 +14,7 @@ const FILTER_DIMENSIONS = [
   },
   {
     dimension: "genre",
-    label: "Žárn",
+    label: "Žánr",
   },
   {
     dimension: "sport",

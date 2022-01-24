@@ -1,0 +1,52 @@
+.checkbox {
+  // background-color: #e5e5e5;
+  border-radius: 100px;
+  position: relative;
+  padding: 3px 10px;
+  &__input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    &:focus ~ .checkbox__label {
+      outline: 2px solid blue;
+    }
+    &:focus:not(:focus-visible) ~ .checkbox__label {
+      outline: none;
+    }
+  }
+  &__label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2em;
+    cursor: pointer;
+    // margin-left: 8px;
+  }
+  span {
+    color: #777;
+    font-size: 0.85em;
+  }
+  &__icon-after {
+    position: relative;
+    top: 4px;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  &--selected {
+    background-color: rgb(0, 125, 56);
+    color: #eee;
+    span {
+      color: #bbb;
+    }
+
+    .temp-result-tag & {
+      background-color: transparent;
+      color: black;
+      border: 1px solid black;
+      span {
+        color: black;
+      }
+    }
+  }
+}

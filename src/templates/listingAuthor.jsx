@@ -12,7 +12,9 @@ export default function TagTemplate({ pageContext, data }) {
   return (
     <Layout>
       <Helmet title={`Knihy od autora: ${author} | ${config.siteTitle}`} />
-      <Heading level="1">Knihy od autora: {author}</Heading>
+      <Heading level="1" className="section-title">
+        Knihy od autora: <span>{author}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

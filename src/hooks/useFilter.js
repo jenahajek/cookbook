@@ -14,6 +14,8 @@ import {
   resetFilterState,
   resetQueryState,
   resetAllFilterStates,
+  toggleFilterState,
+  toggleFilterSectionState,
 } from "../redux/actions/actions";
 import FILTER_DIMENSIONS from "../constants/filterDimensions";
 
@@ -30,6 +32,9 @@ const useFilter = (data) => {
   const resetFilter = (dimension) => dispatch(resetFilterState(dimension));
   const resetQuery = () => dispatch(resetQueryState());
   const resetAllFilters = () => dispatch(resetAllFilterStates());
+  const toggleFilter = () => dispatch(toggleFilterState());
+  const toggleFilterSection = (dimension) =>
+    dispatch(toggleFilterSectionState(dimension));
 
   // change handlers
   const handleInputChange = (event) => {
@@ -46,9 +51,14 @@ const useFilter = (data) => {
   };
   const handleFilterReset = (dimension) => {
     resetFilter(dimension);
+    setFilterState();
+  };
+  const handleResetAllFilters = () => {
+    resetAllFilters();
   };
   const handleQueryReset = () => {
     resetQuery();
+    setFilterState();
   };
 
   // input data
@@ -298,6 +308,7 @@ const useFilter = (data) => {
     lastReadList,
     wishList,
     garbageList,
+    postEdges,
     //
     matchingPosts,
     filterMetadata,
@@ -306,7 +317,10 @@ const useFilter = (data) => {
     handleCheckboxChange,
     handleFilterReset,
     handleQueryReset,
-    resetAllFilters,
+    handleResetAllFilters,
+
+    toggleFilter,
+    toggleFilterSection,
   };
 };
 

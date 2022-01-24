@@ -12,7 +12,9 @@ export default function FormatTemplate({ pageContext, data }) {
   return (
     <Layout>
       <Helmet title={`Formát: ${format} | ${config.siteTitle}`} />
-      <Heading level="1">Formát: {format}</Heading>
+      <Heading level="1" className="section-title">
+        Formát: <span>{format}</span>
+      </Heading>
       <PostListing postEdges={postEdges} />
     </Layout>
   );

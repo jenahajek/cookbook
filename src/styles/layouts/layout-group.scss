@@ -1,0 +1,31 @@
+.layout-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100%);
+  // grid-template-rows: repeat(auto-fill, minmax(0, 1fr));
+  grid-gap: 10px; //@todo
+  // grid-template-rows: repeat(auto, min-content);
+  &__title {
+    grid-column: 1/-1;
+    font-variation-settings: "wght" 750;
+    // font-size: 3rem;
+    // margin-bottom: 0.5em;
+    margin-top: 2em;
+    font-size: 1.5rem;
+  }
+
+  @media (min-width: 320px) {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+
+  @media (min-width: 700px) {
+    &__title {
+      margin-top: 2em;
+      font-size: 3rem;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 0.75em;
+    }
+
+    grid-column-gap: 4vw;
+  }
+}

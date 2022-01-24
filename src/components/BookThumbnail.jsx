@@ -6,25 +6,31 @@ import TagList from "./TagList";
 import Heading from "./Heading";
 
 const BookThumbnail = ({ post }) => (
-  <article>
+  <article className="book-thumbnail">
     <Link to={post.fields.slug} key={post.frontmatter.title}>
-      <Heading level="3">{post.frontmatter.title}</Heading>
+      {post.frontmatter.cover != null ? (
+        <Image
+          fluid={post.frontmatter.cover.sharp.fluid}
+          alt={post.frontmatter.title}
+          className="book-detail__cover"
+        />
+      ) : (
+        <BookCoverFallback title={post.frontmatter.title} />
+      )}
     </Link>
-    {post.frontmatter.cover != null ? (
-      <Image
-        fluid={post.frontmatter.cover.sharp.fluid}
-        alt={post.frontmatter.title}
-        className="book-detail__cover"
-      />
-    ) : (
-      <BookCoverFallback title={post.frontmatter.title} />
-    )}
+    <div className="book-thumbnail__info">
+      <Link to={post.fields.slug} key={`${post.frontmatter.title}-title`}>
+        <Heading level="3" className="book-thumbnail__title">
+          {post.frontmatter.title}
+        </Heading>
+      </Link>
 
-    {post.frontmatter.author !== undefined ? (
-      <TagList slug="autor" items={post.frontmatter.author} />
-    ) : (
-      <p>Autor neznámý</p>
-    )}
+      {post.frontmatter.author !== undefined ? (
+        <TagList slug="autor" items={post.frontmatter.author} />
+      ) : (
+        <p>Autor neznámý</p>
+      )}
+    </div>
   </article>
 );
 

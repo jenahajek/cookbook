@@ -1,9 +1,9 @@
 import React from "react";
 
-function Heading({ level, children }) {
+function Heading({ level, children, className }) {
   const H = `h${level}`;
 
-  return <H>{children}</H>;
+  return <H className={className}>{children}</H>;
 }
 
 export default Heading;

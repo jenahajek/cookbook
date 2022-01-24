@@ -6,6 +6,9 @@ import {
   RESET_FILTER_STATE,
   RESET_QUERY_STATE,
   RESET_ALL_FILTER_STATES,
+  TOGGLE_FILTER_STATE,
+  CLOSE_FILTER_STATE,
+  TOGGLE_FILTER_SECTION_STATE,
 } from "../constants/action-types";
 
 export function updateSearchQuery(payload) {
@@ -34,4 +37,16 @@ export function resetQueryState(payload) {
 
 export function resetAllFilterStates(payload) {
   return { type: RESET_ALL_FILTER_STATES, payload };
+}
+
+export function toggleFilterState(payload) {
+  return { type: TOGGLE_FILTER_STATE, payload };
+}
+
+export function closeFilterState(payload) {
+  return { type: CLOSE_FILTER_STATE, payload };
+}
+
+export function toggleFilterSectionState(payload) {
+  return { type: TOGGLE_FILTER_SECTION_STATE, payload };
 }
