@@ -69,7 +69,8 @@ const SiteNav = () => {
     <header>
       <div className="site-nav__inner">
         <Link to="/" className="logo" onClick={closeFilter}>
-          Jéňova knihovna {postEdges.length}
+          Jéňova knihovna
+          {/* {postEdges.length} */}
         </Link>
         <button type="button" onClick={toggleFilter} className="site-search">
           <IconSearch />
