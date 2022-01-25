@@ -14,6 +14,7 @@
     "gatsby-plugin-feed-mdx": "^1.1.0",
     "gatsby-plugin-google-analytics": "^3.0.0",
     "gatsby-plugin-google-fonts-v2": "^1.0.0",
+    "gatsby-plugin-image": "^2.6.0",
     "gatsby-plugin-lodash": "^4.0.0",
     "gatsby-plugin-manifest": "^3.0.0",
     "gatsby-plugin-mdx": "^2.0.0",
@@ -46,8 +47,10 @@
     "react-redux": "^7.2.3",
     "react-share": "^4.4.0",
     "react-twitter-widgets": "^1.9.5",
+    "react-typewriter-effect": "^1.1.0",
     "redux": "^4.0.5",
     "sass": "^1.32.10",
+    "typewriter-effect": "^2.18.2",
     "url-join": "^4.0.0"
   },
   "devDependencies": {

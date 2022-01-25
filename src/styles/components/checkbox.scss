@@ -34,10 +34,10 @@
     }
   }
   &--selected {
-    background-color: rgb(0, 125, 56);
-    color: #eee;
+    background-color: rgb(200, 244, 220);
+    color: rgb(4, 72, 34);
     span {
-      color: #bbb;
+      color: rgb(3, 97, 44);
     }
 
     .temp-result-tag & {

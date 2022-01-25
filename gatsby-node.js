@@ -49,6 +49,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const formatPage = path.resolve("src/templates/listingFormat.jsx");
   const authorPage = path.resolve("src/templates/listingAuthor.jsx");
   const genrePage = path.resolve("src/templates/listingGenre.jsx");
+  const sportPage = path.resolve("src/templates/listingSport.jsx");
   // const listingPage = path.resolve("./src/templates/listing.jsx");
   // const landingPage = path.resolve("./src/templates/landing.jsx");
 
@@ -73,6 +74,7 @@ exports.createPages = async ({ graphql, actions }) => {
               status
               format
               date
+              sport
             }
           }
         }
@@ -92,6 +94,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const formatSet = new Set();
   const authorSet = new Set();
   const genreSet = new Set();
+  const sportSet = new Set();
 
   const postsEdges = markdownQueryResult.data.allMdx.edges;
 
@@ -189,6 +192,13 @@ exports.createPages = async ({ graphql, actions }) => {
       });
     }
 
+    // Generate a list of sports
+    if (edge.node.frontmatter.sport) {
+      edge.node.frontmatter.sport.forEach((sport) => {
+        sportSet.add(sport);
+      });
+    }
+
     // Create post pages
     const nextID = index + 1 < postsEdges.length ? index + 1 : 0;
     const prevID = index - 1 >= 0 ? index - 1 : postsEdges.length - 1;
@@ -268,6 +278,15 @@ exports.createPages = async ({ graphql, actions }) => {
       path: `/zanr/${_.kebabCase(genre)}/`,
       component: genrePage,
       context: { genre },
+    });
+  });
+
+  // Create sport pages
+  sportSet.forEach((sport) => {
+    createPage({
+      path: `/sport/${_.kebabCase(sport)}/`,
+      component: sportPage,
+      context: { sport },
     });
   });
 };

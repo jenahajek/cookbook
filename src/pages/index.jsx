@@ -2,6 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
 import Image from "gatsby-image";
+import { StaticImage } from "gatsby-plugin-image";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import BookThumbnail from "../components/BookThumbnail";
@@ -37,13 +38,32 @@ const Index = ({ data }) => {
       <div>
         <Helmet title={`Index | ${config.siteTitle}`} />
 
-        <p hidden>
-          Tohle je moje... soukromá databáze knih / půjčovna / diskuzní
-          podněcovač / studnice doporučení / úložna poznámek / stroj na výběr
-          příštího čtení
-        </p>
+        <div className="intro">
+          <div className="intro__text">
+            <Heading level="1" className="h1">
+              Moje knihy
+            </Heading>
+            <div className="perex">
+              <p>
+                Rád čtu, knih mám dost a&nbsp;už jsem se v&nbsp;tom začínal
+                ztrácet. Abych si nekupoval něco vícekrát nebo snáz našel další
+                čtení, vyrobil jsem si tenhle přehled.
+              </p>
+              <p>
+                Je veřejný, aby mohl být prospěšný i ostatním. Podívej se třeba
+                na recenze a objev něco nového, co tě zaujme. Půjčím rád.
+              </p>
+              <p>
+                Chceš se o nějakém téma pobavit? Můžeme, třeba při běhání nebo
+                v&nbsp;hospodě! :)
+              </p>
+            </div>
+          </div>
+          <div className="intro__img">
+            <StaticImage src="../../assets/me2.jpg" alt=" " />
+          </div>
+        </div>
 
-        <h1 hidden>Oblasti knih</h1>
         <section className="layout-group">
           <Heading level="2" className="layout-group__title">
             Rozečtené

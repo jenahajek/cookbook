@@ -1,6 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { Link, useStaticQuery, graphql } from "gatsby";
+import Typewriter from "typewriter-effect";
 import Input from "./form/Input";
 import SearchResult from "./SearchResult";
 import Checkbox from "./form/Checkbox";
@@ -64,14 +65,36 @@ const SiteNav = () => {
     toggleFilter,
     toggleFilterSection,
   } = useFilter(data);
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
 
   return (
     <header>
       <div className="site-nav__inner">
-        <Link to="/" className="logo" onClick={closeFilter}>
-          Jéňova knihovna
-          {/* {postEdges.length} */}
-        </Link>
+        <div className="site-nav__inner-logo">
+          <Link to="/" className="logo" onClick={closeFilter}>
+            Jéňova knihovna
+            {/* {postEdges.length} */}
+          </Link>
+          {pathname === "/" ? (
+            <Typewriter
+              options={{
+                strings: [
+                  "je moje soukromá databáze knih",
+                  "je stroj na výběr dalšího čtení",
+                  "je seznam knih k zapůjčení",
+                  "je diskuzní podněcovač",
+                  "je studnice doporučení",
+                  "je má úložna poznámek",
+                ],
+                autoStart: true,
+                loop: true,
+                deleteSpeed: 30,
+              }}
+            />
+          ) : null}
+        </div>
+
         <button type="button" onClick={toggleFilter} className="site-search">
           <IconSearch />
           <span className="visually-hidden">Vyhledej knihu</span>

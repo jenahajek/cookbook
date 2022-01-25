@@ -31,6 +31,7 @@ html {
   font-family: "Source Serif 4", "Roboto Mono", futura, sans-serif !important;
   height: 100%;
   background-color: #f8f8f8;
+  // background-color: #fff;
   color: #222;
 
   h1,
@@ -71,6 +72,11 @@ body {
 .site-nav__inner {
   display: flex;
   justify-content: space-between;
+}
+.site-nav__inner-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .temp-filter-wrapper {
@@ -153,6 +159,48 @@ body {
 }
 .temp-serp article {
   flex: 0 0 200px;
+}
+.h1 {
+  font-variation-settings: "wght" 750;
+  margin-top: 2em;
+  font-size: 1.5rem;
+
+  @media (min-width: 700px) {
+    margin-top: 2em;
+    font-size: 3rem;
+    padding-bottom: 0.25em;
+    // border-bottom: 1px solid #ddd;
+    margin-bottom: 0.25em;
+  }
+}
+.intro {
+  border-bottom: 1px solid #ddd;
+  &__text {
+  }
+  &__img {
+    padding: 1em 0 0;
+  }
+
+  @screen md {
+    display: flex;
+
+    &__text {
+      flex: 0 0 50%;
+      padding-bottom: 2em;
+    }
+    &__img {
+      align-self: flex-end;
+      padding: 1em 2em 0 0;
+    }
+  }
+}
+.perex {
+  max-width: 45em;
+  font-variation-settings: "wght" 300;
+  font-size: 1.25em;
+  p {
+    margin-bottom: 0.75em;
+  }
 }
 .empty-serp {
   display: flex;
@@ -262,10 +310,14 @@ body {
     max-height: calc(100vh - 80px);
     z-index: 100;
     overflow: auto;
-    background-color: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(122px);
+    background-color: white;
     padding: 30px 15px;
     border-radius: 10px;
+
+    @supports (backdrop-filter: blur()) {
+      background-color: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(122px);
+    }
 
     &[hidden] {
       display: none;
@@ -286,20 +338,34 @@ body {
   }
 }
 input {
-  padding: 0.4em 0.8em;
+  padding: 0.4em 0.6em;
   font-size: 18px;
 }
 .filter-input {
   display: flex;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  @screen lg {
+    min-width: 18.5em;
+  }
+  @supports (backdrop-filter: blur()) {
+    border: none;
+  }
 
   input {
     flex: 1;
     min-width: 0;
+    border-radius: 5px;
+    font-size: 0.9em;
   }
 
   button {
     background-color: white;
-    border-left: 1px solid #eee;
+    border-left: 1px solid #ddd;
+    @supports (backdrop-filter: blur()) {
+      border-left: 1px solid #eee;
+    }
+
     color: rgb(216, 0, 0);
     border-radius: 0 5px 5px 0;
     padding: 0 0.8em;
@@ -419,21 +485,23 @@ input {
   padding-top: 150%;
   display: block;
   position: relative;
-  background-color: #d5d5d5;
+  border: 1px dashed #d5d5d5;
   background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
 
   span {
     position: absolute;
     top: 50%;
     left: 50%;
-    font-size: 1.75em;
-    text-shadow: 1px 1px 0 white;
+    font-size: 1.25em;
+    // text-shadow: 1px 1px 0 white;
+    font-style: italic;
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     flex-direction: column;
 
     svg {
+      width: 0.75em;
       margin-top: 0.5em;
     }
   }

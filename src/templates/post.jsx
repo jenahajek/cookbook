@@ -12,7 +12,6 @@ import config from "../../data/SiteConfig";
 import PostNav from "../components/PostNav";
 
 export default function PostTemplate({ data, pageContext }) {
-  console.log("sfsf", data);
   const { slug } = pageContext;
   const postNode = data.mdx;
   const post = postNode.frontmatter;
@@ -65,6 +64,9 @@ export default function PostTemplate({ data, pageContext }) {
             caption="Kategorie"
           />
           <MetaTagList items={post.tags} slug="stitky" caption="Štítky" />
+          {post.sport ? (
+            <MetaTagList items={post.sport} slug="sport" caption="Sport" />
+          ) : null}
           <MetaTagList items={post.language} slug="jazyk" caption="Psané" />
           <MetaTagList items={post.format} slug="format" caption="Formát" />
           <MetaTagList items={post.genre} slug="zanr" caption="Žánr" />
@@ -116,6 +118,7 @@ export const pageQuery = graphql`
         categories
         tags
         format
+        sport
         genre
         status
         language
