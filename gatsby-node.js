@@ -162,7 +162,7 @@ exports.createPages = async ({ graphql, actions }) => {
     }
 
     // Generate a list of statuses
-    if (edge.node.frontmatter.language) {
+    if (edge.node.frontmatter.status) {
       edge.node.frontmatter.status.forEach((status) => {
         statusSet.add(status);
       });
