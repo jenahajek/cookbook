@@ -78,6 +78,7 @@ const SiteNav = () => {
           </Link>
           {pathname === "/" ? (
             <Typewriter
+              className="typewriter"
               options={{
                 strings: [
                   "je moje soukromá databáze knih",

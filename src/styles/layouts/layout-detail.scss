@@ -30,6 +30,10 @@
     > p {
       margin-bottom: 1.25em;
     }
+    a {
+      text-decoration: underline;
+      font-variation-settings: "wght" 600;
+    }
   }
   &__nav {
     // margin-top: 2rem;

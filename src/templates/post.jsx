@@ -64,12 +64,8 @@ export default function PostTemplate({ data, pageContext }) {
             caption="Kategorie"
           />
           <MetaTagList items={post.tags} slug="stitky" caption="Štítky" />
-          {post.sport ? (
-            <MetaTagList items={post.sport} slug="sport" caption="Sport" />
-          ) : null}
           <MetaTagList items={post.language} slug="jazyk" caption="Psané" />
           <MetaTagList items={post.format} slug="format" caption="Formát" />
-          <MetaTagList items={post.genre} slug="zanr" caption="Žánr" />
           <p className="meta__duration">
             <span className="meta__caption">Délka</span>
             {post.pageCount != null ? (
@@ -83,15 +79,21 @@ export default function PostTemplate({ data, pageContext }) {
             {post.pageCount == null && post.duration == null ? <>--</> : null}
           </p>
           <MetaTagList items={post.status} slug="status" caption="Status" />
+          {post.genre ? (
+            <MetaTagList items={post.genre} slug="zanr" caption="Žánr" />
+          ) : null}
+          {post.sport ? (
+            <MetaTagList items={post.sport} slug="sport" caption="Sport" />
+          ) : null}
         </aside>
       </article>
       <PostNav
         className="layout-detail__nav"
         forwardsUrl={pageContext.nextslug}
-        forwardsTitle={<>&larr; {pageContext.nexttitle}</>}
+        forwardsTitle={<>{pageContext.nexttitle} &rarr;</>}
         backUrl="/"
         backTitle="Zpět na výpis"
-        backwardTitle={<>{pageContext.prevtitle} &rarr;</>}
+        backwardTitle={<>&larr; {pageContext.prevtitle}</>}
         backwardsUrl={pageContext.prevslug}
       />
     </Layout>

@@ -19,11 +19,14 @@ const BookThumbnail = ({ post }) => (
       )}
     </Link>
     <div className="book-thumbnail__info">
-      <Link to={post.fields.slug} key={`${post.frontmatter.title}-title`}>
-        <Heading level="3" className="book-thumbnail__title">
+      <Heading level="3" className="book-thumbnail__title">
+        <Link
+          to={post.fields.slug}
+          key={`${post.frontmatter.title}-title`}
+          className="book-thumbnail__title-link">
           {post.frontmatter.title}
-        </Heading>
-      </Link>
+        </Link>
+      </Heading>
 
       {post.frontmatter.author !== undefined ? (
         <TagList slug="autor" items={post.frontmatter.author} />

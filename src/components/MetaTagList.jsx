@@ -7,15 +7,11 @@ function TagList({ className, slug, caption, items }) {
     <>
       <div className="meta">
         <p className="meta__caption">{caption}</p>
-        <ul className={className}>
+        <ul className={`${className} meta-taglist`}>
           {items
             ? items.map((item) => (
                 <li key={_.kebabCase(item)}>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`/${slug}/${_.kebabCase(item)}`}>
-                    {item}
-                  </Link>
+                  <Link to={`/${slug}/${_.kebabCase(item)}`}>{item}</Link>
                 </li>
               ))
             : "--"}

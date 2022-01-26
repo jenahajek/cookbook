@@ -6,14 +6,10 @@ function TagList({ className, slug, items }) {
   return (
     <>
       {items ? (
-        <ul className={className}>
+        <ul className={`${className} taglist`}>
           {items.map((item) => (
             <li key={_.kebabCase(item)}>
-              <Link
-                style={{ textDecoration: "none" }}
-                to={`/${slug}/${_.kebabCase(item)}`}>
-                {item}
-              </Link>
+              <Link to={`/${slug}/${_.kebabCase(item)}`}>{item}</Link>
             </li>
           ))}
         </ul>

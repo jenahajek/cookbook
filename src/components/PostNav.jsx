@@ -12,17 +12,17 @@ const PostNav = ({
 }) => (
   <nav className={`${className} post-nav`}>
     <ul>
-      {forwardsUrl != null ? (
+      {backwardsUrl != null ? (
         <li>
-          <Link to={`${forwardsUrl}`}>{forwardsTitle}</Link>
+          <Link to={`${backwardsUrl}`}>{backwardTitle}</Link>
         </li>
       ) : null}
       <li>
         <Link to={`${backUrl}`}>{backTitle}</Link>
       </li>
-      {backwardsUrl != null ? (
+      {forwardsUrl != null ? (
         <li>
-          <Link to={`${backwardsUrl}`}>{backwardTitle}</Link>
+          <Link to={`${forwardsUrl}`}>{forwardsTitle}</Link>
         </li>
       ) : null}
     </ul>

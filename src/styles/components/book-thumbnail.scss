@@ -7,6 +7,11 @@
   &__title {
     font-variation-settings: "wght" 650;
   }
+  &__title-link {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   &__info {
     padding: 5px 10px;

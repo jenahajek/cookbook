@@ -40,33 +40,30 @@ const Index = ({ data }) => {
 
         <div className="intro">
           <div className="intro__text">
-            <Heading level="1" className="h1">
+            <Heading level="1" className="main-title">
               Moje knihy
             </Heading>
             <div className="perex">
               <p>
-                Rád čtu, knih mám dost a&nbsp;už jsem se v&nbsp;tom začínal
-                ztrácet. Abych si nekupoval něco vícekrát nebo snáz našel další
-                čtení, vyrobil jsem si tenhle přehled.
+                Rád čtu, protože objevování nových pohledů na svět skrze knihy
+                mě obohacuje. Když narazím na skvělý titul, byla by škoda se
+                nepodělit. Proto jsem vyrobil tenhle čtenářský deník.
               </p>
               <p>
-                Je veřejný, aby mohl být prospěšný i ostatním. Podívej se třeba
-                na recenze a objev něco nového, co tě zaujme. Půjčím rád.
-              </p>
-              <p>
-                Chceš se o nějakém téma pobavit? Můžeme, třeba při běhání nebo
-                v&nbsp;hospodě! :)
+                Podívej se, co čtu. Jestli tě něco zaujme, tak ti to půjčím.
+                Nebo se o můžeme o nějakém téma jen pobavit. Třeba při běhání
+                nebo v&nbsp;hospodě! :)
               </p>
             </div>
           </div>
           <div className="intro__img">
-            <StaticImage src="../../assets/me2.jpg" alt=" " />
+            <StaticImage src="../../assets/me.jpg" alt=" " />
           </div>
         </div>
 
         <section className="layout-group">
           <Heading level="2" className="layout-group__title">
-            Rozečtené
+            Aktuálně rozečtené
           </Heading>
           {readingList.map(({ node: post }) => (
             <BookThumbnail post={post} />
@@ -76,7 +73,7 @@ const Index = ({ data }) => {
           <Heading level="2" className="layout-group__title">
             Poslední přečtené
           </Heading>
-          {lastReadList.slice(0, 4).map(({ node: post }) => (
+          {lastReadList.slice(0, 5).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
 
@@ -141,7 +138,7 @@ const Index = ({ data }) => {
           <Heading level="2" className="layout-group__title">
             Wishlist
           </Heading>
-          {_.sampleSize(wishList, 4).map(({ node: post }) => (
+          {_.sampleSize(wishList, 5).map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
           <Link to="status/wishlist" className="big-link">
