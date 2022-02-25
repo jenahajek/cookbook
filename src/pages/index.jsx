@@ -15,23 +15,12 @@ const _ = require("lodash");
 
 const Index = ({ data }) => {
   const {
-    readingList,
-    lastReadList,
-    wishList,
-    garbageList,
+    // readingList,
+    // lastReadList,
+    // wishList,
+    // garbageList,
     postEdges,
   } = useFilter(data);
-
-  const biographyPosts = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.categories !== null &&
-      post.node.frontmatter.categories.includes("Biografie")
-  );
-  const professionalPosts = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.categories !== null &&
-      post.node.frontmatter.categories.includes("Odborná")
-  );
 
   return (
     <Layout>
@@ -39,53 +28,59 @@ const Index = ({ data }) => {
         <Helmet title={`Index | ${config.siteTitle}`} />
 
         <div className="intro">
-          <div className="intro__text">
-            <Heading level="1" className="main-title">
-              Moje knihy
-            </Heading>
-            <div className="perex">
-              <p>
-                Rád čtu, protože objevování nových pohledů na svět skrze knihy
-                mě obohacuje. Když narazím na skvělý titul, byla by škoda se
-                nepodělit. Proto jsem vyrobil tenhle čtenářský deník.
-              </p>
-              <p>
-                Podívej se, co čtu. Jestli tě něco zaujme, tak ti to půjčím.
-                Nebo se o můžeme o nějakém téma jen pobavit. Třeba při běhání
-                nebo v&nbsp;hospodě! :)
-              </p>
+          <div className="intro__inner container">
+            <div className="intro__text">
+              <Heading level="1" className="main-title">
+                Naše recepty
+              </Heading>
+              <div className="perex">
+                <p>
+                  Osobní sbírka receptů, které jsme vyzkoušeli, nebo nás lákají.
+                </p>
+                <p>
+                  Tento seznam nám pomáhá při vybírání nejen víkendových obědů,
+                  ale poslouží i pro vytipování svačiny na výlet nebo třeba
+                  zákusku na oslavu kamaráda, který nemůže lepek.
+                </p>
+                <p>
+                  A v neposlední řadě pomůže sdílet prověřené recepty a rady s
+                  vámi. :)
+                </p>
+              </div>
             </div>
           </div>
-          <div className="intro__img">
-            <StaticImage src="../../assets/me.jpg" alt=" " />
-          </div>
+          {/* <div className="intro__img">
+            <StaticImage src="../../assets/FullSizeRender.jpeg" alt=" " />
+          </div> */}
         </div>
 
-        <section className="layout-group">
+        {/* <section className="layout-group">
           <Heading level="2" className="layout-group__title">
             Aktuálně rozečtené
           </Heading>
           {readingList.map(({ node: post }) => (
             <BookThumbnail post={post} />
           ))}
-        </section>
-        <section className="layout-group">
-          <Heading level="2" className="layout-group__title">
-            Poslední přečtené
-          </Heading>
-          {lastReadList.slice(0, 5).map(({ node: post }) => (
-            <BookThumbnail post={post} />
-          ))}
+        </section> */}
+        <div className="container">
+          <section className="layout-group">
+            <Heading level="2" className="layout-group__title">
+              Oblíbené
+            </Heading>
+            {postEdges.map(({ node: post }) => (
+              <BookThumbnail post={post} />
+            ))}
 
-          <Link to="status/prectene" className="big-link">
+            {/* <Link to="status/prectene" className="big-link">
             <span>
               Všechny přečtené
               <IconArrowRight />
             </span>
-          </Link>
-        </section>
+          </Link> */}
+          </section>
+        </div>
 
-        <Heading level="2" className="layout-group__title">
+        {/* <Heading level="2" className="layout-group__title">
           Oblíbené kategorie
         </Heading>
         <div className="category__wrapper">
@@ -147,7 +142,7 @@ const Index = ({ data }) => {
               <IconArrowRight />
             </span>
           </Link>
-        </section>
+        </section> */}
 
         {/* <div hidden>
           <Heading level="2">Garbage</Heading>
@@ -166,31 +161,23 @@ const Index = ({ data }) => {
 
 export const pageQuery = graphql`
   query index {
-    allBooks: allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
+    allBooks: allMdx(sort: { fields: [frontmatter___dateAdded], order: DESC }) {
       edges {
         node {
           id
           excerpt
           frontmatter {
             title
-            status
-            format
-            categories
-            genre
-            sport
-            geography
-            period
-            language
-            tags
-            author
+            subtitle
             cover {
               sharp: childImageSharp {
-                fluid(maxHeight: 300) {
+                fluid(maxHeight: 1300) {
                   ...GatsbyImageSharpFluid_withWebp
                 }
               }
             }
-            date
+            dateAdded
+            tags
           }
           fields {
             slug

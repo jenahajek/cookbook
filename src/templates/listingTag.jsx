@@ -25,7 +25,7 @@ export const pageQuery = graphql`
   query TagPage($tag: String) {
     allMdx(
       limit: 1000
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { fields: [frontmatter___dateAdded], order: DESC }
       filter: { frontmatter: { tags: { in: [$tag] } } }
     ) {
       totalCount
@@ -33,12 +33,11 @@ export const pageQuery = graphql`
         node {
           fields {
             slug
-            date
           }
           excerpt
           frontmatter {
             title
-            author
+            subtitle
             tags
             cover {
               sharp: childImageSharp {
@@ -47,7 +46,7 @@ export const pageQuery = graphql`
                 }
               }
             }
-            date
+            dateAdded
           }
         }
       }

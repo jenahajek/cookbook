@@ -28,11 +28,9 @@ const BookThumbnail = ({ post }) => (
         </Link>
       </Heading>
 
-      {post.frontmatter.author !== undefined ? (
-        <TagList slug="autor" items={post.frontmatter.author} />
-      ) : (
-        <p>Autor neznámý</p>
-      )}
+      {post.frontmatter.subtitle !== null ? (
+        <p>{post.frontmatter.subtitle}</p>
+      ) : null}
     </div>
   </article>
 );

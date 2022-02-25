@@ -18,19 +18,8 @@ const SiteNav = () => {
         edges {
           node {
             id
-            excerpt
             frontmatter {
               title
-              status
-              format
-              categories
-              genre
-              sport
-              geography
-              period
-              language
-              tags
-              author
               cover {
                 sharp: childImageSharp {
                   fluid(maxHeight: 300) {
@@ -38,6 +27,24 @@ const SiteNav = () => {
                   }
                 }
               }
+              queue
+              sourceName
+              sourceHref
+              type
+              tried
+              taste
+              mainIngredience
+              stock
+              season
+              difficulty
+              prepTime
+              cookingTime
+              process
+              servingTemp
+              categories
+              geography
+              price
+              tags
             }
             fields {
               slug
@@ -69,37 +76,41 @@ const SiteNav = () => {
     typeof window !== "undefined" ? window.location.pathname : "";
 
   return (
-    <header>
-      <div className="site-nav__inner">
-        <div className="site-nav__inner-logo">
-          <Link to="/" className="logo" onClick={closeFilter}>
-            Jéňova knihovna
-            {/* {postEdges.length} */}
-          </Link>
-          {pathname === "/" ? (
-            <Typewriter
-              className="typewriter"
-              options={{
-                strings: [
-                  "je moje soukromá databáze knih",
-                  "je stroj na výběr dalšího čtení",
-                  "je seznam knih k zapůjčení",
-                  "je diskuzní podněcovač",
-                  "je studnice doporučení",
-                  "je má úložna poznámek",
-                ],
-                autoStart: true,
-                loop: true,
-                deleteSpeed: 30,
-              }}
-            />
-          ) : null}
-        </div>
+    <header className="site-nav">
+      <div className="container">
+        <div className="site-nav__inner">
+          <div className="site-nav__inner-logo">
+            <Link to="/" className="logo" onClick={closeFilter}>
+              Jéňi a Dii kuchařka
+              {/* {postEdges.length} */}
+            </Link>
+            {pathname === "/" ? (
+              <Typewriter
+                className="typewriter"
+                options={{
+                  strings: [
+                    "je moje soukromá databáze receptů",
+                    "je stroj na výběr dalšího jídla",
+                    "je seznam receptů pro inspiraci",
+                    "je rozdmíchávač života v kuchyni",
+                    "je diskuzní podněcovač",
+                    "je studnice doporučení",
+                    "je má úložna poznámek",
+                    "je usnadňovač života v kuchyni",
+                  ],
+                  autoStart: true,
+                  loop: true,
+                  deleteSpeed: 30,
+                }}
+              />
+            ) : null}
+          </div>
 
-        <button type="button" onClick={toggleFilter} className="site-search">
-          <IconSearch />
-          <span className="visually-hidden">Vyhledej knihu</span>
-        </button>
+          <button type="button" onClick={toggleFilter} className="site-search">
+            <span>Najdi recept</span>
+            <IconSearch />
+          </button>
+        </div>
       </div>
 
       <div hidden={!allStates.filterVisibility} className="filter__container">
@@ -109,8 +120,8 @@ const SiteNav = () => {
               onChange={handleInputChange}
               value={allStates.query}
               type="search"
-              ariaLabel="Hledej knihu podle názvu či autora"
-              placeholder="Hledej podle názvu či autora"
+              ariaLabel="Hledej recept"
+              placeholder="Hledej recept"
             />
             <button type="button" onClick={handleQueryReset}>
               Smazat
@@ -142,6 +153,8 @@ const SiteNav = () => {
                 <div
                   className="temp-filter__section"
                   hidden={!allStates.filterSections[dimension.dimension]}>
+                  {console.log(filterMetadata[dimension.dimension])}
+                  {console.log(allStates)}
                   {filterMetadata[dimension.dimension].map((item) => (
                     <Checkbox
                       key={item}
@@ -151,11 +164,13 @@ const SiteNav = () => {
                           ? "?"
                           : item.count
                       }
-                      value={_.kebabCase(item.value)}
+                      value={`${dimension.dimension}-${_.kebabCase(
+                        item.value
+                      )}`}
                       label={item.value}
                       dimension={dimension.dimension}
                       checked={allStates[dimension.dimension].includes(
-                        _.kebabCase(item.value)
+                        `${dimension.dimension}-${_.kebabCase(item.value)}`
                       )}
                       disabled={
                         item.count === 0 &&
@@ -221,7 +236,7 @@ const SiteNav = () => {
                       }`}>
                       {filterMetadata[dimension.dimension].map((item) =>
                         allStates[dimension.dimension].includes(
-                          _.kebabCase(item.value)
+                          `${dimension.dimension}-${_.kebabCase(item.value)}`
                         ) ? (
                           <div className="temp-result-tag">
                             <Checkbox
@@ -230,7 +245,9 @@ const SiteNav = () => {
                               label={item.value}
                               dimension={dimension.dimension}
                               checked={allStates[dimension.dimension].includes(
-                                _.kebabCase(item.value)
+                                `${dimension.dimension}-${_.kebabCase(
+                                  item.value
+                                )}`
                               )}
                               iconAfter={<IconClose />}
                               onChange={handleCheckboxChange}

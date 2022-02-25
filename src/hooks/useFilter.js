@@ -72,16 +72,44 @@ const useFilter = (data) => {
       posts.push({
         slug: post.node.fields.slug,
         title: post.node.frontmatter.title,
-        author: post.node.frontmatter.author,
-        status: post.node.frontmatter.status,
-        format: post.node.frontmatter.format,
-        categories: post.node.frontmatter.categories,
-        genre: post.node.frontmatter.genre,
-        sport: post.node.frontmatter.sport,
-        geography: post.node.frontmatter.geography,
-        period: post.node.frontmatter.period,
-        language: post.node.frontmatter.language,
-        tags: post.node.frontmatter.tags,
+        subtitle: post.node.frontmatter.subtitle,
+        queue: post.node.frontmatter.queue ? post.node.frontmatter.queue : null,
+        sources: post.node.frontmatter.sources
+          ? post.node.frontmatter.sources
+          : null,
+        type: post.node.frontmatter.type ? post.node.frontmatter.type : null,
+        tried: post.node.frontmatter.tried ? post.node.frontmatter.tried : null,
+        taste: post.node.frontmatter.taste ? post.node.frontmatter.taste : null,
+        mainIngredience: post.node.frontmatter.mainIngredience
+          ? post.node.frontmatter.mainIngredience
+          : null,
+        stock: post.node.frontmatter.stock ? post.node.frontmatter.stock : null,
+        season: post.node.frontmatter.season
+          ? post.node.frontmatter.season
+          : null,
+        difficulty: post.node.frontmatter.difficulty
+          ? post.node.frontmatter.difficulty
+          : null,
+        prepTime: post.node.frontmatter.prepTime
+          ? post.node.frontmatter.prepTime
+          : null,
+        cookingTime: post.node.frontmatter.cookingTime
+          ? post.node.frontmatter.cookingTime
+          : null,
+        process: post.node.frontmatter.process
+          ? post.node.frontmatter.process
+          : null,
+        servingTemp: post.node.frontmatter.servingTemp
+          ? post.node.frontmatter.servingTemp
+          : null,
+        categories: post.node.frontmatter.categories
+          ? post.node.frontmatter.categories
+          : null,
+        geography: post.node.frontmatter.geography
+          ? post.node.frontmatter.geography
+          : null,
+        price: post.node.frontmatter.price ? post.node.frontmatter.price : null,
+        tags: post.node.frontmatter.tags ? post.node.frontmatter.tags : null,
         cover: post.node.frontmatter.cover,
         match: post.node.frontmatter.match,
         extraLabels: post.extraLabels,
@@ -159,7 +187,7 @@ const useFilter = (data) => {
   const markFilteredData = (input) =>
     input.map((post) => {
       const extraLabels = [];
-      (post.node.frontmatter.title
+      post.node.frontmatter.title
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -168,51 +196,125 @@ const useFilter = (data) => {
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
-        ) ||
-        post.node.frontmatter.author
-          .join("")
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .includes(
-            searchQuery
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-          )) &&
-      (allStates.status.length > 0
-        ? post.node.frontmatter.status != null
-          ? post.node.frontmatter.status.some(
-              (element) => allStates.status.indexOf(_.kebabCase(element)) >= 0
+        ) &&
+      // post.node.frontmatter.author
+      // .join("")
+      // .toLowerCase()
+      // .normalize("NFD")
+      // .replace(/[\u0300-\u036f]/g, "")
+      // .includes(
+      //   searchQuery
+      //     .toLowerCase()
+      //     .normalize("NFD")
+      //     .replace(/[\u0300-\u036f]/g, "")
+      // ) &&
+      (allStates.type.length > 0
+        ? post.node.frontmatter.type != null
+          ? post.node.frontmatter.type.some(
+              (element) =>
+                allStates.type.indexOf(`type-${_.kebabCase(element)}`) >= 0
             )
-          : extraLabels.push("Nespecifikováný status")
+          : null // extraLabels.push("Nespecifikováný typ")
         : true) &&
-      (allStates.format.length > 0
-        ? post.node.frontmatter.format != null
-          ? post.node.frontmatter.format.some(
-              (element) => allStates.format.indexOf(_.kebabCase(element)) >= 0
+      (allStates.tried.length > 0
+        ? post.node.frontmatter.tried != null
+          ? post.node.frontmatter.tried.some(
+              (element) =>
+                allStates.tried.indexOf(`tried-${_.kebabCase(element)}`) >= 0
             )
-          : extraLabels.push("Nespecifikováný formát")
+          : null
+        : true) &&
+      (allStates.taste.length > 0
+        ? post.node.frontmatter.taste != null
+          ? post.node.frontmatter.taste.some(
+              (element) =>
+                allStates.taste.indexOf(`taste-${`${_.kebabCase(element)}`}`) >=
+                0
+            )
+          : null
+        : true) &&
+      (allStates.mainIngredience.length > 0
+        ? post.node.frontmatter.mainIngredience != null
+          ? post.node.frontmatter.mainIngredience.some(
+              (element) =>
+                allStates.mainIngredience.indexOf(
+                  `mainIngredience-${_.kebabCase(element)}`
+                ) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.stock.length > 0
+        ? post.node.frontmatter.stock != null
+          ? post.node.frontmatter.stock.some(
+              (element) =>
+                allStates.stock.indexOf(`stock-${_.kebabCase(element)}`) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.season.length > 0
+        ? post.node.frontmatter.season != null
+          ? post.node.frontmatter.season.some(
+              (element) =>
+                allStates.season.indexOf(`season-${_.kebabCase(element)}`) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.difficulty.length > 0
+        ? post.node.frontmatter.difficulty != null
+          ? post.node.frontmatter.difficulty.some(
+              (element) =>
+                allStates.difficulty.indexOf(
+                  `difficulty-${_.kebabCase(element)}`
+                ) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.prepTime.length > 0
+        ? post.node.frontmatter.prepTime != null
+          ? post.node.frontmatter.prepTime.some(
+              (element) =>
+                allStates.prepTime.indexOf(
+                  `prepTime-${_.kebabCase(element)}`
+                ) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.cookingTime.length > 0
+        ? post.node.frontmatter.cookingTime != null
+          ? post.node.frontmatter.cookingTime.some(
+              (element) =>
+                allStates.cookingTime.indexOf(
+                  `cookingTime-${_.kebabCase(element)}`
+                ) >= 0
+            )
+          : null
+        : true) &&
+      (allStates.process.length > 0
+        ? post.node.frontmatter.process != null
+          ? post.node.frontmatter.process.some(
+              (element) =>
+                allStates.process.indexOf(`process-${_.kebabCase(element)}`) >=
+                0
+            )
+          : null
+        : true) &&
+      (allStates.servingTemp.length > 0
+        ? post.node.frontmatter.servingTemp != null
+          ? post.node.frontmatter.servingTemp.some(
+              (element) =>
+                allStates.servingTemp.indexOf(
+                  `servingTemp-${_.kebabCase(element)}`
+                ) >= 0
+            )
+          : null
         : true) &&
       (allStates.categories.length > 0
         ? post.node.frontmatter.categories != null
           ? post.node.frontmatter.categories.some(
               (element) =>
-                allStates.categories.indexOf(_.kebabCase(element)) >= 0
-            )
-          : null
-        : true) &&
-      (allStates.genre.length > 0
-        ? post.node.frontmatter.genre != null
-          ? post.node.frontmatter.genre.some(
-              (element) => allStates.genre.indexOf(_.kebabCase(element)) >= 0
-            )
-          : null
-        : true) &&
-      (allStates.sport.length > 0
-        ? post.node.frontmatter.sport != null
-          ? post.node.frontmatter.sport.some(
-              (element) => allStates.sport.indexOf(_.kebabCase(element)) >= 0
+                allStates.categories.indexOf(
+                  `categories-${_.kebabCase(element)}`
+                ) >= 0
             )
           : null
         : true) &&
@@ -220,31 +322,28 @@ const useFilter = (data) => {
         ? post.node.frontmatter.geography != null
           ? post.node.frontmatter.geography.some(
               (element) =>
-                allStates.geography.indexOf(_.kebabCase(element)) >= 0
+                allStates.geography.indexOf(
+                  `geography-${_.kebabCase(element)}`
+                ) >= 0
             )
           : null
         : true) &&
-      (allStates.period.length > 0
-        ? post.node.frontmatter.period != null
-          ? post.node.frontmatter.period.some(
-              (element) => allStates.period.indexOf(_.kebabCase(element)) >= 0
-            )
-          : null
-        : true) &&
-      (allStates.tags.length > 0
-        ? post.node.frontmatter.tags != null
-          ? post.node.frontmatter.tags.some(
-              (element) => allStates.tags.indexOf(_.kebabCase(element)) >= 0
+      (allStates.price.length > 0
+        ? post.node.frontmatter.price != null
+          ? post.node.frontmatter.price.some(
+              (element) =>
+                allStates.price.indexOf(`price-${_.kebabCase(element)}`) >= 0
             )
           : null
         : true) &&
       // eslint-disable-next-line no-nested-ternary
-      (allStates.language.length > 0
-        ? post.node.frontmatter.language != null
-          ? post.node.frontmatter.language.some(
-              (element) => allStates.language.indexOf(_.kebabCase(element)) >= 0
+      (allStates.tags.length > 0
+        ? post.node.frontmatter.tags != null
+          ? post.node.frontmatter.tags.some(
+              (element) =>
+                allStates.tags.indexOf(`tags-${_.kebabCase(element)}`) >= 0
             )
-          : extraLabels.push("Nespecifikováný jazyk")
+          : null
         : true)
         ? (post.node.frontmatter.match = true)
         : (post.node.frontmatter.match = false);
@@ -279,35 +378,35 @@ const useFilter = (data) => {
   const filterMetadata = formatMetadata(deepmerge(resetedList, realMetadata));
 
   // default listings
-  const readingList = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.status !== null &&
-      post.node.frontmatter.status[0] === "Rozečtené"
-  );
-  const lastReadList = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.status !== null &&
-      post.node.frontmatter.status[0] === "Přečtené"
-  );
-  const wishList = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.status !== null &&
-      post.node.frontmatter.status[0] === "Wishlist"
-  );
-  const garbageList = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.status !== null &&
-      post.node.frontmatter.status[0] === "Odpad"
-  );
+  // const readingList = postEdges.filter(
+  //   (post) =>
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Rozečtené"
+  // );
+  // const lastReadList = postEdges.filter(
+  //   (post) =>
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Přečtené"
+  // );
+  // const wishList = postEdges.filter(
+  //   (post) =>
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Wishlist"
+  // );
+  // const garbageList = postEdges.filter(
+  //   (post) =>
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Odpad"
+  // );
 
   return {
     allStates,
     isFilterOn,
     //
-    readingList,
-    lastReadList,
-    wishList,
-    garbageList,
+    // readingList,
+    // lastReadList,
+    // wishList,
+    // garbageList,
     postEdges,
     //
     matchingPosts,

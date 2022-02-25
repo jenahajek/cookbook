@@ -1,6 +1,6 @@
 const config = {
-  siteTitle: "Jéňova knihovna", // Site title.
-  siteTitleShort: "Jéňova knihovna", // Short site title for homescreen (PWA). Preferably should be under 12 characters to prevent truncation.
+  siteTitle: "Kuchařka Dianky a Jéni", // Site title.
+  siteTitleShort: "Kuchařka Dianky a Jéni", // Short site title for homescreen (PWA). Preferably should be under 12 characters to prevent truncation.
   siteTitleAlt: "Seznam Jéňových knih", // Alternative site title for SEO.
   siteLogo: "/logos/logo-1024.png", // Logo used for SEO and manifest.
   siteUrl: "https://gatsby-advanced-starter-demo.netlify.com", // Domain of your website without pathPrefix.

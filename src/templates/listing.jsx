@@ -54,7 +54,7 @@ export default Listing;
 export const listingQuery = graphql`
   query ListingQuery($skip: Int!, $limit: Int!) {
     allMdx(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: { fields: [frontmatter___dateAdded], order: DESC }
       limit: $limit
       skip: $skip
     ) {
@@ -62,11 +62,10 @@ export const listingQuery = graphql`
         node {
           fields {
             slug
-            date
           }
           frontmatter {
-            excerpt
             title
+            subtitle
             tags
             cover {
               sharp: childImageSharp {
@@ -75,7 +74,7 @@ export const listingQuery = graphql`
                 }
               }
             }
-            date
+            dateAdded
           }
         }
       }

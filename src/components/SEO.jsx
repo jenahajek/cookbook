@@ -40,9 +40,12 @@ function SEO({ postNode, postPath, postSEO }) {
 
     if (!postNode.frontmatter) return null;
 
-    if (!postNode.frontmatter.date) return null;
+    if (!postNode.frontmatter.dateAdded) return null;
 
-    return moment(postNode.frontmatter.date, config.dateFromFormat).toDate();
+    return moment(
+      postNode.frontmatter.dateAdded,
+      config.dateFromFormat
+    ).toDate();
   };
 
   image = getImagePath(image);

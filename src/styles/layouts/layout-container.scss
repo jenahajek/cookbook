@@ -1,13 +1,7 @@
 .layout-container {
-  padding: 0 15px; // @todo
-  max-width: 1400px; // @todo
-  margin: 0 auto;
   min-height: 100vh;
   &.filter-open {
     overflow-y: hidden;
     height: 100vh;
-  }
-  @screen md {
-    padding: 0 30px;
   }
 }
