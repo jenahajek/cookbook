@@ -161,7 +161,7 @@ const SiteNav = () => {
                       count={
                         item.count === 0 &&
                         allStates.lastDimension === dimension.dimension
-                          ? "?"
+                          ? "+"
                           : item.count
                       }
                       value={`${dimension.dimension}-${_.kebabCase(

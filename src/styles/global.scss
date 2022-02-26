@@ -110,7 +110,7 @@ body {
 .temp-filter-wrapper {
   display: flex;
   flex-direction: column;
-  margin: 0 -8px;
+  background: hsl(0, 0%, 96%);
 }
 .temp-filter {
   flex: 1 0 10%;
@@ -139,7 +139,6 @@ body {
 .temp-serp-container {
   padding-bottom: 1.5em;
   @screen lg {
-    padding-left: 3em;
     width: 100%;
     display: flex;
     align-items: center;
@@ -157,14 +156,19 @@ body {
   @screen lg {
     flex: 1 1 auto;
   }
+  .post-listing {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 }
 .temp-serp__header {
   display: flex;
   flex-wrap: wrap;
-  padding: 1em 0;
+  padding: 2em 0 1.5em 3em;
   gap: 0.5em;
-  padding: 3em 0 1.5em;
   align-items: center;
+  background: hsl(0, 0%, 96%);
+  border-bottom: 1px solid #ddd;
 
   h2 {
     strong {
@@ -173,8 +177,8 @@ body {
   }
 
   @screen lg {
-    padding-top: 0;
-    padding-bottom: 3em;
+    padding-bottom: 1.5em;
+    margin-bottom: 3em;
 
     h2 {
       font-size: 1.25em;
@@ -358,17 +362,22 @@ body {
     top: 50px;
     left: 0;
     right: 0;
+    border-radius: 10px;
     max-height: calc(100vh - 80px);
     z-index: 100;
     overflow: auto;
-    background-color: white;
-    padding: 30px 15px;
-    border-radius: 10px;
+    background: linear-gradient(
+      90deg,
+      hsl(0, 0%, 96%) 351px,
+      #ddd 351px,
+      #ddd 352px,
+      white 352px
+    );
 
-    @supports (backdrop-filter: blur()) {
-      background-color: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(122px);
-    }
+    // @supports (backdrop-filter: blur()) {
+    //   background-color: rgba(255, 255, 255, 0.75);
+    //   backdrop-filter: blur(122px);
+    // }
 
     &[hidden] {
       display: none;
@@ -377,13 +386,19 @@ body {
     @screen lg {
       left: 30px;
       right: 30px;
-      padding: 30px;
       display: flex;
     }
   }
 
   &__controls {
+    margin: 0 0 0 -8px;
+    background: hsl(0, 0%, 96%);
+    border-right: 1px solid #ddd;
+    height: 100%;
+    padding: 30px 20px 30px 30px;
+
     @screen lg {
+      min-width: 360px;
       flex: 0 1;
     }
   }
@@ -399,14 +414,14 @@ input {
   @screen lg {
     min-width: 18.5em;
   }
-  @supports (backdrop-filter: blur()) {
-    border: none;
-  }
+  // @supports (backdrop-filter: blur()) {
+  //   border: none;
+  // }
 
   input {
     flex: 1;
     min-width: 0;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     font-size: 0.9em;
   }
 
