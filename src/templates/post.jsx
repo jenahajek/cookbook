@@ -117,7 +117,7 @@ export default function PostTemplate({ data, pageContext }) {
             </p>
           </div>
           <aside className="layout-detail__meta">
-            {post.sourceHref[0] !== null ? (
+            {post.sourceHref && post.sourceHref[0] !== null ? (
               <div className="meta">
                 <p className="meta__caption">Zdroj</p>
                 <a
@@ -136,27 +136,27 @@ export default function PostTemplate({ data, pageContext }) {
               slug="kategorie"
               caption="Kategorie"
             />
-            {post.type[0] !== null ? (
+            {post.type && post.type[0] !== null ? (
               <MetaTagList items={post.type} slug="typ" caption="Typ pokrmu" />
             ) : null}
-            {post.categories[0] !== null ? (
+            {post.categories && post.categories[0] !== null ? (
               <MetaTagList
                 items={post.categories}
                 slug="kategorie"
                 caption="Kategorie"
               />
             ) : null}
-            {post.taste[0] !== null ? (
+            {post.taste && post.taste[0] !== null ? (
               <MetaTagList items={post.taste} slug="chut" caption="Chuť" />
             ) : null}
-            {post.stock[0] !== null ? (
+            {post.stock && post.stock[0] !== null ? (
               <MetaTagList
                 items={post.stock}
                 slug="dostupnost-surovin"
                 caption="Dostupnost surovin"
               />
             ) : null}
-            {post.season[0] !== null ? (
+            {post.season && post.season[0] !== null ? (
               <MetaTagList items={post.season} slug="sezona" caption="Sezóna" />
             ) : null}
             {post.difficulty ? (
@@ -166,28 +166,28 @@ export default function PostTemplate({ data, pageContext }) {
                 caption="Obtížnost"
               />
             ) : null}
-            {post.prepTime[0] !== null ? (
+            {post.prepTime && post.prepTime[0] !== null ? (
               <MetaTagList
                 items={post.prepTime}
                 slug="doba-pripravy"
                 caption="Doba přípravy"
               />
             ) : null}
-            {post.cookingTime[0] !== null ? (
+            {post.cookingTime && post.cookingTime[0] !== null ? (
               <MetaTagList
                 items={post.cookingTime}
                 slug="doba-vareni"
                 caption="Doba vaření"
               />
             ) : null}
-            {post.process[0] !== null ? (
+            {post.process && post.process[0] !== null ? (
               <MetaTagList
                 items={post.process}
                 slug="proces"
                 caption="Proces"
               />
             ) : null}
-            {post.servingTemp[0] !== null ? (
+            {post.servingTemp && post.servingTemp[0] !== null ? (
               <MetaTagList
                 items={post.servingTemp}
                 slug="servirovci-teplota"
@@ -201,7 +201,7 @@ export default function PostTemplate({ data, pageContext }) {
                 caption="Země původu"
               />
             ) : null}
-            {post.price[0] !== null ? (
+            {post.price && post.price[0] !== null ? (
               <MetaTagList items={post.price} slug="cena" caption="Cena" />
             ) : null}
             {post.tags && post.tags[0] !== null ? (
