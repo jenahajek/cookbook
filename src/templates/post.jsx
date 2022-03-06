@@ -124,7 +124,9 @@ export default function PostTemplate({ data, pageContext }) {
                   href={post.sourceHref}
                   target="_blank"
                   rel="noreferrer noopener">
-                  {post.sourceName[0] !== null ? post.sourceName : "Odkaz"}
+                  {post.sourceName && post.sourceName[0] !== null
+                    ? post.sourceName
+                    : "Odkaz"}
                 </a>
               </div>
             ) : (
