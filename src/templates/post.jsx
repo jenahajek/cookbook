@@ -194,7 +194,7 @@ export default function PostTemplate({ data, pageContext }) {
                 caption="Servírovací teplota"
               />
             ) : null}
-            {post.geography[0] !== null ? (
+            {post.geography && post.geography[0] !== null ? (
               <MetaTagList
                 items={post.geography}
                 slug="zeme-puvodu"
@@ -204,7 +204,7 @@ export default function PostTemplate({ data, pageContext }) {
             {post.price[0] !== null ? (
               <MetaTagList items={post.price} slug="cena" caption="Cena" />
             ) : null}
-            {post.tags[0] !== null ? (
+            {post.tags && post.tags[0] !== null ? (
               <MetaTagList items={post.tags} slug="stitky" caption="Štítky" />
             ) : null}
           </aside>

@@ -520,7 +520,7 @@ input {
 .fallback-cover {
   width: 100%;
   text-align: center;
-  padding-top: 150%;
+  padding-top: 100%;
   position: relative;
   background: radial-gradient(
       circle,
@@ -542,6 +542,16 @@ input {
     linear-gradient(#eee 8px, transparent 8px) 0 -4px,
     linear-gradient(90deg, #eee 8px, transparent 8px) -4px 0;
   background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
+  &::after {
+    content: "";
+    position: absolute;
+    background-image: url("../../assets/plate.avif");
+    background-size: cover;
+    inset: 0;
+    display: block;
+    opacity: 0.6;
+    // background-color: rgba(255, 255, 255, 0.5);
+  }
   h3 {
     position: absolute;
     top: 50%;
@@ -549,6 +559,7 @@ input {
     font-size: 1.75em;
     text-shadow: 1px 1px 0 white;
     transform: translate(-50%, -50%);
+    z-index: 1;
   }
 }
 .big-link {
