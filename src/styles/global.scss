@@ -661,14 +661,17 @@ input {
   gap: 5px;
   max-width: 280px;
 }
-.meta-taglist a,
-.taglist a {
-  background: hsla(210, 100%, 56%, 0.1);
-  display: inline-block;
-  transition: all 0.3s;
-  padding: 0 4px;
-  border-radius: 4px;
-  &:hover {
+.meta-taglist,
+.taglist {
+  li,
+  a {
+    background: hsla(210, 100%, 56%, 0.1);
+    display: inline-block;
+    transition: all 0.3s;
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+  a:hover {
     text-decoration: underline;
     background: hsla(210, 100%, 56%, 0.2);
   }

@@ -153,8 +153,8 @@ const SiteNav = () => {
                 <div
                   className="temp-filter__section"
                   hidden={!allStates.filterSections[dimension.dimension]}>
-                  {console.log(filterMetadata[dimension.dimension])}
-                  {console.log(allStates)}
+                  {/* {console.log(filterMetadata[dimension.dimension])}
+                  {console.log(allStates)} */}
                   {filterMetadata[dimension.dimension].map((item) => (
                     <Checkbox
                       key={item}

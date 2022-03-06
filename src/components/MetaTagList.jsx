@@ -11,7 +11,8 @@ function TagList({ className, slug, caption, items }) {
           {items
             ? items.map((item) => (
                 <li key={_.kebabCase(item)}>
-                  <Link to={`/${slug}/${_.kebabCase(item)}`}>{item}</Link>
+                  {/* <Link to={`/${slug}/${_.kebabCase(item)}`}>{item}</Link> */}
+                  {item}
                 </li>
               ))
             : "--"}
