@@ -22,6 +22,26 @@ const Index = ({ data }) => {
     postEdges,
   } = useFilter(data);
 
+  const favoriteRecipes = postEdges.filter(
+    (post) => post.node.frontmatter.favorite[0] === "ano"
+  );
+  const pastaRecipes = postEdges.filter(
+    (post) =>
+      post.node.frontmatter.mainIngredience &&
+      post.node.frontmatter.mainIngredience.includes("těstoviny")
+  );
+  const vegetarianRecipes = postEdges.filter(
+    (post) =>
+      post.node.frontmatter.categories &&
+      post.node.frontmatter.categories.includes("vegetariánské") &&
+      post.node.frontmatter.type &&
+      post.node.frontmatter.type.includes("obědy a večeře")
+  );
+  const wishlistRecipes = postEdges.filter(
+    (post) =>
+      post.node.frontmatter.tried && post.node.frontmatter.tried.includes("ne")
+  );
+
   return (
     <Layout>
       <div>
@@ -67,9 +87,54 @@ const Index = ({ data }) => {
             <Heading level="2" className="layout-group__title">
               Oblíbené
             </Heading>
-            {postEdges.map(({ node: post }) => (
+            {favoriteRecipes.map(({ node: post }) => (
               <BookThumbnail post={post} />
             ))}
+
+            <Heading level="2" className="layout-group__subtitle">
+              Těstoviny
+            </Heading>
+            <div className="category__wrapper">
+              <div className="category__group">
+                <div className="category__items">
+                  {pastaRecipes.map(({ node: post }) => (
+                    <Link to={post.fields.slug} key={post.frontmatter.title}>
+                      <BookThumbnail post={post} />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Heading level="2" className="layout-group__subtitle">
+              Bezmasá
+            </Heading>
+            <div className="category__wrapper">
+              <div className="category__group">
+                <div className="category__items">
+                  {vegetarianRecipes.map(({ node: post }) => (
+                    <Link to={post.fields.slug} key={post.frontmatter.title}>
+                      <BookThumbnail post={post} />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Heading level="2" className="layout-group__subtitle">
+              Nevyzkoušené
+            </Heading>
+            <div className="category__wrapper">
+              <div className="category__group">
+                <div className="category__items">
+                  {wishlistRecipes.map(({ node: post }) => (
+                    <Link to={post.fields.slug} key={post.frontmatter.title}>
+                      <BookThumbnail post={post} />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             {/* <Link to="status/prectene" className="big-link">
             <span>
@@ -177,7 +242,12 @@ export const pageQuery = graphql`
               }
             }
             dateAdded
+            favorite
+            mainIngredience
+            categories
+            type
             tags
+            tried
           }
           fields {
             slug

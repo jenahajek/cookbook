@@ -12,6 +12,14 @@
     margin-top: 2em;
     font-size: 1.5rem;
   }
+  &__subtitle {
+    grid-column: 1/-1;
+    font-variation-settings: "wght" 650;
+    // font-size: 3rem;
+    // margin-bottom: 0.5em;
+    margin-top: 2em;
+    font-size: 1.25rem;
+  }
 
   @media (min-width: 320px) {
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
