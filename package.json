@@ -89,7 +89,7 @@
     "develop": "gatsby develop",
     "dev": "npm run develop",
     "serve": "gatsby serve",
-    "build": "gatsby build",
+    "build": "gatsby build && cd functions/graphql && npm i",
     "build:pp": "gatsby build --prefix-paths",
     "build:gh": "npm run clean && npm run build:pp && gh-pages -d public",
     "clean": "rm -rf public && rm -rf .cache",
