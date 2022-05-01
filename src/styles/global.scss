@@ -56,6 +56,8 @@ html {
   background-color: #f8f8f8;
   // background-color: #fff;
   color: #222;
+  background-color: #222;
+  color: white;
 
   h1,
   h2,
@@ -66,6 +68,10 @@ html {
   h3 {
     font-variation-settings: "wght" 700;
   }
+}
+
+input {
+  color: dodgerblue;
 }
 
 body {
