@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import { Link, useStaticQuery, graphql } from "gatsby";
 import Typewriter from "typewriter-effect";
+import netlifyIdentity from "netlify-identity-widget";
 import Input from "./form/Input";
 import SearchResult from "./SearchResult";
 import Checkbox from "./form/Checkbox";
@@ -55,6 +56,10 @@ const SiteNav = () => {
     }
   `);
 
+  useEffect(() => {
+    netlifyIdentity.init({});
+  });
+
   const {
     allStates,
     //
@@ -84,7 +89,7 @@ const SiteNav = () => {
               Jéňi a Dii kuchařka
               {/* {postEdges.length} */}
             </Link>
-            {pathname === "/" ? (
+            {/* {pathname === "/" ? (
               <Typewriter
                 className="typewriter"
                 options={{
@@ -103,8 +108,17 @@ const SiteNav = () => {
                   deleteSpeed: 30,
                 }}
               />
-            ) : null}
+            ) : null} */}
           </div>
+
+          <button
+            className="site-login"
+            type="button"
+            onClick={() => {
+              netlifyIdentity.open();
+            }}>
+            Přihlásit se
+          </button>
 
           <button type="button" onClick={toggleFilter} className="site-search">
             <span>Najdi recept</span>
