@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import _ from "lodash";
 import { Link, useStaticQuery, graphql } from "gatsby";
 import Typewriter from "typewriter-effect";
-import netlifyIdentity from "netlify-identity-widget";
 import Input from "./form/Input";
 import SearchResult from "./SearchResult";
 import Checkbox from "./form/Checkbox";
@@ -11,6 +10,7 @@ import useFilter from "../hooks/useFilter";
 import Heading from "./Heading";
 import IconClose from "../../assets/close.inline.svg";
 import IconSearch from "../../assets/search.inline.svg";
+import { IdentityContext } from "../../identity-context";
 
 const SiteNav = () => {
   const data = useStaticQuery(graphql`
@@ -56,9 +56,7 @@ const SiteNav = () => {
     }
   `);
 
-  useEffect(() => {
-    netlifyIdentity.init({});
-  });
+  const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 
   const {
     allStates,
@@ -77,6 +75,7 @@ const SiteNav = () => {
     toggleFilter,
     toggleFilterSection,
   } = useFilter(data);
+
   const pathname =
     typeof window !== "undefined" ? window.location.pathname : "";
 
@@ -117,7 +116,8 @@ const SiteNav = () => {
             onClick={() => {
               netlifyIdentity.open();
             }}>
-            Přihlásit se
+            {(user && user.user_metadata && user.user_metadata.full_name) ||
+              "Přihlásit se"}
           </button>
 
           <button type="button" onClick={toggleFilter} className="site-search">
