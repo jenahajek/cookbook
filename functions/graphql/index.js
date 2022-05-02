@@ -11,8 +11,9 @@ const typeDefs = gql`
     done: Boolean!
   }
   type Mutation {
-      addRecipe(text: String!): Recipe
-      updateRecipe(id: ID!): Recipe
+    addRecipe(text: String!): Recipe
+    updateRecipe(id: ID!): Recipe
+  }
 `;
 // to mutation types i should add code of the response, success field and a message
 
