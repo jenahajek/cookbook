@@ -68,6 +68,7 @@ exports.createPages = async ({ graphql, actions }) => {
               difficulty
               prepTime
               cookingTime
+              cover
               process
               servingTemp
               categories
