@@ -70,9 +70,7 @@ exports.createPages = async ({ graphql, actions }) => {
               cookingTime
               cover {
                 sharp: childImageSharp {
-                  fluid(maxHeight: 2048) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
+                  fluid(maxHeight: 2048) {}
                 }
               }
               process
