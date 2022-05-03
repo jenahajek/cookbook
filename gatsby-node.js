@@ -68,7 +68,13 @@ exports.createPages = async ({ graphql, actions }) => {
               difficulty
               prepTime
               cookingTime
-              cover
+              cover {
+                sharp: childImageSharp {
+                  fluid(maxHeight: 2048) {
+                    ...GatsbyImageSharpFluid_withWebp
+                  }
+                }
+              }
               process
               servingTemp
               categories
