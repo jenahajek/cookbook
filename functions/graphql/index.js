@@ -22,7 +22,12 @@ let recipeIndex = 0;
 // Provide resolver functions for yoru schema fields
 const resolvers = {
   Query: {
-    recipes: () => Object.values(recipes),
+    recipes: (parent, args, { user }) => {
+      if (!user) {
+        return [];
+      }
+      return Object.values(recipes);
+    },
   },
   Mutation: {
     addRecipe: (_, { text }) => {
@@ -41,6 +46,12 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ context }) => {
+    if (context.clientContext.user) {
+      return { user: context.clientContext.user.sub };
+    }
+    return {};
+  },
   playground: true,
   introspection: true,
 });

@@ -8,6 +8,7 @@
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@reduxjs/toolkit": "^1.7.1",
+    "apollo-link-context": "^1.0.20",
     "apollo-server-lambda": "^2.10.0",
     "deepmerge": "^4.2.2",
     "gatsby": "^3.0.1",
