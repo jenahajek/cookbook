@@ -39,6 +39,49 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   }
 };
 
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions;
+  const typeDefs = `
+    type allMdx {
+      edges: [MdxEdge!]!
+    }
+    type edges {
+      node: Mdx!
+    }
+    type node {
+      frontmatter: MdxFrontmatter
+    }
+    type frontmatter {
+      title: String!
+      subtitle: String
+      slug: String
+      version: Int
+      queue: [String]
+      cover: File
+      sourceName: [String]
+      sourceHref: [String]
+      favorite: [String]
+      tried: [String]
+      type: [String]
+      categories: [String]
+      taste: [String]
+      mainIngredience: [String]
+      stock: [String]
+      season: [String]
+      difficulty: [String]
+      prepTime: [String]
+      cookingTime: [String]
+      process: [String]
+      servingTemp: [String]
+      healthiness: [String]
+      geography: [String]
+      price: [String]
+      tags: [String]
+    }
+  `;
+  createTypes(typeDefs);
+};
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const postPage = path.resolve("src/templates/post.jsx");
@@ -59,6 +102,14 @@ exports.createPages = async ({ graphql, actions }) => {
               queue
               sourceName
               sourceHref
+              cover {
+                childImageSharp {
+                  id
+                  fluid {
+                    originalImg
+                  }
+                }
+              }
               type
               tried
               taste
