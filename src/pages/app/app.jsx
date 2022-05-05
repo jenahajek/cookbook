@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { Router } from "@reach/router";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { IdentityContext } from "../../identity-context";
+import { IdentityContext } from "../../../identity-context";
 
 const ADD_RECIPE = gql`
   mutation AddRecipe($text: String!) {
