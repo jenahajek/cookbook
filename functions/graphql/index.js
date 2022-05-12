@@ -19,7 +19,7 @@ const typeDefs = gql`
 
 const recipes = {};
 let recipeIndex = 0;
-// Provide resolver functions for yoru schema fields
+// Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
     recipes: (parent, args, { user }) => {
