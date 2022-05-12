@@ -24,6 +24,7 @@ module.exports = {
   plugins: [
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-lodash",
+    "gatsby-plugin-netlify",
     {
       resolve: "gatsby-plugin-react-svg",
       options: {
