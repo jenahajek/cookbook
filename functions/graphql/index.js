@@ -22,12 +22,11 @@ let recipeIndex = 0;
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    recipes: (parent, args, { user }) => {
-      if (!user) {
-        return [];
-      }
-      return Object.values(recipes);
-    },
+    recipes: (parent, args, { user }) =>
+      // if (!user) {
+      //   return [];
+      // }
+      Object.values(recipes),
   },
   Mutation: {
     addRecipe: (_, { text }) => {
