@@ -65,7 +65,6 @@ const Dash = () => {
     </div>
   );
 };
-
 const App = (props) => (
   <Router>
     <Dash path="/app" />
