@@ -46,7 +46,7 @@ const resolvers = {
   },
   Mutation: {
     addRecipe: async (_, { text, user }) => {
-      console.log(user, "user add");
+      console.log(text, "text", user, "user add");
       // if (!user) {
       //   throw new Error("User needs to be logged in");
       // }
@@ -55,7 +55,7 @@ const resolvers = {
           data: {
             text,
             done: "false",
-            owner: user,
+            owner: "user",
           },
         })
       );
@@ -88,6 +88,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ context }) => {
+    console.log(context, "context!");
     if (context.clientContext.user) {
       return { user: context.clientContext.user.sub };
     }
