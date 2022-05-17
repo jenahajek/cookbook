@@ -15,7 +15,7 @@ const {
 
 const authLink = setContext((_, { headers }) => {
   const user = netlifyIdentity.currentUser();
-  const token = user.token.access_token;
+  const token = user && user.token.access_token;
 
   return {
     headers: {

@@ -1,4 +1,12 @@
 const { ApolloServer, gql } = require("apollo-server-lambda");
+const faunadb = require("faunadb");
+
+const q = faunadb.query;
+
+const client = new faunadb.Client({
+  secret: process.env.FAUNA,
+  domain: "db.eu.fauna.com", // Adjust if you are using Region Groups
+});
 
 // construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -17,27 +25,58 @@ const typeDefs = gql`
 `;
 // to mutation types i should add code of the response, success field and a message
 
-const recipes = {};
-let recipeIndex = 0;
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    recipes: (parent, args, { user }) =>
-      // if (!user) {
-      //   return [];
-      // }
-      Object.values(recipes),
+    recipes: async (parent, args, { user }) => {
+      if (!user) {
+        return [];
+      }
+      const results = await client.query(
+        q.Paginate(q.Match(q.Index("recipes_by_user"), user))
+      );
+      // todo error handling
+      return results.data.map(([ref, text, done]) => ({
+        id: ref.id,
+        text,
+        done,
+      }));
+    },
   },
   Mutation: {
-    addRecipe: (_, { text }) => {
-      recipeIndex++;
-      const id = `key-${recipeIndex}`;
-      recipes[id] = { id, text, done: false };
-      return recipes[id];
+    addRecipe: async (_, { text }, { user }) => {
+      if (!user) {
+        throw new Error("User needs to be logged in");
+      }
+      const results = await client.query(
+        q.Create(q.Collection("recipes"), {
+          data: {
+            text,
+            done: "false",
+            owner: user,
+          },
+        })
+      );
+      return {
+        ...results.data,
+        id: results.ref.id,
+      };
     },
-    updateRecipe: (_, { id }) => {
-      recipes[id].done = true;
-      return recipes[id];
+    updateRecipe: async (_, { id }, { user }) => {
+      if (!user) {
+        throw new Error("User needs to be logged in");
+      }
+      const results = await client.query(
+        q.Update(q.Ref(q.Collection("recipes"), id), {
+          data: {
+            done: "true",
+          },
+        })
+      );
+      return {
+        ...results.data,
+        id: results.ref.id,
+      };
     },
   },
 };

@@ -12,6 +12,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-server-lambda": "^2.10.0",
     "deepmerge": "^4.2.2",
+    "faunadb": "^4.5.4",
     "gatsby": "^3.0.1",
     "gatsby-image": "^3.0.0",
     "gatsby-plugin-catch-links": "^3.0.0",
