@@ -45,7 +45,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addRecipe: async (_, { text }, { user }) => {
+    addRecipe: async (_, { text, user }) => {
       console.log(user, "user add");
       // if (!user) {
       //   throw new Error("User needs to be logged in");
