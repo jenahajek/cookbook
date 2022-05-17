@@ -29,6 +29,7 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     recipes: async (parent, args, { user }) => {
+      console.log("caution", user);
       if (!user) {
         return [];
       }
@@ -45,9 +46,10 @@ const resolvers = {
   },
   Mutation: {
     addRecipe: async (_, { text }, { user }) => {
-      if (!user) {
-        throw new Error("User needs to be logged in");
-      }
+      console.log(user, "user add");
+      // if (!user) {
+      //   throw new Error("User needs to be logged in");
+      // }
       const results = await client.query(
         q.Create(q.Collection("recipes"), {
           data: {
@@ -63,6 +65,7 @@ const resolvers = {
       };
     },
     updateRecipe: async (_, { id }, { user }) => {
+      console.log(user, "user update");
       if (!user) {
         throw new Error("User needs to be logged in");
       }
