@@ -29,7 +29,6 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     recipes: async (parent, args, { user }) => {
-      console.log("caution", user);
       if (!user) {
         return [];
       }
@@ -45,8 +44,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addRecipe: async (_, { text, user }) => {
-      console.log(text, "text", user, "user add");
+    addRecipe: async (_, { text }, { user }) => {
       // if (!user) {
       //   throw new Error("User needs to be logged in");
       // }
@@ -55,7 +53,7 @@ const resolvers = {
           data: {
             text,
             done: "false",
-            owner: "user",
+            owner: user,
           },
         })
       );
@@ -65,7 +63,6 @@ const resolvers = {
       };
     },
     updateRecipe: async (_, { id }, { user }) => {
-      console.log(user, "user update");
       if (!user) {
         throw new Error("User needs to be logged in");
       }
@@ -88,7 +85,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ context }) => {
-    console.log(context, "context!");
     if (context.clientContext.user) {
       return { user: context.clientContext.user.sub };
     }
