@@ -1,5 +1,13 @@
+//  PROBLEM tkvi v predavani contextu a useru do graphql.
+// nevim, jak to debuggovat, mozna zkusit nahradit uri za loaklni?
+
+// import { useContext } from "react";
+// import { IdentityContext } from "../../identity-context";
+
 const { ApolloServer, gql } = require("apollo-server-lambda");
 const faunadb = require("faunadb");
+
+// const { user } = useContext(IdentityContext);
 
 const q = faunadb.query;
 
@@ -17,6 +25,7 @@ const typeDefs = gql`
     id: ID!
     text: String!
     done: Boolean!
+    owner: String!
   }
   type Mutation {
     addRecipe(text: String!): Recipe
@@ -52,7 +61,7 @@ const resolvers = {
         q.Create(q.Collection("recipes"), {
           data: {
             text,
-            done: "false",
+            done: typeof user,
             owner: user,
           },
         })
@@ -88,10 +97,11 @@ const server = new ApolloServer({
     if (context.clientContext.user) {
       return { user: context.clientContext.user.sub };
     }
-    return {};
+    return { user: JSON.stringify(context.clientContext) };
   },
   playground: true,
   introspection: true,
+  // csrfPrevention: true,
 });
 
 exports.handler = server.createHandler({
