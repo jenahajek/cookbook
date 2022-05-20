@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import "./src/styles/global.scss";
 
+import wrapWithProvider from "./wrap-with-provider";
+
 const React = require("react");
 const {
   ApolloProvider,
@@ -10,8 +12,6 @@ const {
 } = require("@apollo/client");
 const { setContext } = require("apollo-link-context");
 const netlifyIdentity = require("netlify-identity-widget");
-
-const wrapWithProvider = require("./wrap-with-provider");
 
 const authLink = setContext((_, { headers }) => {
   const user = netlifyIdentity.currentUser();
