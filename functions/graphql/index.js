@@ -97,7 +97,7 @@ const server = new ApolloServer({
     if (context.clientContext.user) {
       return { user: context.clientContext.user.sub };
     }
-    return { user: context };
+    return { user: JSON.stringify(context) };
   },
   playground: true,
   introspection: true,
