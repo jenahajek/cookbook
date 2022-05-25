@@ -24,7 +24,7 @@ const typeDefs = gql`
   type Recipe {
     id: ID!
     text: String!
-    done: Boolean!
+    # done: Boolean!
     owner: String!
   }
   type Mutation {
@@ -37,10 +37,11 @@ const typeDefs = gql`
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    recipes: async (parent, args, { user }) => {
-      if (!user) {
-        return [];
-      }
+    recipes: async (parent, args, { user = "public" }) => {
+      // if (!user) {
+      //   return "public";
+      // }
+      console.log(user, "user");
       const results = await client.query(
         q.Paginate(q.Match(q.Index("recipes_by_user"), user))
       );
@@ -48,20 +49,20 @@ const resolvers = {
       return results.data.map(([ref, text, done]) => ({
         id: ref.id,
         text,
-        done,
+        // done,
       }));
     },
   },
   Mutation: {
-    addRecipe: async (_, { text }, { user }) => {
+    addRecipe: async (_, { text }, { user = "public" }) => {
       // if (!user) {
-      //   throw new Error("User needs to be logged in");
+      //   // throw new Error("User needs to be logged in");
       // }
       const results = await client.query(
         q.Create(q.Collection("recipes"), {
           data: {
             text,
-            done: typeof user,
+            // done: false,
             owner: user,
           },
         })
@@ -72,13 +73,13 @@ const resolvers = {
       };
     },
     updateRecipe: async (_, { id }, { user }) => {
-      if (!user) {
-        throw new Error("User needs to be logged in");
-      }
+      // if (!user) {
+      //   throw new Error("User needs to be logged in");
+      // }
       const results = await client.query(
         q.Update(q.Ref(q.Collection("recipes"), id), {
           data: {
-            done: "true",
+            text: "true", // instead of text was done
           },
         })
       );
@@ -93,12 +94,11 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ context }) => {
-    if (context.clientContext.user) {
-      return { user: context.clientContext.user.sub };
-    }
-    return { user: JSON.stringify(context) };
-  },
+  context: ({ context }) =>
+    // if (context.clientContext.user) {
+    //   return { user: context.clientContext.user.sub };
+    // }
+    ({ user: "public" }),
   playground: true,
   introspection: true,
   // csrfPrevention: true,
