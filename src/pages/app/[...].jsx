@@ -4,8 +4,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { IdentityContext } from "../../../identity-context";
 
 const ADD_RECIPE = gql`
-  mutation AddRecipe($text: String!) {
-    addRecipe(text: $text) {
+  mutation AddRecipe($title: String!) {
+    addRecipe(title: $title) {
       id
     }
   }
@@ -14,7 +14,7 @@ const ADD_RECIPE = gql`
 const UPDATE_RECIPE = gql`
   mutation UpdateRecipe($id: ID!) {
     updateRecipe(id: $id) {
-      text
+      title
     }
   }
 `;
@@ -23,14 +23,14 @@ const GET_RECIPES = gql`
   query GetRecipes {
     recipes {
       id
-      text
+      title
     }
   }
 `;
 
 const Dash = () => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
-  const inputRef = useRef();
+  const titleInputRef = useRef();
   const [addRecipe] = useMutation(ADD_RECIPE);
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES);
@@ -50,13 +50,15 @@ const Dash = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await addRecipe({ variables: { text: inputRef.current.value } });
-          inputRef.current.value = "";
+          await addRecipe({
+            variables: { title: titleInputRef.current.value },
+          });
+          titleInputRef.current.value = "";
           await refetch();
         }}>
         <label htmlFor="shutuplinter">
-          jmeno
-          <input ref={inputRef} type="text" id="shutuplinter" />
+          Název
+          <input ref={titleInputRef} type="text" id="shutuplinter" />
         </label>
         <button type="submit">Submit</button>
       </form>
@@ -66,7 +68,7 @@ const Dash = () => {
         {!loading &&
           !error &&
           data.recipes.map((recipe) => (
-            <div key={recipe.id}>{recipe.text}</div>
+            <div key={recipe.id}>{recipe.title}</div>
           ))}
       </div>
     </div>
