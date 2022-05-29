@@ -30,7 +30,8 @@ const GET_RECIPES = gql`
 
 const Dash = () => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
-  const titleInputRef = useRef();
+  const titleRef = useRef();
+  const urlRef = useRef();
   const [addRecipe] = useMutation(ADD_RECIPE);
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES);
@@ -51,16 +52,51 @@ const Dash = () => {
         onSubmit={async (e) => {
           e.preventDefault();
           await addRecipe({
-            variables: { title: titleInputRef.current.value },
+            variables: {
+              title: titleRef.current.value,
+              url: urlRef.current.value,
+            },
           });
-          titleInputRef.current.value = "";
+          titleRef.current.value = "";
+          urlRef.current.value = "";
           await refetch();
         }}>
-        <label htmlFor="shutuplinter">
-          Název
-          <input ref={titleInputRef} type="text" id="shutuplinter" />
-        </label>
-        <button type="submit">Submit</button>
+        <div className="input">
+          <label className="label" htmlFor="name">
+            <span className="label__text">Název jídla</span>
+          </label>
+          <input
+            type="text"
+            ref={titleRef}
+            className="input__field"
+            id="name"
+            name="name"
+            placeholder="Lohikeitto"
+          />
+        </div>
+        <div className="input">
+          <label className="label" htmlFor="source-url">
+            <span className="label__text">Webová adresa zdroje</span>
+          </label>
+          <span id="description-source-url" className="label-description">
+            Uveď odkaz, pokud je to recept z internetu.
+          </span>
+          <input
+            type="url"
+            className="input__field"
+            ref={urlRef}
+            id="source-url"
+            name="source-url"
+            placeholder="https://www.kucharkaprodceru.cz/gratinovane-brambory/"
+            aria-describedby="description-source-url"
+            noValidate
+          />
+        </div>
+        <div className="u-mb-md">
+          <button type="submit" className="btn">
+            Uložit recept
+          </button>
+        </div>
       </form>
       <div>
         {loading ? <div>loading...</div> : null}

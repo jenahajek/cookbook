@@ -24,11 +24,12 @@ const typeDefs = gql`
   type Recipe {
     id: ID!
     title: String!
+    url: String
     # done: Boolean!
     owner: String!
   }
   type Mutation {
-    addRecipe(title: String!): Recipe
+    addRecipe(title: String!, url: String): Recipe
     updateRecipe(id: ID!): Recipe
   }
 `;
@@ -45,15 +46,16 @@ const resolvers = {
         q.Paginate(q.Match(q.Index("recipes_by_user_updated"), user))
       );
       // todo error handling
-      return results.data.map(([ref, title, done]) => ({
+      return results.data.map(([ref, title, url, done]) => ({
         id: ref.id,
         title,
+        url,
         // done,
       }));
     },
   },
   Mutation: {
-    addRecipe: async (_, { title }, { user = "public" }) => {
+    addRecipe: async (_, { title, url }, { user = "public" }) => {
       // if (!user) {
       //   // throw new Error("User needs to be logged in");
       // }
@@ -61,6 +63,7 @@ const resolvers = {
         q.Create(q.Collection("recipes"), {
           data: {
             title,
+            url,
             // done: false,
             owner: user,
           },
