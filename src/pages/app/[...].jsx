@@ -4,8 +4,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { IdentityContext } from "../../../identity-context";
 
 const ADD_RECIPE = gql`
-  mutation AddRecipe($title: String!) {
-    addRecipe(title: $title) {
+  mutation AddRecipe($title: String!, $url: String, $subtitle: String) {
+    addRecipe(title: $title, url: $url, subtitle: $subtitle) {
       id
     }
   }
@@ -24,6 +24,8 @@ const GET_RECIPES = gql`
     recipes {
       id
       title
+      subtitle
+      url
     }
   }
 `;
@@ -32,6 +34,7 @@ const Dash = () => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
   const titleRef = useRef();
   const urlRef = useRef();
+  const subtitleRef = useRef();
   const [addRecipe] = useMutation(ADD_RECIPE);
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES);
@@ -54,10 +57,12 @@ const Dash = () => {
           await addRecipe({
             variables: {
               title: titleRef.current.value,
+              subtitle: subtitleRef.current.value,
               url: urlRef.current.value,
             },
           });
           titleRef.current.value = "";
+          subtitleRef.current.value = "";
           urlRef.current.value = "";
           await refetch();
         }}>
@@ -97,6 +102,26 @@ const Dash = () => {
             Uložit recept
           </button>
         </div>
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="subtitle">
+            <span className="label__text">Podnadpis</span>
+          </label>
+          <span id="description-subtitle" className="label-description">
+            Krátce popiš, o co se jedná, hlavně pokud to není jasné z názvu.
+            Podnadpis se zobrazuje ve výpisech.
+          </span>
+          <input
+            type="text"
+            className="input__field"
+            id="subtitle"
+            name="subtitle"
+            ref={subtitleRef}
+            placeholder="Finská lososová polévka"
+            aria-describedby="description-subtitle"
+          />
+        </div>
+        <br />
       </form>
       <div>
         {loading ? <div>loading...</div> : null}
@@ -104,7 +129,9 @@ const Dash = () => {
         {!loading &&
           !error &&
           data.recipes.map((recipe) => (
-            <div key={recipe.id}>{recipe.title}</div>
+            <div key={recipe.id}>
+              {recipe.title} {recipe.url} {recipe.subtitle}
+            </div>
           ))}
       </div>
     </div>
