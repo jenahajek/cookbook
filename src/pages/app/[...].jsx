@@ -4,8 +4,13 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { IdentityContext } from "../../../identity-context";
 
 const ADD_RECIPE = gql`
-  mutation AddRecipe($title: String!, $url: String, $subtitle: String) {
-    addRecipe(title: $title, url: $url, subtitle: $subtitle) {
+  mutation AddRecipe(
+    $title: String!
+    $subtitle: String
+    $url: String
+    $slug: String
+  ) {
+    addRecipe(title: $title, subtitle: $subtitle, url: $url, slug: $slug) {
       id
     }
   }
@@ -26,6 +31,7 @@ const GET_RECIPES = gql`
       title
       subtitle
       url
+      slug
     }
   }
 `;
@@ -35,9 +41,12 @@ const Dash = () => {
   const titleRef = useRef();
   const urlRef = useRef();
   const subtitleRef = useRef();
+
   const [addRecipe] = useMutation(ADD_RECIPE);
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
-  const { loading, error, data, refetch } = useQuery(GET_RECIPES);
+  const { loading, error, data, refetch } = useQuery(GET_RECIPES, {
+    fetchPolicy: "no-cache",
+  });
 
   return (
     <div>
@@ -59,6 +68,7 @@ const Dash = () => {
               title: titleRef.current.value,
               subtitle: subtitleRef.current.value,
               url: urlRef.current.value,
+              slug: "slug",
             },
           });
           titleRef.current.value = "";
