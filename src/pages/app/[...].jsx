@@ -9,8 +9,15 @@ const ADD_RECIPE = gql`
     $subtitle: String
     $url: String
     $slug: String
+    $cover: String
   ) {
-    addRecipe(title: $title, subtitle: $subtitle, url: $url, slug: $slug) {
+    addRecipe(
+      title: $title
+      subtitle: $subtitle
+      url: $url
+      slug: $slug
+      cover: $cover
+    ) {
       id
     }
   }
@@ -32,6 +39,7 @@ const GET_RECIPES = gql`
       subtitle
       url
       slug
+      cover
     }
   }
 `;
@@ -61,14 +69,40 @@ const Dash = () => {
           "Přihlásit se"}
       </button>
       <form
+        method="post"
+        encType="multipart/form-data"
+        className="input-form"
         onSubmit={async (e) => {
           e.preventDefault();
+
+          const url =
+            "https://api.cloudinary.com/v1_1/cookbookjenahajek/upload";
+
+          const { files } = document.querySelector("[type=file]");
+          const formData = new FormData();
+          let coverUrl = "";
+
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            formData.append("file", file);
+            formData.append("upload_preset", "upload_from_browser");
+
+            fetch(url, {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.text())
+              .then((data) => {
+                coverUrl = data.url;
+              });
+          }
+
           await addRecipe({
             variables: {
               title: titleRef.current.value,
               subtitle: subtitleRef.current.value,
               url: urlRef.current.value,
-              slug: "slug",
+              cover: coverUrl,
             },
           });
           titleRef.current.value = "";

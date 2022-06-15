@@ -27,6 +27,7 @@ const typeDefs = gql`
     subtitle: String
     url: String
     slug: String
+    cover: String
     owner: String!
   }
   type Mutation {
@@ -35,6 +36,7 @@ const typeDefs = gql`
       subtitle: String
       url: String
       slug: String
+      cover: String
     ): Recipe
     updateRecipe(id: ID!): Recipe
   }
@@ -52,19 +54,20 @@ const resolvers = {
         q.Paginate(q.Match(q.Index("recipes_by_user_updated"), user))
       );
       // todo error handling
-      return results.data.map(([ref, title, subtitle, url, slug]) => ({
+      return results.data.map(([ref, title, subtitle, url, slug, cover]) => ({
         id: ref.id,
         title,
         subtitle,
         url,
         slug,
+        cover,
       }));
     },
   },
   Mutation: {
     addRecipe: async (
       _,
-      { title, subtitle, url, slug },
+      { title, subtitle, url, slug, cover },
       { user = "public" }
     ) => {
       // if (!user) {
@@ -77,6 +80,7 @@ const resolvers = {
             subtitle,
             url,
             slug,
+            cover,
             owner: user,
           },
         })
