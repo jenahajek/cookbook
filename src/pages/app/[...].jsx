@@ -60,6 +60,12 @@ const Dash = () => {
     fetchPolicy: "no-cache",
   });
 
+  const slugify = (input) =>
+    input
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
   return (
     <div>
       Dash {user && user.user_metadata.full_name}
@@ -84,28 +90,29 @@ const Dash = () => {
 
           const { files } = document.querySelector("[type=file]");
           const formData = new FormData();
-          let coverUrl = "";
 
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            formData.append("file", file);
-            formData.append("upload_preset", "upload_from_browser");
+          const file = files[0];
+          formData.append("file", file);
+          formData.append("upload_preset", "upload_from_browser");
 
-            fetch(url, {
+          async function getCoverImageUrl() {
+            const response = await fetch(url, {
               method: "POST",
               body: formData,
-            })
-              .then((response) => response.text())
-              .then((data) => {
-                coverUrl = data.url;
-              });
+            });
+
+            const responseObject = await response.json();
+            return responseObject.url;
           }
+
+          const coverUrl = await getCoverImageUrl();
 
           await addRecipe({
             variables: {
               title: titleRef.current.value,
               subtitle: subtitleRef.current.value,
               url: urlRef.current.value,
+              slug: slugify(titleRef.current.value),
               cover: coverUrl,
               content: contentRef.current.value,
             },
@@ -122,6 +129,7 @@ const Dash = () => {
           </label>
           <input
             type="text"
+            required
             ref={titleRef}
             className="input__field"
             id="name"
@@ -129,6 +137,13 @@ const Dash = () => {
             placeholder="Lohikeitto"
           />
         </div>
+        {/* <div class="input">
+					<label class="label" for="source-name">
+						<span class="label__text">Název zdroje</span>
+					</label>
+					<input type="text" class="input__field" id="source-name" name="source-name" placeholder="Kuchařka pro dceru" />
+				</div> */}
+
         <div className="input">
           <label className="label" htmlFor="source-url">
             <span className="label__text">Webová adresa zdroje</span>
@@ -147,11 +162,13 @@ const Dash = () => {
             noValidate
           />
         </div>
-        <div className="u-mb-md">
+
+        <div>
           <button type="submit" className="btn">
             Uložit recept
           </button>
         </div>
+
         <br />
         <div className="input">
           <label className="label" htmlFor="subtitle">
@@ -191,6 +208,13 @@ const Dash = () => {
           />
         </div>
         <br />
+        <input type="file" name="files[]" multiple id="cover-upload" />
+
+        <div>
+          <button type="submit" className="btn">
+            Uložit recept
+          </button>
+        </div>
       </form>
       <div>
         {loading ? <div>loading...</div> : null}
@@ -199,7 +223,13 @@ const Dash = () => {
           !error &&
           data.recipes.map((recipe) => (
             <div key={recipe.id}>
-              {recipe.title} {recipe.url} {recipe.subtitle}
+              <p>title: {recipe.title}</p>
+              <p>subtitle:{recipe.subtitle}</p>
+              <p>url:{recipe.url}</p>
+              <p>slug:{recipe.slug}</p>
+              <p>content:{recipe.content}</p>
+              <img src={recipe.cover} alt="" />
+              <hr />
             </div>
           ))}
       </div>

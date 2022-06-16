@@ -714,3 +714,59 @@ input {
   margin-left: auto;
   margin-right: 1rem;
 }
+
+.btn {
+  background-color: dodgerblue;
+  border: 1px solid dodgerblue;
+  color: white;
+  border-radius: 5px;
+  padding: 0 0.8em;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+}
+
+.label-description {
+  display: block;
+}
+
+.input {
+  margin-bottom: 1em;
+}
+
+.input-form {
+  max-width: 65em;
+  padding: 1rem;
+  margin: 0 auto;
+}
+.input__textarea {
+  display: block;
+  width: 100%;
+}
+
+#dropbox {
+  border: 4px dashed #ccc;
+  padding-left: 8px;
+  // .my-form {
+  //   margin-top: 10px;
+  // }
+  .gallery {
+    margin: 10px;
+  }
+  .gallery img {
+    margin-left: 16px;
+  }
+  .progress-bar {
+    width: 200px;
+    position: relative;
+    height: 8px;
+    margin-top: 4px;
+  }
+  .progress-bar .progress {
+    height: 8px;
+    background-color: #f00;
+    width: 0;
+  }
+}
