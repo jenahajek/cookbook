@@ -10,6 +10,7 @@ const ADD_RECIPE = gql`
     $url: String
     $slug: String
     $cover: String
+    $content: String
   ) {
     addRecipe(
       title: $title
@@ -17,6 +18,7 @@ const ADD_RECIPE = gql`
       url: $url
       slug: $slug
       cover: $cover
+      content: $content
     ) {
       id
     }
@@ -40,6 +42,7 @@ const GET_RECIPES = gql`
       url
       slug
       cover
+      content
     }
   }
 `;
@@ -49,6 +52,7 @@ const Dash = () => {
   const titleRef = useRef();
   const urlRef = useRef();
   const subtitleRef = useRef();
+  const contentRef = useRef();
 
   const [addRecipe] = useMutation(ADD_RECIPE);
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
@@ -103,11 +107,13 @@ const Dash = () => {
               subtitle: subtitleRef.current.value,
               url: urlRef.current.value,
               cover: coverUrl,
+              content: contentRef.current.value,
             },
           });
           titleRef.current.value = "";
           subtitleRef.current.value = "";
           urlRef.current.value = "";
+          contentRef.current.value = "";
           await refetch();
         }}>
         <div className="input">
@@ -163,6 +169,25 @@ const Dash = () => {
             ref={subtitleRef}
             placeholder="Finská lososová polévka"
             aria-describedby="description-subtitle"
+          />
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="content">
+            <span className="label__text">Obsah</span>
+          </label>
+          <span id="description-content" className="label-description">
+            Krátce popiš, o co se jedná, hlavně pokud to není jasné z názvu.
+            Podnadpis se zobrazuje ve výpisech.
+          </span>
+          <textarea
+            type="text"
+            className="input__field"
+            id="content"
+            name="content"
+            ref={contentRef}
+            aria-describedby="description-content"
           />
         </div>
         <br />
