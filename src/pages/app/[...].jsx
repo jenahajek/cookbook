@@ -2,6 +2,8 @@ import React, { useContext, useRef } from "react";
 import { Router } from "@reach/router";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { IdentityContext } from "../../../identity-context";
+import RecipeThumbnail from "../../components/RecipeThumbnail";
+import Heading from "../../components/Heading";
 
 const ADD_RECIPE = gql`
   mutation AddRecipe(
@@ -67,7 +69,7 @@ const Dash = () => {
       .replace(/[\u0300-\u036f]/g, "");
 
   return (
-    <div>
+    <div className="container">
       Dash {user && user.user_metadata.full_name}
       <button
         className="site-login"
@@ -102,7 +104,7 @@ const Dash = () => {
             });
 
             const responseObject = await response.json();
-            return responseObject.url;
+            return responseObject.public_id;
           }
 
           const coverUrl = await getCoverImageUrl();
@@ -117,10 +119,7 @@ const Dash = () => {
               content: contentRef.current.value,
             },
           });
-          titleRef.current.value = "";
-          subtitleRef.current.value = "";
-          urlRef.current.value = "";
-          contentRef.current.value = "";
+          e.target.reset();
           await refetch();
         }}>
         <div className="input">
@@ -219,19 +218,30 @@ const Dash = () => {
       <div>
         {loading ? <div>loading...</div> : null}
         {error ? <div>error: {error.message}</div> : null}
-        {!loading &&
-          !error &&
-          data.recipes.map((recipe) => (
-            <div key={recipe.id}>
+        <Heading level="2" className="layout-group__subtitle">
+          Posledně přidané
+        </Heading>
+        <div className="category__wrapper">
+          <div className="category__group">
+            <div className="category__items">
+              {!loading &&
+                !error &&
+                data.recipes.slice(-3).map((recipe) => (
+                  <div key={recipe.id}>
+                    {/*
               <p>title: {recipe.title}</p>
               <p>subtitle:{recipe.subtitle}</p>
               <p>url:{recipe.url}</p>
               <p>slug:{recipe.slug}</p>
               <p>content:{recipe.content}</p>
               <img src={recipe.cover} alt="" />
-              <hr />
+              <hr /> */}
+                    <RecipeThumbnail recipe={recipe} />
+                  </div>
+                ))}
             </div>
-          ))}
+          </div>
+        </div>
       </div>
     </div>
   );
