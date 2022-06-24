@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { IdentityContext } from "../../../../identity-context";
-import RecipeThumbnail from "../../../components/RecipeThumbnail";
-import Heading from "../../../components/Heading";
+import { IdentityContext } from "../../identity-context";
+import RecipeThumbnail from "./RecipeThumbnail";
+import Heading from "./Heading";
 
 const GET_RECIPES = gql`
   query GetRecipes {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Router } from "@reach/router";
-import AddRecipe from "./components/AddRecipe";
-import ListRecipes from "./components/ListRecipes";
+import AddRecipe from "../../components/AddRecipe";
+import ListRecipes from "../../components/ListRecipes";
 
 const App = () => (
   <Router basepath="/app">
