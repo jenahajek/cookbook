@@ -37,7 +37,7 @@ const ListRecipe = () => {
         {(user && user.user_metadata && user.user_metadata.full_name) ||
           "Přihlásit se"}
       </button>
-      <a href="./pridej-recept">Přidat recept</a>
+      <a href="./app/pridej-recept">Přidat recept</a>
       <Heading level="2" className="layout-group__title">
         Oblíbené z databaze
       </Heading>

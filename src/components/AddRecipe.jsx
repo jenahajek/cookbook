@@ -79,7 +79,7 @@ const AddRecipe = () => {
         {(user && user.user_metadata && user.user_metadata.full_name) ||
           "Přihlásit se"}
       </button>
-      <a href="./">Výpis receptů</a>
+      <a href="./app/">Výpis receptů</a>
       <form
         method="post"
         encType="multipart/form-data"
@@ -87,7 +87,7 @@ const AddRecipe = () => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
+          const url = `https://api.cloudinary.com/v1_1/cookbookjenahajek/upload`;
 
           const { files } = document.querySelector("[type=file]");
           const formData = new FormData();
