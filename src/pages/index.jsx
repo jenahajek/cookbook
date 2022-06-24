@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
-import { gql, useQuery } from "@apollo/client";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import BookThumbnail from "../components/BookThumbnail";
@@ -9,39 +8,11 @@ import useFilter from "../hooks/useFilter";
 import Heading from "../components/Heading";
 import IconArrowRight from "../../assets/arrow-right.inline.svg";
 import BookCoverFallback from "../components/BookCoverFallback";
-import { IdentityContext } from "../../identity-context";
-import RecipeThumbnail from "../components/RecipeThumbnail";
 
 const _ = require("lodash");
 
-const GET_RECIPES = gql`
-  query GetRecipes {
-    recipes {
-      id
-      title
-      subtitle
-      url
-      slug
-      cover
-      content
-    }
-  }
-`;
-
-const Index = ({ data: inputData }) => {
-  const { user, identity: netlifyIdentity } = useContext(IdentityContext);
-
-  const { loading, error, data: dbData } = useQuery(GET_RECIPES, {
-    fetchPolicy: "no-cache",
-  });
-
-  const {
-    // readingList,
-    // lastReadList,
-    // wishList,
-    // garbageList,
-    postEdges,
-  } = useFilter(inputData);
+const Index = ({ data }) => {
+  const { postEdges } = useFilter(data);
 
   const favoriteRecipes = postEdges.filter(
     (post) => post.node.frontmatter.favorite[0] === "ano"
@@ -90,42 +61,10 @@ const Index = ({ data: inputData }) => {
               </div>
             </div>
           </div>
-          {/* <div className="intro__img">
-            <StaticImage src="../../assets/FullSizeRender.jpeg" alt=" " />
-          </div> */}
         </div>
 
-        {/* <section className="layout-group">
-          <Heading level="2" className="layout-group__title">
-            Aktuálně rozečtené
-          </Heading>
-          {readingList.map(({ node: post }) => (
-            <BookThumbnail post={post} />
-          ))}
-        </section> */}
         <div className="container">
           <section className="layout-group">
-            <Heading level="2" className="layout-group__title">
-              Oblíbené z databaze
-            </Heading>
-            <div>
-              {loading ? <div>loading...</div> : null}
-              {error ? <div>error: {error.message}</div> : null}
-              <div className="category__wrapper">
-                <div className="category__group">
-                  <div className="category__items">
-                    {!loading &&
-                      !error &&
-                      dbData.recipes.slice(-5).map((recipe) => (
-                        <div key={recipe.id}>
-                          <RecipeThumbnail recipe={recipe} />
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <Heading level="2" className="layout-group__title">
               Oblíbené
             </Heading>
