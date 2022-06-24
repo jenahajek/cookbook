@@ -87,8 +87,7 @@ const Dash = () => {
         onSubmit={async (e) => {
           e.preventDefault();
 
-          const url =
-            "https://api.cloudinary.com/v1_1/cookbookjenahajek/upload";
+          const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
 
           const { files } = document.querySelector("[type=file]");
           const formData = new FormData();
