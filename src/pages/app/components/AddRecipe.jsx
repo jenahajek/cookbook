@@ -1,8 +1,8 @@
 import React, { useContext, useRef } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { IdentityContext } from "../../../identity-context";
-import RecipeThumbnail from "../../components/RecipeThumbnail";
-import Heading from "../../components/Heading";
+import { IdentityContext } from "../../../../identity-context";
+import RecipeThumbnail from "../../../components/RecipeThumbnail";
+import Heading from "../../../components/Heading";
 
 const ADD_RECIPE = gql`
   mutation AddRecipe(
