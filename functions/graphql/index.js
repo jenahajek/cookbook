@@ -40,7 +40,15 @@ const typeDefs = gql`
       cover: String
       content: String
     ): Recipe
-    updateRecipe(id: ID!): Recipe
+    updateRecipe(
+      id: ID!
+      title: String
+      subtitle: String
+      url: String
+      slug: String
+      cover: String
+      content: String
+    ): Recipe
   }
 `;
 // to mutation types i should add code of the response, success field and a message
@@ -96,14 +104,24 @@ const resolvers = {
         id: results.ref.id,
       };
     },
-    updateRecipe: async (_, { id }, { user }) => {
+    updateRecipe: async (
+      _,
+      { id, title, subtitle, url, slug, cover, content },
+      { user }
+    ) => {
       // if (!user) {
       //   throw new Error("User needs to be logged in");
       // }
       const results = await client.query(
         q.Update(q.Ref(q.Collection("recipes"), id), {
           data: {
-            title: "true", // instead of title was done
+            title,
+            subtitle,
+            url,
+            slug,
+            cover,
+            content,
+            owner: user,
           },
         })
       );

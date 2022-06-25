@@ -79,7 +79,7 @@ const AddRecipe = () => {
         {(user && user.user_metadata && user.user_metadata.full_name) ||
           "Přihlásit se"}
       </button>
-      <a href="./app/">Výpis receptů</a>
+      <a href="/app/">Výpis receptů</a>
       <form
         method="post"
         encType="multipart/form-data"

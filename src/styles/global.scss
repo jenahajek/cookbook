@@ -770,3 +770,12 @@ input {
     width: 0;
   }
 }
+.recipe-table {
+  min-width: 100%;
+
+  &__cover {
+    min-width: 150px;
+    width: 150px;
+    max-width: 150px;
+  }
+}
