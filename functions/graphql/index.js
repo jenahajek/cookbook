@@ -107,7 +107,7 @@ const resolvers = {
     updateRecipe: async (
       _,
       { id, title, subtitle, url, slug, cover, content },
-      { user }
+      { user = "public" }
     ) => {
       // if (!user) {
       //   throw new Error("User needs to be logged in");
@@ -125,6 +125,7 @@ const resolvers = {
           },
         })
       );
+      console.log(results, "results from grapqhl query");
       return {
         ...results.data,
         id: results.ref.id,

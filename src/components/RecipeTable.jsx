@@ -24,6 +24,7 @@ const UPDATE_RECIPE = gql`
       cover: $cover
       content: $content
     ) {
+      id
       title
       subtitle
       url
@@ -65,20 +66,35 @@ const RecipeTable = ({ recipes }) => {
         // const coverUrl = await getCoverImageUrl();
 
         // console.log(coverUrl);
+        console.log("neco se deje");
+
+        // updateRecipe(
+        //   id: 335377518750073030
+        //   title: "-----------------------------------novy title"
+        // ) {
+        //   title
+        // }
 
         await updateRecipe({
           variables: {
-            //   title: titleRef.current.value,
-            //   subtitle: subtitleRef.current.value,
-            //   url: urlRef.current.value,
-            //   slug: slugify(titleRef.current.value),
             id: 335377518750073030,
+            subtitle: "subtitleRef.current.value",
+            url: "urlRef.current.value",
+            slug: "slugify(titleRef.current.value)",
             title: "ENDLICH!",
-            // cover: coverUrl,
-            //   content: contentRef.current.value,
+            cover: "coverUrl",
+            content: "contentRef.current.value",
           },
         });
 
+        // await updateRecipe({
+        //   variables: {
+        //     id: 335377518750073030,
+        //     title: "------------------x---x------------novy title",
+        //   },
+        // });
+
+        alert("done");
         e.target.reset();
         // await refetch();
       }}>
@@ -126,10 +142,6 @@ const RecipeTable = ({ recipes }) => {
             ))
           : "-"}
       </table>
-
-      <button type="submit" className="btn">
-        Uložit recept
-      </button>
     </form>
   );
 };
