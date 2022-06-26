@@ -6,9 +6,30 @@ import Heading from "./Heading";
 import CloudinaryImage from "./CloudinaryImage";
 
 const UPDATE_RECIPE = gql`
-  mutation UpdateRecipe($id: ID!) {
-    updateRecipe(id: $id) {
+  mutation UpdateRecipe(
+    $id: ID!
+    $title: String
+    $subtitle: String
+    $url: String
+    $slug: String
+    $cover: String
+    $content: String
+  ) {
+    updateRecipe(
+      id: $id
+      title: $title
+      subtitle: $subtitle
+      url: $url
+      slug: $slug
+      cover: $cover
+      content: $content
+    ) {
       title
+      subtitle
+      url
+      slug
+      cover
+      content
     }
   }
 `;
@@ -51,9 +72,9 @@ const RecipeTable = ({ recipes }) => {
             //   subtitle: subtitleRef.current.value,
             //   url: urlRef.current.value,
             //   slug: slugify(titleRef.current.value),
-            id: 335385332310606022,
+            id: 335377518750073030,
+            title: "ENDLICH!",
             // cover: coverUrl,
-            title: "novy title",
             //   content: contentRef.current.value,
           },
         });
@@ -61,6 +82,9 @@ const RecipeTable = ({ recipes }) => {
         e.target.reset();
         // await refetch();
       }}>
+      <button type="submit" className="btn">
+        Uložit recept
+      </button>
       <table className="recipe-table">
         <tr>
           <th>ID</th>

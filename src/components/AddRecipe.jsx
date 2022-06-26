@@ -26,14 +26,6 @@ const ADD_RECIPE = gql`
   }
 `;
 
-const UPDATE_RECIPE = gql`
-  mutation UpdateRecipe($id: ID!) {
-    updateRecipe(id: $id) {
-      title
-    }
-  }
-`;
-
 const GET_RECIPES = gql`
   query GetRecipes {
     recipes {
@@ -56,7 +48,6 @@ const AddRecipe = () => {
   const contentRef = useRef();
 
   const [addRecipe] = useMutation(ADD_RECIPE);
-  const [updateRecipe] = useMutation(UPDATE_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES, {
     fetchPolicy: "no-cache",
   });
