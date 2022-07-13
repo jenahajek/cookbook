@@ -770,12 +770,23 @@ input {
     width: 0;
   }
 }
+.recipe-table-form {
+  overflow-x: scroll;
+}
 .recipe-table {
   min-width: 100%;
+  max-width: 100%;
 
   &__cover {
     min-width: 150px;
     width: 150px;
     max-width: 150px;
   }
+}
+
+input[readonly] {
+  color: #333;
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
 }

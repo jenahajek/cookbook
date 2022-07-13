@@ -125,7 +125,6 @@ const resolvers = {
           },
         })
       );
-      console.log(results, "results from grapqhl query");
       return {
         ...results.data,
         id: results.ref.id,

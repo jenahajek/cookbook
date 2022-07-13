@@ -56,7 +56,8 @@ const AddRecipe = () => {
     input
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ +/g, "-");
 
   return (
     <div className="container">

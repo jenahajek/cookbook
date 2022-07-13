@@ -26,7 +26,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "https://kucharka.jenahajek.com/.netlify/functions/graphql",
+  uri: "/.netlify/functions/graphql",
 });
 
 const client = new ApolloClient({
