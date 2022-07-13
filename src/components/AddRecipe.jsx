@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { formatISO } from "date-fns";
 import { IdentityContext } from "../../identity-context";
 import RecipeThumbnail from "./RecipeThumbnail";
 import Heading from "./Heading";
@@ -12,6 +13,7 @@ const ADD_RECIPE = gql`
     $slug: String
     $cover: String
     $content: String
+    $dateAdded: String!
   ) {
     addRecipe(
       title: $title
@@ -20,6 +22,7 @@ const ADD_RECIPE = gql`
       slug: $slug
       cover: $cover
       content: $content
+      dateAdded: $dateAdded
     ) {
       id
     }
@@ -108,6 +111,7 @@ const AddRecipe = () => {
               slug: slugify(titleRef.current.value),
               cover: coverUrl,
               content: contentRef.current.value,
+              dateAdded: formatISO(new Date()),
             },
           });
           e.target.reset();

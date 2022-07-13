@@ -30,6 +30,7 @@ const typeDefs = gql`
     cover: String
     content: String
     owner: String!
+    dateAdded: String!
   }
   type Mutation {
     addRecipe(
@@ -39,6 +40,7 @@ const typeDefs = gql`
       slug: String
       cover: String
       content: String
+      dateAdded: String!
     ): Recipe
     updateRecipe(
       id: ID!
@@ -65,7 +67,7 @@ const resolvers = {
       );
       // todo error handling
       return results.data.map(
-        ([ref, title, subtitle, url, slug, cover, content]) => ({
+        ([ref, title, subtitle, url, slug, cover, content, dateAdded]) => ({
           id: ref.id,
           title,
           subtitle,
@@ -73,6 +75,7 @@ const resolvers = {
           slug,
           cover,
           content,
+          dateAdded,
         })
       );
     },
@@ -80,7 +83,7 @@ const resolvers = {
   Mutation: {
     addRecipe: async (
       _,
-      { title, subtitle, url, slug, cover, content },
+      { title, subtitle, url, slug, cover, content, dateAdded },
       { user = "public" }
     ) => {
       // if (!user) {
@@ -95,6 +98,7 @@ const resolvers = {
             slug,
             cover,
             content,
+            dateAdded,
             owner: user,
           },
         })
