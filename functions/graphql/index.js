@@ -25,7 +25,8 @@ const typeDefs = gql`
     id: ID!
     title: String!
     subtitle: String
-    url: String
+    sourceUrl: String
+    sourceName: String
     slug: String
     cover: String
     content: String
@@ -39,7 +40,8 @@ const typeDefs = gql`
     addRecipe(
       title: String!
       subtitle: String
-      url: String
+      sourceUrl: String
+      sourceName: String
       slug: String
       cover: String
       content: String
@@ -52,7 +54,8 @@ const typeDefs = gql`
       id: ID!
       title: String
       subtitle: String
-      url: String
+      sourceUrl: String
+      sourceName: String
       slug: String
       cover: String
       content: String
@@ -80,7 +83,8 @@ const resolvers = {
           ref,
           title,
           subtitle,
-          url,
+          sourceUrl,
+          sourceName,
           slug,
           cover,
           content,
@@ -92,7 +96,8 @@ const resolvers = {
           id: ref.id,
           title,
           subtitle,
-          url,
+          sourceUrl,
+          sourceName,
           slug,
           cover,
           content,
@@ -110,7 +115,8 @@ const resolvers = {
       {
         title,
         subtitle,
-        url,
+        sourceUrl,
+        sourceName,
         slug,
         cover,
         content,
@@ -129,7 +135,8 @@ const resolvers = {
           data: {
             title,
             subtitle,
-            url,
+            sourceUrl,
+            sourceName,
             slug,
             cover,
             content,
@@ -152,7 +159,8 @@ const resolvers = {
         id,
         title,
         subtitle,
-        url,
+        sourceUrl,
+        sourceName,
         slug,
         cover,
         content,
@@ -170,7 +178,8 @@ const resolvers = {
           data: {
             title,
             subtitle,
-            url,
+            sourceUrl,
+            sourceName,
             slug,
             cover,
             content,

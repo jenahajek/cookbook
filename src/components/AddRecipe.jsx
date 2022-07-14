@@ -9,7 +9,8 @@ const ADD_RECIPE = gql`
   mutation AddRecipe(
     $title: String!
     $subtitle: String
-    $url: String
+    $sourceUrl: String
+    $sourceName: String
     $slug: String
     $cover: String
     $content: String
@@ -21,7 +22,8 @@ const ADD_RECIPE = gql`
     addRecipe(
       title: $title
       subtitle: $subtitle
-      url: $url
+      sourceUrl: $sourceUrl
+      sourceName: $sourceName
       slug: $slug
       cover: $cover
       content: $content
@@ -41,7 +43,8 @@ const GET_RECIPES = gql`
       id
       title
       subtitle
-      url
+      sourceUrl
+      sourceName
       slug
       cover
       content
@@ -55,7 +58,8 @@ const GET_RECIPES = gql`
 const AddRecipe = () => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
   const titleRef = useRef();
-  const urlRef = useRef();
+  const sourceUrlRef = useRef();
+  const sourceNameRef = useRef();
   const subtitleRef = useRef();
   const contentRef = useRef();
   const wishlistRef = useRef();
@@ -119,10 +123,14 @@ const AddRecipe = () => {
             variables: {
               title: titleRef.current.value,
               subtitle: subtitleRef.current.value,
-              url: urlRef.current.value,
+              sourceUrl: sourceUrlRef.current.value,
+              sourceName: sourceNameRef.current.value,
               slug: slugify(titleRef.current.value),
               cover: coverUrl,
               content: contentRef.current.value,
+              wishlist: wishlistRef.current.checked,
+              queue: queueRef.current.checked,
+              favorite: favoriteRef.current.checked,
               dateAdded: formatISO(new Date()),
             },
           });
@@ -160,11 +168,30 @@ const AddRecipe = () => {
           <input
             type="url"
             className="input__field"
-            ref={urlRef}
+            ref={sourceUrlRef}
             id="source-url"
             name="source-url"
             placeholder="https://www.kucharkaprodceru.cz/gratinovane-brambory/"
             aria-describedby="description-source-url"
+            noValidate
+          />
+        </div>
+
+        <div className="input">
+          <label className="label" htmlFor="source-name">
+            <span className="label__text">Jméno zdroje</span>
+          </label>
+          <span id="description-source-name" className="label-description">
+            Jméno pro hezčí odkazy
+          </span>
+          <input
+            type="text"
+            className="input__field"
+            ref={sourceNameRef}
+            id="source-name"
+            name="source-name"
+            placeholder="Kuchařka pro dceru"
+            aria-describedby="description-source-name"
             noValidate
           />
         </div>

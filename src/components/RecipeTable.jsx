@@ -10,7 +10,8 @@ const UPDATE_RECIPE = gql`
     $id: ID!
     $title: String
     $subtitle: String
-    $url: String
+    $sourceUrl: String
+    $sourceName: String
     $slug: String
     $cover: String
     $content: String
@@ -22,7 +23,8 @@ const UPDATE_RECIPE = gql`
       id: $id
       title: $title
       subtitle: $subtitle
-      url: $url
+      sourceUrl: $sourceUrl
+      sourceName: $sourceName
       slug: $slug
       cover: $cover
       content: $content
@@ -33,7 +35,8 @@ const UPDATE_RECIPE = gql`
       id
       title
       subtitle
-      url
+      sourceUrl
+      sourceName
       slug
       cover
       content
@@ -51,7 +54,8 @@ const GET_RECIPES = gql`
       id
       title
       subtitle
-      url
+      sourceUrl
+      sourceName
       slug
       cover
       content
@@ -111,20 +115,24 @@ const RecipeTable = () => {
             const editedRows = allRows.slice(1);
 
             editedRows.forEach(async (row) => {
-              const coverUrl =
-                row.querySelector("td:nth-child(2) input").value || null;
-
               await updateRecipe({
                 variables: {
                   id: row.id,
-                  title: row.querySelector("td:nth-child(5) input").value,
-                  subtitle: row.querySelector("td:nth-child(6) input").value,
-                  url: row.querySelector("td:nth-child(4) input").value,
-                  slug: row.querySelector("td:nth-child(3) input").value,
-                  cover: coverUrl,
-                  wishlist: row.querySelector("td:nth-child(7) input").value,
-                  queue: row.querySelector("td:nth-child(8) input").value,
-                  favorite: row.querySelector("td:nth-child(9) input").value,
+                  title: row.querySelector("input[data-type='title']").value,
+                  subtitle: row.querySelector("input[data-type='subtitle']")
+                    .value,
+                  sourceUrl: row.querySelector("input[data-type='sourceUrl']")
+                    .value,
+                  sourceName: row.querySelector("input[data-type='sourceName']")
+                    .value,
+                  slug: row.querySelector("input[data-type='slug']").value,
+                  cover:
+                    row.querySelector("input[data-type='cover']").value || null,
+                  wishlist: row.querySelector("input[data-type='wishlist']")
+                    .checked,
+                  queue: row.querySelector("input[data-type='queue']").checked,
+                  favorite: row.querySelector("input[data-type='favorite']")
+                    .checked,
                 },
               });
             });
@@ -140,7 +148,8 @@ const RecipeTable = () => {
               <th>cover</th>
               <th>cover url</th>
               <th>slug</th>
-              <th>url zdroj</th>
+              <th>source url</th>
+              <th>source name</th>
               <th>title</th>
               <th>subtitle</th>
               <th>wishlist</th>
@@ -171,31 +180,61 @@ const RecipeTable = () => {
                       <td>
                         <label>
                           cover
-                          <input type="text" defaultValue={recipe.cover} />
+                          <input
+                            type="text"
+                            defaultValue={recipe.cover}
+                            data-type="cover"
+                          />
                         </label>
                       </td>
                       <td>
                         <label>
                           slug
-                          <input type="text" defaultValue={recipe.slug} />
+                          <input
+                            type="text"
+                            defaultValue={recipe.slug}
+                            data-type="slug"
+                          />
                         </label>
                       </td>
                       <td>
                         <label>
-                          url
-                          <input type="text" defaultValue={recipe.url} />
+                          source url
+                          <input
+                            type="text"
+                            defaultValue={recipe.sourceUrl}
+                            data-type="sourceUrl"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          source name
+                          <input
+                            type="text"
+                            defaultValue={recipe.sourceName}
+                            data-type="sourceName"
+                          />
                         </label>
                       </td>
                       <td>
                         <label>
                           title
-                          <input type="text" defaultValue={recipe.title} />
+                          <input
+                            type="text"
+                            defaultValue={recipe.title}
+                            data-type="title"
+                          />
                         </label>
                       </td>
                       <td>
                         <label>
                           subtitle
-                          <input type="text" defaultValue={recipe.subtitle} />
+                          <input
+                            type="text"
+                            defaultValue={recipe.subtitle}
+                            data-type="subtitle"
+                          />
                         </label>
                       </td>
                       <td>
@@ -203,14 +242,19 @@ const RecipeTable = () => {
                           wishlist
                           <input
                             type="checkbox"
-                            defaultValue={recipe.wishlist}
+                            defaultChecked={recipe.wishlist}
+                            data-type="wishlist"
                           />
                         </label>
                       </td>
                       <td>
                         <label>
                           queue
-                          <input type="checkbox" defaultValue={recipe.queue} />
+                          <input
+                            type="checkbox"
+                            defaultChecked={recipe.queue}
+                            data-type="queue"
+                          />
                         </label>
                       </td>
                       <td>
@@ -218,7 +262,8 @@ const RecipeTable = () => {
                           favorite
                           <input
                             type="checkbox"
-                            defaultValue={recipe.favorite}
+                            defaultChecked={recipe.favorite}
+                            data-type="favorite"
                           />
                         </label>
                       </td>
