@@ -35,6 +35,21 @@ const typeDefs = gql`
     wishlist: Boolean
     queue: Boolean
     favorite: Boolean
+    type: [String]
+    categories: [String]
+    taste: [String]
+    mainIngredience: [String]
+    ingrediences: [String]
+    stock: [String]
+    season: [String]
+    difficulty: [String]
+    ingredientsPrepTime: [String]
+    prepTime: [String]
+    cookingTime: [String]
+    process: [String]
+    servingTemp: [String]
+    cuisine: [String]
+    price: String
   }
   type Mutation {
     addRecipe(
@@ -49,6 +64,21 @@ const typeDefs = gql`
       wishlist: Boolean
       queue: Boolean
       favorite: Boolean
+      type: [String]
+      categories: [String]
+      taste: [String]
+      mainIngredience: [String]
+      ingrediences: [String]
+      stock: [String]
+      season: [String]
+      difficulty: [String]
+      ingredientsPrepTime: [String]
+      prepTime: [String]
+      cookingTime: [String]
+      process: [String]
+      servingTemp: [String]
+      cuisine: [String]
+      price: String
     ): Recipe
     updateRecipe(
       id: ID!
@@ -62,6 +92,21 @@ const typeDefs = gql`
       wishlist: Boolean
       queue: Boolean
       favorite: Boolean
+      type: [String]
+      categories: [String]
+      taste: [String]
+      mainIngredience: [String]
+      ingrediences: [String]
+      stock: [String]
+      season: [String]
+      difficulty: [String]
+      ingredientsPrepTime: [String]
+      prepTime: [String]
+      cookingTime: [String]
+      process: [String]
+      servingTemp: [String]
+      cuisine: [String]
+      price: String
     ): Recipe
   }
 `;
@@ -92,6 +137,21 @@ const resolvers = {
           wishlist,
           queue,
           favorite,
+          type,
+          categories,
+          taste,
+          mainIngredience,
+          ingrediences,
+          stock,
+          season,
+          difficulty,
+          ingredientsPrepTime,
+          prepTime,
+          cookingTime,
+          process,
+          servingTemp,
+          cuisine,
+          price,
         ]) => ({
           id: ref.id,
           title,
@@ -105,6 +165,21 @@ const resolvers = {
           wishlist,
           queue,
           favorite,
+          type,
+          categories,
+          taste,
+          mainIngredience,
+          ingrediences,
+          stock,
+          season,
+          difficulty,
+          ingredientsPrepTime,
+          prepTime,
+          cookingTime,
+          process,
+          servingTemp,
+          cuisine,
+          price,
         })
       );
     },
@@ -124,6 +199,21 @@ const resolvers = {
         wishlist,
         queue,
         favorite,
+        type,
+        categories,
+        taste,
+        mainIngredience,
+        ingrediences,
+        stock,
+        season,
+        difficulty,
+        ingredientsPrepTime,
+        prepTime,
+        cookingTime,
+        process,
+        servingTemp,
+        cuisine,
+        price,
       },
       { user = "public" }
     ) => {
@@ -144,6 +234,21 @@ const resolvers = {
             wishlist,
             queue,
             favorite,
+            type,
+            categories,
+            taste,
+            mainIngredience,
+            ingrediences,
+            stock,
+            season,
+            difficulty,
+            ingredientsPrepTime,
+            prepTime,
+            cookingTime,
+            process,
+            servingTemp,
+            cuisine,
+            price,
             owner: user,
           },
         })
@@ -167,6 +272,21 @@ const resolvers = {
         wishlist,
         queue,
         favorite,
+        type,
+        categories,
+        taste,
+        mainIngredience,
+        ingrediences,
+        stock,
+        season,
+        difficulty,
+        ingredientsPrepTime,
+        prepTime,
+        cookingTime,
+        process,
+        servingTemp,
+        cuisine,
+        price,
       },
       { user = "public" }
     ) => {
@@ -186,6 +306,21 @@ const resolvers = {
             wishlist,
             queue,
             favorite,
+            type,
+            categories,
+            taste,
+            mainIngredience,
+            ingrediences,
+            stock,
+            season,
+            difficulty,
+            ingredientsPrepTime,
+            prepTime,
+            cookingTime,
+            process,
+            servingTemp,
+            cuisine,
+            price,
             owner: user,
           },
         })

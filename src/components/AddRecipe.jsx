@@ -18,6 +18,21 @@ const ADD_RECIPE = gql`
     $wishlist: Boolean
     $queue: Boolean
     $favorite: Boolean
+    $type: [String]
+    $categories: [String]
+    $taste: [String]
+    $mainIngredience: [String]
+    $ingrediences: [String]
+    $stock: [String]
+    $season: [String]
+    $difficulty: [String]
+    $ingredientsPrepTime: [String]
+    $prepTime: [String]
+    $cookingTime: [String]
+    $process: [String]
+    $servingTemp: [String]
+    $cuisine: [String]
+    $price: String
   ) {
     addRecipe(
       title: $title
@@ -31,6 +46,21 @@ const ADD_RECIPE = gql`
       wishlist: $wishlist
       queue: $queue
       favorite: $favorite
+      type: $type
+      categories: $categories
+      taste: $taste
+      mainIngredience: $mainIngredience
+      ingrediences: $ingrediences
+      stock: $stock
+      season: $season
+      difficulty: $difficulty
+      ingredientsPrepTime: $ingredientsPrepTime
+      prepTime: $prepTime
+      cookingTime: $cookingTime
+      process: $process
+      servingTemp: $servingTemp
+      cuisine: $cuisine
+      price: $price
     ) {
       id
     }
@@ -51,6 +81,21 @@ const GET_RECIPES = gql`
       wishlist
       queue
       favorite
+      type
+      categories
+      taste
+      mainIngredience
+      ingrediences
+      stock
+      season
+      difficulty
+      ingredientsPrepTime
+      prepTime
+      cookingTime
+      process
+      servingTemp
+      cuisine
+      price
     }
   }
 `;
@@ -65,6 +110,21 @@ const AddRecipe = () => {
   const wishlistRef = useRef();
   const queueRef = useRef();
   const favoriteRef = useRef();
+  const typeRef = useRef();
+  const categoriesRef = useRef();
+  const tasteRef = useRef();
+  const mainIngredienceRef = useRef();
+  const ingrediencesRef = useRef();
+  const stockRef = useRef();
+  const seasonRef = useRef();
+  const difficultyRef = useRef();
+  const ingredientsPrepTimeRef = useRef();
+  const prepTimeRef = useRef();
+  const cookingTimeRef = useRef();
+  const processRef = useRef();
+  const servingTempRef = useRef();
+  const cuisineRef = useRef();
+  const priceRef = useRef();
 
   const [addRecipe] = useMutation(ADD_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES, {
@@ -119,6 +179,10 @@ const AddRecipe = () => {
 
           const coverUrl = await getCoverImageUrl();
 
+          const typeValues = [...typeRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
           await addRecipe({
             variables: {
               title: titleRef.current.value,
@@ -131,6 +195,7 @@ const AddRecipe = () => {
               wishlist: wishlistRef.current.checked,
               queue: queueRef.current.checked,
               favorite: favoriteRef.current.checked,
+              type: typeValues,
               dateAdded: formatISO(new Date()),
             },
           });
@@ -296,6 +361,35 @@ const AddRecipe = () => {
         </div>
         <br />
         <input type="file" name="files[]" multiple id="cover-upload" />
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="type">
+            <span className="label__text">Název jídla</span>
+          </label>
+          <select
+            ref={typeRef}
+            className="input__field"
+            id="type"
+            name="type"
+            multiple>
+            <option value="nevím">nevím</option>
+            <option value="snídaně a svačiny">snídaně a svačiny</option>
+            <option value="polévky a vývary">polévky a vývary</option>
+            <option value="obědy a večeře">obědy a večeře</option>
+            <option value="omáčky a dresinky">omáčky a dresinky</option>
+            <option value="přílohy">přílohy</option>
+            <option value="saláty">saláty</option>
+            <option value="předkrmy a chuťovky">předkrmy a chuťovky</option>
+            <option value="pomazánky">pomazánky</option>
+            <option value="pečivo">pečivo</option>
+            <option value="přísady a zavařeniny">přísady a zavařeniny</option>
+            <option value="dezerty, dorty, zákusky a koláče">
+              dezerty, dorty, zákusky a koláče
+            </option>
+            <option value="pití">pití</option>
+          </select>
+        </div>
 
         <div>
           <button type="submit" className="btn">

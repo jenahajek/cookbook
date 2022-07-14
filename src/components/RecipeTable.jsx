@@ -18,6 +18,21 @@ const UPDATE_RECIPE = gql`
     $wishlist: Boolean
     $queue: Boolean
     $favorite: Boolean
+    $type: [String]
+    $categories: [String]
+    $taste: [String]
+    $mainIngredience: [String]
+    $ingrediences: [String]
+    $stock: [String]
+    $season: [String]
+    $difficulty: [String]
+    $ingredientsPrepTime: [String]
+    $prepTime: [String]
+    $cookingTime: [String]
+    $process: [String]
+    $servingTemp: [String]
+    $cuisine: [String]
+    $price: String
   ) {
     updateRecipe(
       id: $id
@@ -31,6 +46,21 @@ const UPDATE_RECIPE = gql`
       wishlist: $wishlist
       queue: $queue
       favorite: $favorite
+      type: $type
+      categories: $categories
+      taste: $taste
+      mainIngredience: $mainIngredience
+      ingrediences: $ingrediences
+      stock: $stock
+      season: $season
+      difficulty: $difficulty
+      ingredientsPrepTime: $ingredientsPrepTime
+      prepTime: $prepTime
+      cookingTime: $cookingTime
+      process: $process
+      servingTemp: $servingTemp
+      cuisine: $cuisine
+      price: $price
     ) {
       id
       title
@@ -43,6 +73,21 @@ const UPDATE_RECIPE = gql`
       wishlist
       queue
       favorite
+      type
+      categories
+      taste
+      mainIngredience
+      ingrediences
+      stock
+      season
+      difficulty
+      ingredientsPrepTime
+      prepTime
+      cookingTime
+      process
+      servingTemp
+      cuisine
+      price
       owner
     }
   }
@@ -62,6 +107,21 @@ const GET_RECIPES = gql`
       wishlist
       queue
       favorite
+      type
+      categories
+      taste
+      mainIngredience
+      ingrediences
+      stock
+      season
+      difficulty
+      ingredientsPrepTime
+      prepTime
+      cookingTime
+      process
+      servingTemp
+      cuisine
+      price
     }
   }
 `;
@@ -155,6 +215,21 @@ const RecipeTable = () => {
               <th>wishlist</th>
               <th>queue</th>
               <th>favorite</th>
+              <th>type</th>
+              <th>categories</th>
+              <th>taste</th>
+              <th>mainIngredience</th>
+              <th>ingrediences</th>
+              <th>stock</th>
+              <th>season</th>
+              <th>difficulty</th>
+              <th>ingredientsPrepTime</th>
+              <th>prepTime</th>
+              <th>cookingTime</th>
+              <th>process</th>
+              <th>servingTemp</th>
+              <th>cuisine</th>
+              <th>price</th>
             </tr>
             {data.recipes
               ? data.recipes
@@ -264,6 +339,157 @@ const RecipeTable = () => {
                             type="checkbox"
                             defaultChecked={recipe.favorite}
                             data-type="favorite"
+                          />
+                        </label>
+                      </td>
+
+                      <td>
+                        <label>
+                          type
+                          <input
+                            type="text"
+                            defaultValue={recipe.type}
+                            data-type="type"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          categories
+                          <input
+                            type="text"
+                            defaultValue={recipe.categories}
+                            data-type="categories"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          taste
+                          <input
+                            type="text"
+                            defaultValue={recipe.taste}
+                            data-type="taste"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          mainIngredience
+                          <input
+                            type="text"
+                            defaultValue={recipe.mainIngredience}
+                            data-type="mainIngredience"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          ingrediences
+                          <input
+                            type="text"
+                            defaultValue={recipe.ingrediences}
+                            data-type="ingrediences"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          stock
+                          <input
+                            type="text"
+                            defaultValue={recipe.stock}
+                            data-type="stock"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          season
+                          <input
+                            type="text"
+                            defaultValue={recipe.season}
+                            data-type="season"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          difficulty
+                          <input
+                            type="text"
+                            defaultValue={recipe.difficulty}
+                            data-type="difficulty"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          ingredientsPrepTime
+                          <input
+                            type="text"
+                            defaultValue={recipe.ingredientsPrepTime}
+                            data-type="ingredientsPrepTime"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          prepTime
+                          <input
+                            type="text"
+                            defaultValue={recipe.prepTime}
+                            data-type="prepTime"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          cookingTime
+                          <input
+                            type="text"
+                            defaultValue={recipe.cookingTime}
+                            data-type="cookingTime"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          process
+                          <input
+                            type="text"
+                            defaultValue={recipe.process}
+                            data-type="process"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          servingTemp
+                          <input
+                            type="text"
+                            defaultValue={recipe.servingTemp}
+                            data-type="servingTemp"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          cuisine
+                          <input
+                            type="text"
+                            defaultValue={recipe.cuisine}
+                            data-type="cuisine"
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          price
+                          <input
+                            type="text"
+                            defaultValue={recipe.price}
+                            data-type="price"
                           />
                         </label>
                       </td>
