@@ -14,6 +14,9 @@ const ADD_RECIPE = gql`
     $cover: String
     $content: String
     $dateAdded: String!
+    $wishlist: Boolean
+    $queue: Boolean
+    $favorite: Boolean
   ) {
     addRecipe(
       title: $title
@@ -23,6 +26,9 @@ const ADD_RECIPE = gql`
       cover: $cover
       content: $content
       dateAdded: $dateAdded
+      wishlist: $wishlist
+      queue: $queue
+      favorite: $favorite
     ) {
       id
     }
@@ -39,6 +45,9 @@ const GET_RECIPES = gql`
       slug
       cover
       content
+      wishlist
+      queue
+      favorite
     }
   }
 `;
@@ -49,6 +58,9 @@ const AddRecipe = () => {
   const urlRef = useRef();
   const subtitleRef = useRef();
   const contentRef = useRef();
+  const wishlistRef = useRef();
+  const queueRef = useRef();
+  const favoriteRef = useRef();
 
   const [addRecipe] = useMutation(ADD_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES, {
@@ -180,6 +192,60 @@ const AddRecipe = () => {
             ref={subtitleRef}
             placeholder="Finská lososová polévka"
             aria-describedby="description-subtitle"
+          />
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="wishlist">
+            <span className="label__text">Vyzkoušené</span>
+          </label>
+          <span id="description-wishlist" className="label-description">
+            Už jsme to někdy zkusili připravit?
+          </span>
+          <input
+            type="checkbox"
+            className="input__field"
+            id="wishlist"
+            name="wishlist"
+            ref={wishlistRef}
+            aria-describedby="description-wishlist"
+          />
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="queue">
+            <span className="label__text">Ve frontě</span>
+          </label>
+          <span id="description-queue" className="label-description">
+            Označ recepty, které se chystáš dělat v blízké budoucnosti
+          </span>
+          <input
+            type="checkbox"
+            className="input__field"
+            id="queue"
+            name="queue"
+            ref={queueRef}
+            aria-describedby="description-queue"
+          />
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="favorite">
+            <span className="label__text">Oblíbené</span>
+          </label>
+          <span id="description-favorite" className="label-description">
+            Připravujeme to často a přesto se neomrzí?
+          </span>
+          <input
+            type="checkbox"
+            className="input__field"
+            id="favorite"
+            name="favorite"
+            ref={favoriteRef}
+            aria-describedby="description-favorite"
           />
         </div>
 

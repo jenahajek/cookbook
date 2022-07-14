@@ -14,6 +14,9 @@ const UPDATE_RECIPE = gql`
     $slug: String
     $cover: String
     $content: String
+    $wishlist: Boolean
+    $queue: Boolean
+    $favorite: Boolean
   ) {
     updateRecipe(
       id: $id
@@ -23,6 +26,9 @@ const UPDATE_RECIPE = gql`
       slug: $slug
       cover: $cover
       content: $content
+      wishlist: $wishlist
+      queue: $queue
+      favorite: $favorite
     ) {
       id
       title
@@ -31,6 +37,9 @@ const UPDATE_RECIPE = gql`
       slug
       cover
       content
+      wishlist
+      queue
+      favorite
       owner
     }
   }
@@ -46,6 +55,9 @@ const GET_RECIPES = gql`
       slug
       cover
       content
+      wishlist
+      queue
+      favorite
     }
   }
 `;
@@ -110,6 +122,9 @@ const RecipeTable = () => {
                   url: row.querySelector("td:nth-child(4) input").value,
                   slug: row.querySelector("td:nth-child(3) input").value,
                   cover: coverUrl,
+                  wishlist: row.querySelector("td:nth-child(7) input").value,
+                  queue: row.querySelector("td:nth-child(8) input").value,
+                  favorite: row.querySelector("td:nth-child(9) input").value,
                 },
               });
             });
@@ -128,6 +143,9 @@ const RecipeTable = () => {
               <th>url zdroj</th>
               <th>title</th>
               <th>subtitle</th>
+              <th>wishlist</th>
+              <th>queue</th>
+              <th>favorite</th>
             </tr>
             {data.recipes
               ? data.recipes
@@ -178,6 +196,30 @@ const RecipeTable = () => {
                         <label>
                           subtitle
                           <input type="text" defaultValue={recipe.subtitle} />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          wishlist
+                          <input
+                            type="checkbox"
+                            defaultValue={recipe.wishlist}
+                          />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          queue
+                          <input type="checkbox" defaultValue={recipe.queue} />
+                        </label>
+                      </td>
+                      <td>
+                        <label>
+                          favorite
+                          <input
+                            type="checkbox"
+                            defaultValue={recipe.favorite}
+                          />
                         </label>
                       </td>
                     </tr>

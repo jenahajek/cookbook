@@ -31,6 +31,9 @@ const typeDefs = gql`
     content: String
     owner: String!
     dateAdded: String!
+    wishlist: Boolean
+    queue: Boolean
+    favorite: Boolean
   }
   type Mutation {
     addRecipe(
@@ -41,6 +44,9 @@ const typeDefs = gql`
       cover: String
       content: String
       dateAdded: String!
+      wishlist: Boolean
+      queue: Boolean
+      favorite: Boolean
     ): Recipe
     updateRecipe(
       id: ID!
@@ -50,6 +56,9 @@ const typeDefs = gql`
       slug: String
       cover: String
       content: String
+      wishlist: Boolean
+      queue: Boolean
+      favorite: Boolean
     ): Recipe
   }
 `;
@@ -67,7 +76,19 @@ const resolvers = {
       );
       // todo error handling
       return results.data.map(
-        ([ref, title, subtitle, url, slug, cover, content, dateAdded]) => ({
+        ([
+          ref,
+          title,
+          subtitle,
+          url,
+          slug,
+          cover,
+          content,
+          dateAdded,
+          wishlist,
+          queue,
+          favorite,
+        ]) => ({
           id: ref.id,
           title,
           subtitle,
@@ -76,6 +97,9 @@ const resolvers = {
           cover,
           content,
           dateAdded,
+          wishlist,
+          queue,
+          favorite,
         })
       );
     },
@@ -83,7 +107,18 @@ const resolvers = {
   Mutation: {
     addRecipe: async (
       _,
-      { title, subtitle, url, slug, cover, content, dateAdded },
+      {
+        title,
+        subtitle,
+        url,
+        slug,
+        cover,
+        content,
+        dateAdded,
+        wishlist,
+        queue,
+        favorite,
+      },
       { user = "public" }
     ) => {
       // if (!user) {
@@ -99,6 +134,9 @@ const resolvers = {
             cover,
             content,
             dateAdded,
+            wishlist,
+            queue,
+            favorite,
             owner: user,
           },
         })
@@ -110,7 +148,18 @@ const resolvers = {
     },
     updateRecipe: async (
       _,
-      { id, title, subtitle, url, slug, cover, content },
+      {
+        id,
+        title,
+        subtitle,
+        url,
+        slug,
+        cover,
+        content,
+        wishlist,
+        queue,
+        favorite,
+      },
       { user = "public" }
     ) => {
       // if (!user) {
@@ -125,6 +174,9 @@ const resolvers = {
             slug,
             cover,
             content,
+            wishlist,
+            queue,
+            favorite,
             owner: user,
           },
         })
