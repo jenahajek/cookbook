@@ -120,68 +120,45 @@ const resolvers = {
       //   return "public";
       // }
       const results = await client.query(
-        q.Paginate(q.Match(q.Index("recipes_by_user_updated"), user))
+        // Index recipes_by_user splits arrays into individiual rows of data, which don't work well with my current setup
+        // Considering I haven't make it public yet, there are no more users and it is not properly working yet anyway, I decided to query collection dirrectly. This allows me to move on, make MVP a redo it later, when it will be necessary. Now it is ok to unblock it this way.
+        q.Map(
+          q.Paginate(q.Documents(q.Collection("recipes"))),
+          q.Lambda((x) => q.Get(x))
+        )
+        // q.Paginate(q.Match(q.Index("recipes_by_user_development"), user))
       );
+
       // todo error handling
-      return results.data.map(
-        ([
-          ref,
-          title,
-          subtitle,
-          sourceUrl,
-          sourceName,
-          slug,
-          cover,
-          content,
-          dateAdded,
-          wishlist,
-          queue,
-          favorite,
-          type,
-          categories,
-          taste,
-          mainIngredience,
-          ingrediences,
-          stock,
-          season,
-          difficulty,
-          ingredientsPrepTime,
-          prepTime,
-          cookingTime,
-          process,
-          servingTemp,
-          cuisine,
-          price,
-        ]) => ({
-          id: ref.id,
-          title,
-          subtitle,
-          sourceUrl,
-          sourceName,
-          slug,
-          cover,
-          content,
-          dateAdded,
-          wishlist,
-          queue,
-          favorite,
-          type,
-          categories,
-          taste,
-          mainIngredience,
-          ingrediences,
-          stock,
-          season,
-          difficulty,
-          ingredientsPrepTime,
-          prepTime,
-          cookingTime,
-          process,
-          servingTemp,
-          cuisine,
-          price,
-        })
-      );
+      return results.data.map(({ ref, data }) => ({
+        id: ref.value.id,
+        title: data.title,
+        subtitle: data.subtitle,
+        sourceUrl: data.sourceUrl,
+        sourceName: data.sourceName,
+        slug: data.slug,
+        cover: data.cover,
+        content: data.content,
+        dateAdded: data.dateAdded,
+        wishlist: data.wishlist,
+        queue: data.queue,
+        favorite: data.favorite,
+        type: data.type,
+        categories: data.categories,
+        taste: data.taste,
+        mainIngredience: data.mainIngredience,
+        ingrediences: data.ingrediences,
+        stock: data.stock,
+        season: data.season,
+        difficulty: data.difficulty,
+        ingredientsPrepTime: data.ingredientsPrepTime,
+        prepTime: data.prepTime,
+        cookingTime: data.cookingTime,
+        process: data.process,
+        servingTemp: data.servingTemp,
+        cuisine: data.cuisine,
+        price: data.price,
+      }));
     },
   },
   Mutation: {

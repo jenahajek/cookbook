@@ -126,6 +126,21 @@ const GET_RECIPES = gql`
   }
 `;
 
+const TYPES = [
+  "nevím",
+  "snídaně a svačiny",
+  "polévky a vývary",
+  "obědy a večeře",
+  "omáčky a dresinky",
+  "přílohy",
+  "saláty",
+  "předkrmy a chuťovky",
+  "pomazánky",
+  "přísady a zavařeniny",
+  "dezerty, dorty, zákusky a koláče",
+  "pití",
+];
+
 const RecipeTable = () => {
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
   const { loading, error, data, refetch } = useQuery(GET_RECIPES, {
@@ -175,6 +190,10 @@ const RecipeTable = () => {
             const editedRows = allRows.slice(1);
 
             editedRows.forEach(async (row) => {
+              const selectedTypes = [];
+              Array.from(
+                row.querySelector("[data-type='type']").selectedOptions
+              ).forEach((item) => selectedTypes.push(item.value));
               await updateRecipe({
                 variables: {
                   id: row.id,
@@ -193,6 +212,7 @@ const RecipeTable = () => {
                   queue: row.querySelector("input[data-type='queue']").checked,
                   favorite: row.querySelector("input[data-type='favorite']")
                     .checked,
+                  type: selectedTypes,
                 },
               });
             });
@@ -346,11 +366,20 @@ const RecipeTable = () => {
                       <td>
                         <label>
                           type
-                          <input
-                            type="text"
-                            defaultValue={recipe.type}
-                            data-type="type"
-                          />
+                          <select
+                            name="cars"
+                            id="cars"
+                            multiple
+                            data-type="type">
+                            {TYPES &&
+                              TYPES.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={recipe.type.includes(item)}>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
