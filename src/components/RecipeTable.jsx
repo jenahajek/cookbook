@@ -4,6 +4,21 @@ import { Link } from "gatsby";
 import BookCoverFallback from "./BookCoverFallback";
 import Heading from "./Heading";
 import CloudinaryImage from "./CloudinaryImage";
+import {
+  TYPES,
+  CATEGORIES,
+  TASTE,
+  STOCK,
+  SEASON,
+  DIFFICULTY,
+  INGREDIENCES_PREP_TIME,
+  ACTIVE_COOKING_TIME,
+  TOTAL_COOKING_TIME,
+  PROCESS,
+  SERVING_TEMP,
+  CUISINE,
+  PRICE,
+} from "../constants/recipeOptions";
 
 const UPDATE_RECIPE = gql`
   mutation UpdateRecipe(
@@ -26,13 +41,13 @@ const UPDATE_RECIPE = gql`
     $stock: [String]
     $season: [String]
     $difficulty: [String]
-    $ingredientsPrepTime: [String]
-    $prepTime: [String]
-    $cookingTime: [String]
+    $ingrediencesPrepTime: [String]
+    $activeCookingTime: [String]
+    $totalCookingTime: [String]
     $process: [String]
     $servingTemp: [String]
     $cuisine: [String]
-    $price: String
+    $price: [String]
   ) {
     updateRecipe(
       id: $id
@@ -54,9 +69,9 @@ const UPDATE_RECIPE = gql`
       stock: $stock
       season: $season
       difficulty: $difficulty
-      ingredientsPrepTime: $ingredientsPrepTime
-      prepTime: $prepTime
-      cookingTime: $cookingTime
+      ingrediencesPrepTime: $ingrediencesPrepTime
+      activeCookingTime: $activeCookingTime
+      totalCookingTime: $totalCookingTime
       process: $process
       servingTemp: $servingTemp
       cuisine: $cuisine
@@ -81,9 +96,9 @@ const UPDATE_RECIPE = gql`
       stock
       season
       difficulty
-      ingredientsPrepTime
-      prepTime
-      cookingTime
+      ingrediencesPrepTime
+      activeCookingTime
+      totalCookingTime
       process
       servingTemp
       cuisine
@@ -115,9 +130,9 @@ const GET_RECIPES = gql`
       stock
       season
       difficulty
-      ingredientsPrepTime
-      prepTime
-      cookingTime
+      ingrediencesPrepTime
+      activeCookingTime
+      totalCookingTime
       process
       servingTemp
       cuisine
@@ -125,21 +140,6 @@ const GET_RECIPES = gql`
     }
   }
 `;
-
-const TYPES = [
-  "nevím",
-  "snídaně a svačiny",
-  "polévky a vývary",
-  "obědy a večeře",
-  "omáčky a dresinky",
-  "přílohy",
-  "saláty",
-  "předkrmy a chuťovky",
-  "pomazánky",
-  "přísady a zavařeniny",
-  "dezerty, dorty, zákusky a koláče",
-  "pití",
-];
 
 const RecipeTable = () => {
   const [updateRecipe] = useMutation(UPDATE_RECIPE);
@@ -194,6 +194,72 @@ const RecipeTable = () => {
               Array.from(
                 row.querySelector("[data-type='type']").selectedOptions
               ).forEach((item) => selectedTypes.push(item.value));
+
+              const selectedCategories = [];
+              Array.from(
+                row.querySelector("[data-type='categories']").selectedOptions
+              ).forEach((item) => selectedCategories.push(item.value));
+
+              const selectedTaste = [];
+              Array.from(
+                row.querySelector("[data-type='taste']").selectedOptions
+              ).forEach((item) => selectedTaste.push(item.value));
+
+              const selectedStock = [];
+              Array.from(
+                row.querySelector("[data-type='stock']").selectedOptions
+              ).forEach((item) => selectedStock.push(item.value));
+
+              const selectedSeason = [];
+              Array.from(
+                row.querySelector("[data-type='season']").selectedOptions
+              ).forEach((item) => selectedSeason.push(item.value));
+
+              const selectedDifficulty = [];
+              Array.from(
+                row.querySelector("[data-type='difficulty']").selectedOptions
+              ).forEach((item) => selectedDifficulty.push(item.value));
+
+              const selectedIngrediencesPrepTime = [];
+              Array.from(
+                row.querySelector("[data-type='ingrediencesPrepTime']")
+                  .selectedOptions
+              ).forEach((item) =>
+                selectedIngrediencesPrepTime.push(item.value)
+              );
+
+              const selectedactiveCookingTime = [];
+              Array.from(
+                row.querySelector("[data-type='activeCookingTime']")
+                  .selectedOptions
+              ).forEach((item) => selectedactiveCookingTime.push(item.value));
+
+              const selectedCookingTime = [];
+              Array.from(
+                row.querySelector("[data-type='totalCookingTime']")
+                  .selectedOptions
+              ).forEach((item) => selectedCookingTime.push(item.value));
+
+              const selectedProcess = [];
+              Array.from(
+                row.querySelector("[data-type='process']").selectedOptions
+              ).forEach((item) => selectedProcess.push(item.value));
+
+              const selectedServingTemp = [];
+              Array.from(
+                row.querySelector("[data-type='servingTemp']").selectedOptions
+              ).forEach((item) => selectedServingTemp.push(item.value));
+
+              const selectedCuisine = [];
+              Array.from(
+                row.querySelector("[data-type='cuisine']").selectedOptions
+              ).forEach((item) => selectedCuisine.push(item.value));
+
+              const selectedPrice = [];
+              Array.from(
+                row.querySelector("[data-type='price']").selectedOptions
+              ).forEach((item) => selectedPrice.push(item.value));
+
               await updateRecipe({
                 variables: {
                   id: row.id,
@@ -213,6 +279,24 @@ const RecipeTable = () => {
                   favorite: row.querySelector("input[data-type='favorite']")
                     .checked,
                   type: selectedTypes,
+                  categories: selectedCategories,
+                  taste: selectedTaste,
+                  // mainIngredience:
+                  //   row.querySelector("input[data-type='mainIngredience']")
+                  //     .value || null,
+                  // ingrediences:
+                  //   row.querySelector("input[data-type='ingrediences']")
+                  //     .value || null,
+                  stock: selectedStock,
+                  season: selectedSeason,
+                  difficulty: selectedDifficulty,
+                  ingrediencesPrepTime: selectedIngrediencesPrepTime,
+                  activeCookingTime: selectedactiveCookingTime,
+                  totalCookingTime: selectedCookingTime,
+                  process: selectedProcess,
+                  servingTemp: selectedServingTemp,
+                  cuisine: selectedCuisine,
+                  price: selectedPrice,
                 },
               });
             });
@@ -238,14 +322,14 @@ const RecipeTable = () => {
               <th>type</th>
               <th>categories</th>
               <th>taste</th>
-              <th>mainIngredience</th>
-              <th>ingrediences</th>
+              {/* <th>mainIngredience</th>
+              <th>ingrediences</th> */}
               <th>stock</th>
               <th>season</th>
               <th>difficulty</th>
-              <th>ingredientsPrepTime</th>
-              <th>prepTime</th>
-              <th>cookingTime</th>
+              <th>ingrediencesPrepTime</th>
+              <th>activeCookingTime</th>
+              <th>totalCookingTime</th>
               <th>process</th>
               <th>servingTemp</th>
               <th>cuisine</th>
@@ -366,16 +450,33 @@ const RecipeTable = () => {
                       <td>
                         <label>
                           type
-                          <select
-                            name="cars"
-                            id="cars"
-                            multiple
-                            data-type="type">
+                          <select multiple data-type="type">
                             {TYPES &&
                               TYPES.map((item) => (
                                 <option
                                   value={item}
-                                  selected={recipe.type.includes(item)}>
+                                  selected={
+                                    recipe.type && recipe.type.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
+                        </label>
+                      </td>
+
+                      <td>
+                        <label>
+                          Categories
+                          <select multiple data-type="categories">
+                            {CATEGORIES &&
+                              CATEGORIES.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.categories &&
+                                    recipe.categories.includes(item)
+                                  }>
                                   {item}
                                 </option>
                               ))}
@@ -384,25 +485,22 @@ const RecipeTable = () => {
                       </td>
                       <td>
                         <label>
-                          categories
-                          <input
-                            type="text"
-                            defaultValue={recipe.categories}
-                            data-type="categories"
-                          />
+                          Taste
+                          <select multiple data-type="taste">
+                            {TASTE &&
+                              TASTE.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.taste && recipe.taste.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
-                      <td>
-                        <label>
-                          taste
-                          <input
-                            type="text"
-                            defaultValue={recipe.taste}
-                            data-type="taste"
-                          />
-                        </label>
-                      </td>
-                      <td>
+                      {/* <td>
                         <label>
                           mainIngredience
                           <input
@@ -421,105 +519,183 @@ const RecipeTable = () => {
                             data-type="ingrediences"
                           />
                         </label>
-                      </td>
+                      </td> */}
                       <td>
                         <label>
-                          stock
-                          <input
-                            type="text"
-                            defaultValue={recipe.stock}
-                            data-type="stock"
-                          />
+                          Stock
+                          <select multiple data-type="stock">
+                            {STOCK &&
+                              STOCK.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.stock && recipe.stock.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
                           season
-                          <input
-                            type="text"
-                            defaultValue={recipe.season}
-                            data-type="season"
-                          />
+                          <select multiple data-type="season">
+                            {SEASON &&
+                              SEASON.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.season &&
+                                    recipe.season.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
                           difficulty
-                          <input
-                            type="text"
-                            defaultValue={recipe.difficulty}
-                            data-type="difficulty"
-                          />
+                          <select multiple data-type="difficulty">
+                            {DIFFICULTY &&
+                              DIFFICULTY.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.difficulty &&
+                                    recipe.difficulty.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          ingredientsPrepTime
-                          <input
-                            type="text"
-                            defaultValue={recipe.ingredientsPrepTime}
-                            data-type="ingredientsPrepTime"
-                          />
+                          ingrediencesPrepTime
+                          <select multiple data-type="ingrediencesPrepTime">
+                            {INGREDIENCES_PREP_TIME &&
+                              INGREDIENCES_PREP_TIME.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.ingrediencesPrepTime &&
+                                    recipe.ingrediencesPrepTime.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          prepTime
-                          <input
-                            type="text"
-                            defaultValue={recipe.prepTime}
-                            data-type="prepTime"
-                          />
+                          active cooking time
+                          <select multiple data-type="activeCookingTime">
+                            {ACTIVE_COOKING_TIME &&
+                              ACTIVE_COOKING_TIME.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.activeCookingTime &&
+                                    recipe.activeCookingTime.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          cookingTime
-                          <input
-                            type="text"
-                            defaultValue={recipe.cookingTime}
-                            data-type="cookingTime"
-                          />
+                          total cooking time
+                          <select multiple data-type="totalCookingTime">
+                            {TOTAL_COOKING_TIME &&
+                              TOTAL_COOKING_TIME.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.totalCookingTime &&
+                                    recipe.totalCookingTime.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          process
-                          <input
-                            type="text"
-                            defaultValue={recipe.process}
-                            data-type="process"
-                          />
+                          způsob přípravy
+                          <select multiple data-type="process">
+                            {PROCESS &&
+                              PROCESS.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.process &&
+                                    recipe.process.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          servingTemp
-                          <input
-                            type="text"
-                            defaultValue={recipe.servingTemp}
-                            data-type="servingTemp"
-                          />
+                          serving temp
+                          <select multiple data-type="servingTemp">
+                            {SERVING_TEMP &&
+                              SERVING_TEMP.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.servingTemp &&
+                                    recipe.servingTemp.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
                           cuisine
-                          <input
-                            type="text"
-                            defaultValue={recipe.cuisine}
-                            data-type="cuisine"
-                          />
+                          <select multiple data-type="cuisine">
+                            {CUISINE &&
+                              CUISINE.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.cuisine &&
+                                    recipe.cuisine.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                       <td>
                         <label>
-                          price
-                          <input
-                            type="text"
-                            defaultValue={recipe.price}
-                            data-type="price"
-                          />
+                          cena
+                          <select data-type="price">
+                            {PRICE &&
+                              PRICE.map((item) => (
+                                <option
+                                  value={item}
+                                  selected={
+                                    recipe.price && recipe.price.includes(item)
+                                  }>
+                                  {item}
+                                </option>
+                              ))}
+                          </select>
                         </label>
                       </td>
                     </tr>

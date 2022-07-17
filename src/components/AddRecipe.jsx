@@ -4,6 +4,21 @@ import { formatISO } from "date-fns";
 import { IdentityContext } from "../../identity-context";
 import RecipeThumbnail from "./RecipeThumbnail";
 import Heading from "./Heading";
+import {
+  TYPES,
+  CATEGORIES,
+  TASTE,
+  STOCK,
+  SEASON,
+  DIFFICULTY,
+  INGREDIENCES_PREP_TIME,
+  ACTIVE_COOKING_TIME,
+  TOTAL_COOKING_TIME,
+  PROCESS,
+  SERVING_TEMP,
+  CUISINE,
+  PRICE,
+} from "../constants/recipeOptions";
 
 const ADD_RECIPE = gql`
   mutation AddRecipe(
@@ -26,13 +41,13 @@ const ADD_RECIPE = gql`
     $stock: [String]
     $season: [String]
     $difficulty: [String]
-    $ingredientsPrepTime: [String]
-    $prepTime: [String]
-    $cookingTime: [String]
+    $ingrediencesPrepTime: [String]
+    $activeCookingTime: [String]
+    $totalCookingTime: [String]
     $process: [String]
     $servingTemp: [String]
     $cuisine: [String]
-    $price: String
+    $price: [String]
   ) {
     addRecipe(
       title: $title
@@ -54,9 +69,9 @@ const ADD_RECIPE = gql`
       stock: $stock
       season: $season
       difficulty: $difficulty
-      ingredientsPrepTime: $ingredientsPrepTime
-      prepTime: $prepTime
-      cookingTime: $cookingTime
+      ingrediencesPrepTime: $ingrediencesPrepTime
+      activeCookingTime: $activeCookingTime
+      totalCookingTime: $totalCookingTime
       process: $process
       servingTemp: $servingTemp
       cuisine: $cuisine
@@ -89,9 +104,9 @@ const GET_RECIPES = gql`
       stock
       season
       difficulty
-      ingredientsPrepTime
-      prepTime
-      cookingTime
+      ingrediencesPrepTime
+      activeCookingTime
+      totalCookingTime
       process
       servingTemp
       cuisine
@@ -113,14 +128,14 @@ const AddRecipe = () => {
   const typeRef = useRef();
   const categoriesRef = useRef();
   const tasteRef = useRef();
-  const mainIngredienceRef = useRef();
-  const ingrediencesRef = useRef();
+  // const mainIngredienceRef = useRef();
+  // const ingrediencesRef = useRef();
   const stockRef = useRef();
   const seasonRef = useRef();
   const difficultyRef = useRef();
-  const ingredientsPrepTimeRef = useRef();
-  const prepTimeRef = useRef();
-  const cookingTimeRef = useRef();
+  const ingrediencesPrepTimeRef = useRef();
+  const activeCookingTimeRef = useRef();
+  const totalCookingTimeRef = useRef();
   const processRef = useRef();
   const servingTempRef = useRef();
   const cuisineRef = useRef();
@@ -183,6 +198,60 @@ const AddRecipe = () => {
             .filter((x) => x.selected)
             .map((x) => x.value);
 
+          const categoriesValues = [...categoriesRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const tasteValues = [...tasteRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const stockValues = [...stockRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const seasonValues = [...seasonRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const difficultyValues = [...difficultyRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const ingrediencesPrepTimeValues = [
+            ...ingrediencesPrepTimeRef.current.options,
+          ]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const activeCookingTimeValues = [
+            ...activeCookingTimeRef.current.options,
+          ]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const totalCookingTimeValues = [
+            ...totalCookingTimeRef.current.options,
+          ]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const processValues = [...processRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const servingTempValues = [...servingTempRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const cuisineValues = [...cuisineRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
+          const priceValues = [...priceRef.current.options]
+            .filter((x) => x.selected)
+            .map((x) => x.value);
+
           await addRecipe({
             variables: {
               title: titleRef.current.value,
@@ -196,6 +265,18 @@ const AddRecipe = () => {
               queue: queueRef.current.checked,
               favorite: favoriteRef.current.checked,
               type: typeValues,
+              categories: categoriesValues,
+              taste: tasteValues,
+              stock: stockValues,
+              season: seasonValues,
+              difficulty: difficultyValues,
+              ingrediencesPrepTime: ingrediencesPrepTimeValues,
+              activeCookingTime: activeCookingTimeValues,
+              totalCookingTime: totalCookingTimeValues,
+              process: processValues,
+              servingTemp: servingTempValues,
+              cuisine: cuisineValues,
+              price: priceValues,
               dateAdded: formatISO(new Date()),
             },
           });
@@ -216,12 +297,6 @@ const AddRecipe = () => {
             placeholder="Lohikeitto"
           />
         </div>
-        {/* <div class="input">
-					<label class="label" for="source-name">
-						<span class="label__text">Název zdroje</span>
-					</label>
-					<input type="text" class="input__field" id="source-name" name="source-name" placeholder="Kuchařka pro dceru" />
-				</div> */}
 
         <div className="input">
           <label className="label" htmlFor="source-url">
@@ -365,7 +440,7 @@ const AddRecipe = () => {
         <br />
         <div className="input">
           <label className="label" htmlFor="type">
-            <span className="label__text">Název jídla</span>
+            <span className="label__text">Typ pokrmu</span>
           </label>
           <select
             ref={typeRef}
@@ -373,21 +448,213 @@ const AddRecipe = () => {
             id="type"
             name="type"
             multiple>
-            <option value="nevím">nevím</option>
-            <option value="snídaně a svačiny">snídaně a svačiny</option>
-            <option value="polévky a vývary">polévky a vývary</option>
-            <option value="obědy a večeře">obědy a večeře</option>
-            <option value="omáčky a dresinky">omáčky a dresinky</option>
-            <option value="přílohy">přílohy</option>
-            <option value="saláty">saláty</option>
-            <option value="předkrmy a chuťovky">předkrmy a chuťovky</option>
-            <option value="pomazánky">pomazánky</option>
-            <option value="pečivo">pečivo</option>
-            <option value="přísady a zavařeniny">přísady a zavařeniny</option>
-            <option value="dezerty, dorty, zákusky a koláče">
-              dezerty, dorty, zákusky a koláče
-            </option>
-            <option value="pití">pití</option>
+            {TYPES.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="categories">
+            <span className="label__text">Kategorie (štítky?)</span>
+          </label>
+          <select
+            ref={categoriesRef}
+            className="input__field"
+            id="categories"
+            name="categories"
+            multiple>
+            {CATEGORIES.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="taste">
+            <span className="label__text">Chuť</span>
+          </label>
+          <select
+            ref={tasteRef}
+            className="input__field"
+            id="taste"
+            name="taste"
+            multiple>
+            {TASTE.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="stock">
+            <span className="label__text">Stock</span>
+          </label>
+          <select
+            ref={stockRef}
+            className="input__field"
+            id="stock"
+            name="stock"
+            multiple>
+            {STOCK.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="season">
+            <span className="label__text">Sezóna</span>
+          </label>
+          <select
+            ref={seasonRef}
+            className="input__field"
+            id="season"
+            name="season"
+            multiple>
+            {SEASON.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="difficulty">
+            <span className="label__text">Obtížnost</span>
+          </label>
+          <select
+            ref={difficultyRef}
+            className="input__field"
+            id="difficulty"
+            name="difficulty"
+            multiple>
+            {DIFFICULTY.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="ingrediencesPrepTime">
+            <span className="label__text">Příprava před vařením</span>
+          </label>
+          <select
+            ref={ingrediencesPrepTimeRef}
+            className="input__field"
+            id="ingrediencesPrepTime"
+            name="ingrediencesPrepTime"
+            multiple>
+            {INGREDIENCES_PREP_TIME.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="activeCookingTime">
+            <span className="label__text">Aktivní čas vaření</span>
+          </label>
+          <select
+            ref={activeCookingTimeRef}
+            className="input__field"
+            id="activeCookingTime"
+            name="activeCookingTime"
+            multiple>
+            {ACTIVE_COOKING_TIME.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="totalCookingTime">
+            <span className="label__text">Celkový čas přípravy</span>
+          </label>
+          <select
+            ref={totalCookingTimeRef}
+            className="input__field"
+            id="totalCookingTime"
+            name="totalCookingTime"
+            multiple>
+            {TOTAL_COOKING_TIME.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="process">
+            <span className="label__text">Způsob přípravy</span>
+          </label>
+          <select
+            ref={processRef}
+            className="input__field"
+            id="process"
+            name="process"
+            multiple>
+            {PROCESS.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="servingTemp">
+            <span className="label__text">Teplota při podávání</span>
+          </label>
+          <select
+            ref={servingTempRef}
+            className="input__field"
+            id="servingTemp"
+            name="servingTemp"
+            multiple>
+            {SERVING_TEMP.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="cuisine">
+            <span className="label__text">Kuchyně</span>
+          </label>
+          <select
+            ref={cuisineRef}
+            className="input__field"
+            id="cuisine"
+            name="cuisine"
+            multiple>
+            {CUISINE.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
+        </div>
+
+        <br />
+        <div className="input">
+          <label className="label" htmlFor="price">
+            <span className="label__text">Cena</span>
+          </label>
+          <select
+            ref={priceRef}
+            className="input__field"
+            id="price"
+            name="price"
+            multiple>
+            {PRICE.map((item) => (
+              <option value={item}>{item}</option>
+            ))}
           </select>
         </div>
 

@@ -43,13 +43,13 @@ const typeDefs = gql`
     stock: [String]
     season: [String]
     difficulty: [String]
-    ingredientsPrepTime: [String]
-    prepTime: [String]
-    cookingTime: [String]
+    ingrediencesPrepTime: [String]
+    activeCookingTime: [String]
+    totalCookingTime: [String]
     process: [String]
     servingTemp: [String]
     cuisine: [String]
-    price: String
+    price: [String]
   }
   type Mutation {
     addRecipe(
@@ -72,13 +72,13 @@ const typeDefs = gql`
       stock: [String]
       season: [String]
       difficulty: [String]
-      ingredientsPrepTime: [String]
-      prepTime: [String]
-      cookingTime: [String]
+      ingrediencesPrepTime: [String]
+      activeCookingTime: [String]
+      totalCookingTime: [String]
       process: [String]
       servingTemp: [String]
       cuisine: [String]
-      price: String
+      price: [String]
     ): Recipe
     updateRecipe(
       id: ID!
@@ -100,13 +100,13 @@ const typeDefs = gql`
       stock: [String]
       season: [String]
       difficulty: [String]
-      ingredientsPrepTime: [String]
-      prepTime: [String]
-      cookingTime: [String]
+      ingrediencesPrepTime: [String]
+      activeCookingTime: [String]
+      totalCookingTime: [String]
       process: [String]
       servingTemp: [String]
       cuisine: [String]
-      price: String
+      price: [String]
     ): Recipe
   }
 `;
@@ -151,9 +151,9 @@ const resolvers = {
         stock: data.stock,
         season: data.season,
         difficulty: data.difficulty,
-        ingredientsPrepTime: data.ingredientsPrepTime,
-        prepTime: data.prepTime,
-        cookingTime: data.cookingTime,
+        ingrediencesPrepTime: data.ingrediencesPrepTime,
+        activeCookingTime: data.activeCookingTime,
+        totalCookingTime: data.totalCookingTime,
         process: data.process,
         servingTemp: data.servingTemp,
         cuisine: data.cuisine,
@@ -184,9 +184,9 @@ const resolvers = {
         stock,
         season,
         difficulty,
-        ingredientsPrepTime,
-        prepTime,
-        cookingTime,
+        ingrediencesPrepTime,
+        activeCookingTime,
+        totalCookingTime,
         process,
         servingTemp,
         cuisine,
@@ -219,9 +219,9 @@ const resolvers = {
             stock,
             season,
             difficulty,
-            ingredientsPrepTime,
-            prepTime,
-            cookingTime,
+            ingrediencesPrepTime,
+            activeCookingTime,
+            totalCookingTime,
             process,
             servingTemp,
             cuisine,
@@ -257,9 +257,9 @@ const resolvers = {
         stock,
         season,
         difficulty,
-        ingredientsPrepTime,
-        prepTime,
-        cookingTime,
+        ingrediencesPrepTime,
+        activeCookingTime,
+        totalCookingTime,
         process,
         servingTemp,
         cuisine,
@@ -291,9 +291,9 @@ const resolvers = {
             stock,
             season,
             difficulty,
-            ingredientsPrepTime,
-            prepTime,
-            cookingTime,
+            ingrediencesPrepTime,
+            activeCookingTime,
+            totalCookingTime,
             process,
             servingTemp,
             cuisine,
