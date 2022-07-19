@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
+import { gql, useQuery } from "@apollo/client";
 import Layout from "../layout";
 import config from "../../data/SiteConfig";
 import BookThumbnail from "../components/BookThumbnail";
@@ -8,31 +9,72 @@ import useFilter from "../hooks/useFilter";
 import Heading from "../components/Heading";
 import IconArrowRight from "../../assets/arrow-right.inline.svg";
 import BookCoverFallback from "../components/BookCoverFallback";
+import RecipeThumbnail from "../components/RecipeThumbnail";
 
 const _ = require("lodash");
 
-const Index = ({ data }) => {
-  const { postEdges } = useFilter(data);
+const GET_RECIPES = gql`
+  query GetRecipes {
+    recipes {
+      id
+      title
+      subtitle
+      sourceUrl
+      sourceName
+      slug
+      cover
+      content
+      wishlist
+      queue
+      favorite
+      type
+      categories
+      taste
+      mainIngredience
+      ingrediences
+      stock
+      season
+      difficulty
+      ingrediencesPrepTime
+      activeCookingTime
+      totalCookingTime
+      process
+      servingTemp
+      cuisine
+      price
+    }
+  }
+`;
 
-  const favoriteRecipes = postEdges.filter(
-    (post) => post.node.frontmatter.favorite[0] === "ano"
-  );
-  const pastaRecipes = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.mainIngredience &&
-      post.node.frontmatter.mainIngredience.includes("těstoviny")
-  );
-  const vegetarianRecipes = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.categories &&
-      post.node.frontmatter.categories.includes("vegetariánské") &&
-      post.node.frontmatter.type &&
-      post.node.frontmatter.type.includes("obědy a večeře")
-  );
-  const wishlistRecipes = postEdges.filter(
-    (post) =>
-      post.node.frontmatter.tried && post.node.frontmatter.tried.includes("ne")
-  );
+const Index = ({ data }) => {
+  const { loading, error, data: dynamicData, refetch } = useQuery(GET_RECIPES, {
+    fetchPolicy: "no-cache",
+  });
+
+  const favRecipes =
+    !loading &&
+    dynamicData.recipes.filter((recipe) => recipe.favorite === true);
+
+  const pastaRecipes =
+    !loading &&
+    dynamicData.recipes.filter(
+      (recipe) =>
+        recipe.mainIngredience && recipe.mainIngredience.includes("těstoviny")
+    );
+
+  const vegRecipes =
+    !loading &&
+    dynamicData.recipes.filter(
+      (recipe) =>
+        recipe.categories &&
+        recipe.categories.includes("vegetariánské") &&
+        recipe.type &&
+        recipe.type.includes("obědy a večeře")
+    );
+
+  const wishRecipes =
+    !loading &&
+    dynamicData.recipes.filter((recipe) => recipe.wishlist === true);
 
   return (
     <Layout>
@@ -68,21 +110,30 @@ const Index = ({ data }) => {
             <Heading level="2" className="layout-group__title">
               Oblíbené
             </Heading>
-            {favoriteRecipes.map(({ node: post }) => (
-              <BookThumbnail post={post} />
-            ))}
-
+            {loading && <p>loading</p>}
+            {!loading &&
+              favRecipes &&
+              favRecipes.map((recipe) => (
+                <div key={recipe.id}>
+                  <RecipeThumbnail recipe={recipe} />
+                </div>
+              ))}
             <Heading level="2" className="layout-group__subtitle">
               Těstoviny
             </Heading>
             <div className="category__wrapper">
               <div className="category__group">
                 <div className="category__items">
-                  {pastaRecipes.map(({ node: post }) => (
-                    <Link to={post.fields.slug} key={post.frontmatter.title}>
-                      <BookThumbnail post={post} />
-                    </Link>
-                  ))}
+                  {loading && <p>loading</p>}
+                  {!loading && pastaRecipes ? (
+                    pastaRecipes.map((recipe) => (
+                      <div key={recipe.id}>
+                        <RecipeThumbnail recipe={recipe} />
+                      </div>
+                    ))
+                  ) : (
+                    <p>zatim zadne recepty</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -93,11 +144,14 @@ const Index = ({ data }) => {
             <div className="category__wrapper">
               <div className="category__group">
                 <div className="category__items">
-                  {vegetarianRecipes.map(({ node: post }) => (
-                    <Link to={post.fields.slug} key={post.frontmatter.title}>
-                      <BookThumbnail post={post} />
-                    </Link>
-                  ))}
+                  {loading && <p>loading</p>}
+                  {!loading &&
+                    vegRecipes &&
+                    vegRecipes.map((recipe) => (
+                      <div key={recipe.id}>
+                        <RecipeThumbnail recipe={recipe} />
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -108,11 +162,14 @@ const Index = ({ data }) => {
             <div className="category__wrapper">
               <div className="category__group">
                 <div className="category__items">
-                  {wishlistRecipes.map(({ node: post }) => (
-                    <Link to={post.fields.slug} key={post.frontmatter.title}>
-                      <BookThumbnail post={post} />
-                    </Link>
-                  ))}
+                  {loading && <p>loading</p>}
+                  {!loading &&
+                    wishRecipes &&
+                    wishRecipes.map((recipe) => (
+                      <div key={recipe.id}>
+                        <RecipeThumbnail recipe={recipe} />
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
