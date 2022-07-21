@@ -20,6 +20,7 @@ const client = new faunadb.Client({
 const typeDefs = gql`
   type Query {
     recipes: [Recipe]!
+    findRecipe(id: ID!): Recipe
   }
   type Recipe {
     id: ID!
@@ -159,6 +160,22 @@ const resolvers = {
         cuisine: data.cuisine,
         price: data.price,
       }));
+    },
+    findRecipe: async (parent, args, { id = "336336886256632006" }) => {
+      const results = await client.query(
+        // Index recipes_by_user splits arrays into individiual rows of data, which don't work well with my current setup
+        // Considering I haven't make it public yet, there are no more users and it is not properly working yet anyway, I decided to query collection dirrectly. This allows me to move on, make MVP a redo it later, when it will be necessary. Now it is ok to unblock it this way.
+        q.Map(
+          q.Paginate(q.Documents(q.Collection("recipes"))),
+          q.Lambda((x) => q.Get(x))
+        )
+        // q.Paginate(q.Match(q.Index("recipes_by_user_development"), user))
+      );
+
+      console.log("--------------------------------");
+      console.log(results.data);
+      console.log(results.data.find((recipe) => recipe.ref.value.id === id));
+      return results.data.find((recipe) => recipe.ref.value.id === id);
     },
   },
   Mutation: {
