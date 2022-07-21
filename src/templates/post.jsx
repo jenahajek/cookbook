@@ -1,4 +1,5 @@
 import React from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
@@ -10,6 +11,56 @@ import MetaTagList from "../components/MetaTagList";
 import SEO from "../components/SEO";
 import config from "../../data/SiteConfig";
 import PostNav from "../components/PostNav";
+
+// const FIND_RECIPE = gql`
+//   query FindRecipe($id: ID!) {
+//     recipes(where: { id: 336336886256632006 }) {
+//       id
+//       title
+//       subtitle
+//       sourceUrl
+//       sourceName
+//       slug
+//       cover
+//       content
+//       wishlist
+//       queue
+//       favorite
+//       type
+//       categories
+//       taste
+//       mainIngredience
+//       ingrediences
+//       stock
+//       season
+//       difficulty
+//       ingrediencesPrepTime
+//       activeCookingTime
+//       totalCookingTime
+//       process
+//       servingTemp
+//       cuisine
+//       price
+//     }
+//   }
+// `;
+
+// export default function PostTemplate({ id }) {
+//   const { loading, error, data, refetch } = useQuery(FIND_RECIPE, {
+//     fetchPolicy: "no-cache",
+//   });
+
+//   return (
+//     <Layout>
+//       <p>Ahoj, {id}</p>
+//       {error ? <p>error {console.log(error)}</p> : null}
+//       <p>{loading ? "loading" : null}</p>
+//       {/* 336336886256632006 */}
+//       {/* 337733047688364237 */}
+//       {!loading && !error && data && <p>{data.recipes[1].id}</p>}
+//     </Layout>
+//   );
+// }
 
 export default function PostTemplate({ data, pageContext }) {
   const { slug } = pageContext;
@@ -69,51 +120,6 @@ export default function PostTemplate({ data, pageContext }) {
                 Tady jsme zatím nic nevyplnili, čas teprve nadejde. Ale v těchto
                 místech bude seznam surovin a postup.
               </strong>
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              laudantium facere, exercitationem vitae similique sequi quam
-              perferendis provident natus omnis quod ex nulla, recusandae
-              reiciendis eveniet eum consequatur repellendus commodi fuga
-              dolores, sunt suscipit illo. Autem accusantium explicabo quas
-              blanditiis commodi ut consequatur, fugiat repudiandae id dolor
-              veniam iste porro repellat recusandae tempore temporibus deleniti
-              eveniet alias. Ut, itaque. Ratione officiis cupiditate debitis
-              aliquam, sapiente modi, incidunt, itaque dignissimos est
-              consequatur doloribus ut laboriosam reprehenderit voluptatum qui
-              exercitationem. Voluptas, cumque nulla? Assumenda odio id nesciunt
-              fuga, mollitia labore animi officiis minima officia voluptatem
-              facere maiores, non placeat, corporis quidem! Tenetur.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              laudantium facere, exercitationem vitae similique sequi quam
-              perferendis provident natus omnis quod ex nulla, recusandae
-              reiciendis eveniet eum consequatur repellendus commodi fuga
-              dolores, sunt suscipit illo. Autem accusantium explicabo quas
-              blanditiis commodi ut consequatur, fugiat repudiandae id dolor
-              veniam iste porro repellat recusandae tempore temporibus deleniti
-              eveniet alias. Ut, itaque. Ratione officiis cupiditate debitis
-              aliquam, sapiente modi, incidunt, itaque dignissimos est
-              consequatur doloribus ut laboriosam reprehenderit voluptatum qui
-              exercitationem. Voluptas, cumque nulla? Assumenda odio id nesciunt
-              fuga, mollitia labore animi officiis minima officia voluptatem
-              facere maiores, non placeat, corporis quidem! Tenetur.
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas
-              laudantium facere, exercitationem vitae similique sequi quam
-              perferendis provident natus omnis quod ex nulla, recusandae
-              reiciendis eveniet eum consequatur repellendus commodi fuga
-              dolores, sunt suscipit illo. Autem accusantium explicabo quas
-              blanditiis commodi ut consequatur, fugiat repudiandae id dolor
-              veniam iste porro repellat recusandae tempore temporibus deleniti
-              eveniet alias. Ut, itaque. Ratione officiis cupiditate debitis
-              aliquam, sapiente modi, incidunt, itaque dignissimos est
-              consequatur doloribus ut laboriosam reprehenderit voluptatum qui
-              exercitationem. Voluptas, cumque nulla? Assumenda odio id nesciunt
-              fuga, mollitia labore animi officiis minima officia voluptatem
-              facere maiores, non placeat, corporis quidem! Tenetur.
             </p>
           </div>
           <aside className="layout-detail__meta">
