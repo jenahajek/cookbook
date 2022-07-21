@@ -12,10 +12,11 @@ const FILTER_DIMENSIONS = [
     dimension: "type",
     label: "Typ jídla",
   },
-  {
-    dimension: "tried",
-    label: "Vyzkoušené",
-  },
+  // temporarily off, due to the fact it is not array, but boolean. And I need to make adjustments to redux setup
+  // {
+  //   dimension: "wishlist",
+  //   label: "Wishlist",
+  // },
   {
     dimension: "taste",
     label: "Chuť",
@@ -37,12 +38,12 @@ const FILTER_DIMENSIONS = [
     label: "Náročnost",
   },
   {
-    dimension: "prepTime",
-    label: "Délka přípravy před vařením",
+    dimension: "activeCookingTime",
+    label: "Délka aktivního vaření",
   },
   {
-    dimension: "cookingTime",
-    label: "Délka vaření",
+    dimension: "totalCookingTime",
+    label: "Celková délka vaření",
   },
   {
     dimension: "process",
@@ -57,8 +58,8 @@ const FILTER_DIMENSIONS = [
     label: "Kategorie",
   },
   {
-    dimension: "geography",
-    label: "Lokalita",
+    dimension: "cuisine",
+    label: "Kuchyně",
   },
   {
     dimension: "price",

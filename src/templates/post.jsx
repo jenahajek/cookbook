@@ -196,9 +196,9 @@ export default function PostTemplate({ data, pageContext }) {
                 caption="Servírovací teplota"
               />
             ) : null}
-            {post.geography && post.geography[0] !== null ? (
+            {post.cuisine && post.cuisine[0] !== null ? (
               <MetaTagList
-                items={post.geography}
+                items={post.cuisine}
                 slug="zeme-puvodu"
                 caption="Země původu"
               />

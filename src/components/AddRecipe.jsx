@@ -365,10 +365,10 @@ const AddRecipe = () => {
         <br />
         <div className="input">
           <label className="label" htmlFor="wishlist">
-            <span className="label__text">Vyzkoušené</span>
+            <span className="label__text">Wishlist</span>
           </label>
           <span id="description-wishlist" className="label-description">
-            Už jsme to někdy zkusili připravit?
+            Zatím nevyzkoušené, ale láká nás to prubnout.
           </span>
           <input
             type="checkbox"
