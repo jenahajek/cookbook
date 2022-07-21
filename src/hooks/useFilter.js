@@ -343,7 +343,6 @@ const useFilter = (data) => {
   //
   //
   // all posts marked whether they fit search parameters or not
-  console.log(data, "<<<");
   const markedPosts = markFilteredData(data.recipes);
 
   // get only posts which fit search parameters. Search results is generated from this.
