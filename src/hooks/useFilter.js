@@ -62,7 +62,7 @@ const useFilter = (data) => {
   };
 
   // input data
-  // const postEdges = data.allBooks.edges;
+  const postEdges = data.allBooks.edges;
 
   // transform data to more suitable structure
   // sort and count metadata
@@ -70,30 +70,48 @@ const useFilter = (data) => {
     const posts = [];
     inputData.forEach((post) => {
       posts.push({
-        slug: post.slug,
-        title: post.title,
-        subtitle: post.subtitle,
-        queue: post.queue ? post.queue : null,
-        sources: post.sources ? post.sources : null,
-        type: post.type ? post.type : null,
-        wishlist: post.wishlist ? post.wishlist : null,
-        taste: post.taste ? post.taste : null,
-        mainIngredience: post.mainIngredience ? post.mainIngredience : null,
-        stock: post.stock ? post.stock : null,
-        season: post.season ? post.season : null,
-        difficulty: post.difficulty ? post.difficulty : null,
-        activeCookingTime: post.activeCookingTime
-          ? post.activeCookingTime
+        slug: post.node.fields.slug,
+        title: post.node.frontmatter.title,
+        subtitle: post.node.frontmatter.subtitle,
+        queue: post.node.frontmatter.queue ? post.node.frontmatter.queue : null,
+        sources: post.node.frontmatter.sources
+          ? post.node.frontmatter.sources
           : null,
-        totalCookingTime: post.totalCookingTime ? post.totalCookingTime : null,
-        process: post.process ? post.process : null,
-        servingTemp: post.servingTemp ? post.servingTemp : null,
-        categories: post.categories ? post.categories : null,
-        cuisine: post.cuisine ? post.cuisine : null,
-        price: post.price ? post.price : null,
-        tags: post.tags ? post.tags : null,
-        cover: post.cover,
-        match: post.match,
+        type: post.node.frontmatter.type ? post.node.frontmatter.type : null,
+        tried: post.node.frontmatter.tried ? post.node.frontmatter.tried : null,
+        taste: post.node.frontmatter.taste ? post.node.frontmatter.taste : null,
+        mainIngredience: post.node.frontmatter.mainIngredience
+          ? post.node.frontmatter.mainIngredience
+          : null,
+        stock: post.node.frontmatter.stock ? post.node.frontmatter.stock : null,
+        season: post.node.frontmatter.season
+          ? post.node.frontmatter.season
+          : null,
+        difficulty: post.node.frontmatter.difficulty
+          ? post.node.frontmatter.difficulty
+          : null,
+        prepTime: post.node.frontmatter.prepTime
+          ? post.node.frontmatter.prepTime
+          : null,
+        cookingTime: post.node.frontmatter.cookingTime
+          ? post.node.frontmatter.cookingTime
+          : null,
+        process: post.node.frontmatter.process
+          ? post.node.frontmatter.process
+          : null,
+        servingTemp: post.node.frontmatter.servingTemp
+          ? post.node.frontmatter.servingTemp
+          : null,
+        categories: post.node.frontmatter.categories
+          ? post.node.frontmatter.categories
+          : null,
+        geography: post.node.frontmatter.geography
+          ? post.node.frontmatter.geography
+          : null,
+        price: post.node.frontmatter.price ? post.node.frontmatter.price : null,
+        tags: post.node.frontmatter.tags ? post.node.frontmatter.tags : null,
+        cover: post.node.frontmatter.cover,
+        match: post.node.frontmatter.match,
         extraLabels: post.extraLabels,
       });
     });
@@ -106,11 +124,9 @@ const useFilter = (data) => {
     FILTER_DIMENSIONS.forEach((dimension) => {
       const aaa = input.reduce((acc, post) => {
         if (post[dimension.dimension] !== null) {
-          if (post[dimension.dimension].length) {
-            post[dimension.dimension].forEach((item) => {
-              acc.push(item);
-            });
-          }
+          post[dimension.dimension].forEach((item) => {
+            acc.push(item);
+          });
         }
         return acc;
       }, []);
@@ -171,7 +187,7 @@ const useFilter = (data) => {
   const markFilteredData = (input) =>
     input.map((post) => {
       const extraLabels = [];
-      post.title
+      post.node.frontmatter.title
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -181,7 +197,7 @@ const useFilter = (data) => {
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
         ) &&
-      // post.author
+      // post.node.frontmatter.author
       // .join("")
       // .toLowerCase()
       // .normalize("NFD")
@@ -193,26 +209,24 @@ const useFilter = (data) => {
       //     .replace(/[\u0300-\u036f]/g, "")
       // ) &&
       (allStates.type.length > 0
-        ? post.type != null
-          ? post.type.some(
+        ? post.node.frontmatter.type != null
+          ? post.node.frontmatter.type.some(
               (element) =>
                 allStates.type.indexOf(`type-${_.kebabCase(element)}`) >= 0
             )
           : null // extraLabels.push("Nespecifikováný typ")
         : true) &&
-      (allStates.wishlist.length > 0
-        ? post.wishlist != null
-          ? post.wishlist.some(
+      (allStates.tried.length > 0
+        ? post.node.frontmatter.tried != null
+          ? post.node.frontmatter.tried.some(
               (element) =>
-                allStates.wishlist.indexOf(
-                  `wishlist-${_.kebabCase(element)}`
-                ) >= 0
+                allStates.tried.indexOf(`tried-${_.kebabCase(element)}`) >= 0
             )
           : null
         : true) &&
       (allStates.taste.length > 0
-        ? post.taste != null
-          ? post.taste.some(
+        ? post.node.frontmatter.taste != null
+          ? post.node.frontmatter.taste.some(
               (element) =>
                 allStates.taste.indexOf(`taste-${`${_.kebabCase(element)}`}`) >=
                 0
@@ -220,8 +234,8 @@ const useFilter = (data) => {
           : null
         : true) &&
       (allStates.mainIngredience.length > 0
-        ? post.mainIngredience != null
-          ? post.mainIngredience.some(
+        ? post.node.frontmatter.mainIngredience != null
+          ? post.node.frontmatter.mainIngredience.some(
               (element) =>
                 allStates.mainIngredience.indexOf(
                   `mainIngredience-${_.kebabCase(element)}`
@@ -230,24 +244,24 @@ const useFilter = (data) => {
           : null
         : true) &&
       (allStates.stock.length > 0
-        ? post.stock != null
-          ? post.stock.some(
+        ? post.node.frontmatter.stock != null
+          ? post.node.frontmatter.stock.some(
               (element) =>
                 allStates.stock.indexOf(`stock-${_.kebabCase(element)}`) >= 0
             )
           : null
         : true) &&
       (allStates.season.length > 0
-        ? post.season != null
-          ? post.season.some(
+        ? post.node.frontmatter.season != null
+          ? post.node.frontmatter.season.some(
               (element) =>
                 allStates.season.indexOf(`season-${_.kebabCase(element)}`) >= 0
             )
           : null
         : true) &&
       (allStates.difficulty.length > 0
-        ? post.difficulty != null
-          ? post.difficulty.some(
+        ? post.node.frontmatter.difficulty != null
+          ? post.node.frontmatter.difficulty.some(
               (element) =>
                 allStates.difficulty.indexOf(
                   `difficulty-${_.kebabCase(element)}`
@@ -255,29 +269,29 @@ const useFilter = (data) => {
             )
           : null
         : true) &&
-      (allStates.activeCookingTime.length > 0
-        ? post.activeCookingTime != null
-          ? post.activeCookingTime.some(
+      (allStates.prepTime.length > 0
+        ? post.node.frontmatter.prepTime != null
+          ? post.node.frontmatter.prepTime.some(
               (element) =>
-                allStates.activeCookingTime.indexOf(
-                  `activeCookingTime-${_.kebabCase(element)}`
+                allStates.prepTime.indexOf(
+                  `prepTime-${_.kebabCase(element)}`
                 ) >= 0
             )
           : null
         : true) &&
-      (allStates.totalCookingTime.length > 0
-        ? post.totalCookingTime != null
-          ? post.totalCookingTime.some(
+      (allStates.cookingTime.length > 0
+        ? post.node.frontmatter.cookingTime != null
+          ? post.node.frontmatter.cookingTime.some(
               (element) =>
-                allStates.totalCookingTime.indexOf(
-                  `totalCookingTime-${_.kebabCase(element)}`
+                allStates.cookingTime.indexOf(
+                  `cookingTime-${_.kebabCase(element)}`
                 ) >= 0
             )
           : null
         : true) &&
       (allStates.process.length > 0
-        ? post.process != null
-          ? post.process.some(
+        ? post.node.frontmatter.process != null
+          ? post.node.frontmatter.process.some(
               (element) =>
                 allStates.process.indexOf(`process-${_.kebabCase(element)}`) >=
                 0
@@ -285,8 +299,8 @@ const useFilter = (data) => {
           : null
         : true) &&
       (allStates.servingTemp.length > 0
-        ? post.servingTemp != null
-          ? post.servingTemp.some(
+        ? post.node.frontmatter.servingTemp != null
+          ? post.node.frontmatter.servingTemp.some(
               (element) =>
                 allStates.servingTemp.indexOf(
                   `servingTemp-${_.kebabCase(element)}`
@@ -295,8 +309,8 @@ const useFilter = (data) => {
           : null
         : true) &&
       (allStates.categories.length > 0
-        ? post.categories != null
-          ? post.categories.some(
+        ? post.node.frontmatter.categories != null
+          ? post.node.frontmatter.categories.some(
               (element) =>
                 allStates.categories.indexOf(
                   `categories-${_.kebabCase(element)}`
@@ -304,18 +318,19 @@ const useFilter = (data) => {
             )
           : null
         : true) &&
-      (allStates.cuisine.length > 0
-        ? post.cuisine != null
-          ? post.cuisine.some(
+      (allStates.geography.length > 0
+        ? post.node.frontmatter.geography != null
+          ? post.node.frontmatter.geography.some(
               (element) =>
-                allStates.cuisine.indexOf(`cuisine-${_.kebabCase(element)}`) >=
-                0
+                allStates.geography.indexOf(
+                  `geography-${_.kebabCase(element)}`
+                ) >= 0
             )
           : null
         : true) &&
       (allStates.price.length > 0
-        ? post.price != null
-          ? post.price.some(
+        ? post.node.frontmatter.price != null
+          ? post.node.frontmatter.price.some(
               (element) =>
                 allStates.price.indexOf(`price-${_.kebabCase(element)}`) >= 0
             )
@@ -323,15 +338,15 @@ const useFilter = (data) => {
         : true) &&
       // eslint-disable-next-line no-nested-ternary
       (allStates.tags.length > 0
-        ? post.tags != null
-          ? post.tags.some(
+        ? post.node.frontmatter.tags != null
+          ? post.node.frontmatter.tags.some(
               (element) =>
                 allStates.tags.indexOf(`tags-${_.kebabCase(element)}`) >= 0
             )
           : null
         : true)
-        ? (post.match = true)
-        : (post.match = false);
+        ? (post.node.frontmatter.match = true)
+        : (post.node.frontmatter.match = false);
       post.extraLabels = extraLabels;
       return post;
     });
@@ -343,11 +358,12 @@ const useFilter = (data) => {
   //
   //
   // all posts marked whether they fit search parameters or not
-  const markedPosts = markFilteredData(data.recipes);
+  // const markedPosts = markFilteredData(data.recipes);
+  const markedPosts = markFilteredData(postEdges);
 
   // get only posts which fit search parameters. Search results is generated from this.
   const matchingPosts = normalizePosts(
-    markedPosts.filter((item) => item.match === true)
+    markedPosts.filter((item) => item.node.frontmatter.match === true)
   );
   // get filter metadata for matching posts (this will be shown in filter counts)
   const realMetadata = countMetadata(groupValues(matchingPosts));
@@ -365,23 +381,23 @@ const useFilter = (data) => {
   // default listings
   // const readingList = postEdges.filter(
   //   (post) =>
-  //     post.status !== null &&
-  //     post.status[0] === "Rozečtené"
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Rozečtené"
   // );
   // const lastReadList = postEdges.filter(
   //   (post) =>
-  //     post.status !== null &&
-  //     post.status[0] === "Přečtené"
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Přečtené"
   // );
   // const wishList = postEdges.filter(
   //   (post) =>
-  //     post.status !== null &&
-  //     post.status[0] === "Wishlist"
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Wishlist"
   // );
   // const garbageList = postEdges.filter(
   //   (post) =>
-  //     post.status !== null &&
-  //     post.status[0] === "Odpad"
+  //     post.node.frontmatter.status !== null &&
+  //     post.node.frontmatter.status[0] === "Odpad"
   // );
 
   return {
@@ -392,7 +408,7 @@ const useFilter = (data) => {
     // lastReadList,
     // wishList,
     // garbageList,
-    // postEdges,
+    postEdges,
     //
     matchingPosts,
     filterMetadata,
