@@ -7,6 +7,7 @@ import BookCoverFallback from "./BookCoverFallback";
 import markMatch from "../hooks/markMatch";
 import Heading from "./Heading";
 import ExtraLabel from "./ExtraLabel";
+import CloudinaryImage from "./CloudinaryImage";
 
 import { closeFilterState } from "../redux/actions/actions";
 
@@ -40,11 +41,9 @@ const SearchResult = ({ post }) => {
         className="search-result__link"
         onClick={closeFilter}>
         {post.cover != null ? (
-          <Image
-            fluid={post.cover.sharp.fluid}
-            alt={post.title}
-            className="book-detail__cover"
-          />
+          <div className="book-detail__cover">
+            <CloudinaryImage name={post.cover} />
+          </div>
         ) : (
           <BookCoverFallback title={post.title} />
         )}

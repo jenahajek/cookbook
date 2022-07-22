@@ -181,6 +181,7 @@ const AddRecipe = () => {
           const file = files[0];
           formData.append("file", file);
           formData.append("upload_preset", "upload_from_browser");
+          formData.append("public_id", `${slugify(titleRef.current.value)}`);
 
           async function getCoverImageUrl() {
             const response = await fetch(url, {
