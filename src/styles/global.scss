@@ -790,3 +790,19 @@ input[readonly] {
   padding-right: 0;
   background: transparent;
 }
+
+.app-menu {
+  display: flex;
+  gap: 0.5em;
+  color: white;
+  padding: 1em 0.5em;
+  position: relative;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.post-cover {
+  background-size: cover;
+  width: 100%;
+  background-position: center;
+}

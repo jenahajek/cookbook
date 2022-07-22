@@ -6,7 +6,7 @@ import CloudinaryImage from "./CloudinaryImage";
 
 const BookThumbnail = ({ recipe }) => (
   <article className="book-thumbnail">
-    <Link to={recipe.slug} key={recipe.title}>
+    <Link to={`../${recipe.slug}`} key={recipe.title}>
       {recipe.cover != null ? (
         <div className="book-detail__cover">
           <CloudinaryImage name={recipe.cover} />
